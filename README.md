@@ -1,7 +1,7 @@
 # atom-ternjs package
 
 Javascript code intelligence for atom with tern.js.
-Uses suggestion provider by autocomplete-plus
+Uses suggestion provider by autocomplete-plus.
 
 # Installation
 
