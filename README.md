@@ -26,4 +26,4 @@ Uses suggestion provider by autocomplete-plus
 # Currently supports the following features
 
 * Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition")
-* Completion (completion triggers if lastChar was "." and we are in the right context (e.g.: "this." -> triggers completion if completions.length > 0))
+* Completion (completion triggers if we are in the right context)
