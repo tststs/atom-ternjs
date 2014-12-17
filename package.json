@@ -1,0 +1,23 @@
+{
+  "name": "atom-ternjs",
+  "main": "./lib/atom-ternjs",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Javascript code intelligence for atom with tern.js.",
+  "activationCommands": {
+
+  },
+  "repository": "https://github.com/tststs/atom-ternjs",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.140.0"
+  },
+  "dependencies": {
+    "underscore-plus": "*",
+    "tern": "git://github.com/marijnh/tern.git",
+    "atom-package-dependencies": "latest"
+  },
+  "package-dependencies": {
+    "autocomplete-plus": "latest"
+  }
+}

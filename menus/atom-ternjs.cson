@@ -1,0 +1,21 @@
+# See https://atom.io/docs/latest/creating-a-package#menus for more details
+'context-menu':
+  '.source.js': [
+    {
+      label: 'Find definition',
+      command: 'tern:definition'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      {
+        'label': 'Tern'
+        'submenu': [
+
+        ]
+      }
+    ]
+  }
+]

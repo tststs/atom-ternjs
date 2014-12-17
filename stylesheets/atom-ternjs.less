@@ -1,0 +1,54 @@
+// The ui-variables file is provided by base themes provided by Atom.
+//
+// See https://github.com/atom/atom-dark-ui/blob/master/stylesheets/ui-variables.less
+// for a full listing of what's available.
+@import "ui-variables";
+
+.atom-ternjs {
+
+    &.select-list {
+
+        box-sizing: border-box;
+        margin-left: 0;
+
+        ol li {
+
+            padding: 0;
+            line-height: @component-line-height;
+        }
+    }
+
+    ol {
+
+        box-sizing: border-box;
+        position: relative;
+        overflow-x: hidden;
+        max-height: 300px;
+    }
+
+    span {
+
+        padding-left: 5px;
+        padding-right: 20px;
+    }
+
+    //this is for the inline completion
+    &.inline {
+
+        ol {
+
+            margin-top: 0;
+            background: @overlay-background-color;
+        }
+
+        //the actual input overlay
+        //TODO: values shouldnt be hardcoded
+        .editor.mini {
+
+            padding-left: 0;
+            font-size: 12px;
+            line-height: 12px;
+            background: transparent;
+        }
+    }
+}
