@@ -18,6 +18,7 @@ class AtomTernInitializer
 
   activate: (state) ->
     @startServer()
+    @registerEvents()
 
   activatePackage: ->
     atom.packages.activatePackage('autocomplete-plus')
@@ -63,9 +64,6 @@ class AtomTernInitializer
       console.error 'error', err
 
   registerEvents: ->
-    atom.workspace.onDidAddTextEditor ({item, pane, index}) =>
-      @registerEditor(pane.items[index])
-
     @disposables.push atom.workspace.onDidOpen (e) =>
       if e.item.getGrammar().name is 'JavaScript'
         @startServer()
