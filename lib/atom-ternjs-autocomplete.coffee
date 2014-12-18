@@ -28,6 +28,7 @@ class AtomTernjsAutocomplete extends Provider
     triggerCompletion: =>
         @getEditorView().runAutocompletion()
     cancelAutocompletion: ->
+        suggestionsArr = []
         @getEditorView().cancel()
     getEditorView: ->
         for view in ap.autocompleteViews
