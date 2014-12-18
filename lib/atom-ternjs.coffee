@@ -92,6 +92,8 @@ class AtomTernInitializer
     prefix = cursor.getCurrentWordPrefix()
     if /^[a-z0-9.\"\']$/i.test(prefix[prefix.length - 1])
       provider.preBuildSuggestions()
+    else
+      provider.cancelAutocompletion()
 
   unregisterEvents: ->
     for disposable in @disposables

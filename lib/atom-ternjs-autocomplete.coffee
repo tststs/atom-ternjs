@@ -24,7 +24,11 @@ class AtomTernjsAutocomplete extends Provider
                 for obj in data
                     suggestionsArr.push [obj.name, obj.type]
                 # refresh
-                @getEditorView().runAutocompletion()
+                @triggerCompletion()
+    triggerCompletion: =>
+        @getEditorView().runAutocompletion()
+    cancelAutocompletion: ->
+        @getEditorView().cancel()
     getEditorView: ->
         for view in ap.autocompleteViews
             if view.editor is atom.workspace.getActiveEditor()
