@@ -84,6 +84,10 @@ class AtomTernInitializer
     @disposables.push buffer.onDidStopChanging =>
       @callPreBuildSuggestions()
     @autocomplete.registerProviderForEditorView provider, editorView
+    # force maxItems for now
+    for view in @autocomplete.autocompleteViews
+      if view.editor.getGrammar().name is 'JavaScript'
+        view.maxItems = 250
     @providers.push provider
 
   callPreBuildSuggestions: ->
