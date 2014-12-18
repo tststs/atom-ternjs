@@ -9,7 +9,7 @@ var TSTSTS = function () {
         bar: 2
     };
     this.arr = [1, 2, 3];
-    this.str = 'foo';    
+    this.str = 'foo';
 
     this.init = function () {
 

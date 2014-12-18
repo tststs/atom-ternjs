@@ -9,6 +9,7 @@ provider = null
 class AtomTernInitializer
 
   disposables: []
+  grammars: ['JavaScript', 'CoffeeScript']
 
   # autocomplete
   autocomplete = null
@@ -65,7 +66,9 @@ class AtomTernInitializer
 
   registerEvents: ->
     @disposables.push atom.workspace.onDidOpen (e) =>
-      if e.item.getGrammar().name is 'JavaScript'
+      grammar = e.item.getGrammar().name
+      if grammar in @grammars
+      #if e.item.getGrammar().name is 'JavaScript'
         @startServer()
 
   registerEditors: ->
@@ -75,7 +78,8 @@ class AtomTernInitializer
 
   registerEditor: (editorView) ->
     editor = editorView.editor
-    if editor.getGrammar().name isnt 'JavaScript'
+    grammar = editor.getGrammar().name
+    if grammar not in @grammars
       return
     buffer = editor.getBuffer()
     provider = new AtomTernjsAutocompleteFactory(editorView, client, @ap)
@@ -86,7 +90,9 @@ class AtomTernInitializer
     @autocomplete.registerProviderForEditorView provider, editorView
     # force maxItems for now
     for view in @autocomplete.autocompleteViews
-      if view.editor.getGrammar().name is 'JavaScript'
+      grammar = view.editor.getGrammar().name
+      if grammar in @grammars
+      #if view.editor.getGrammar().name is 'JavaScript'
         view.maxItems = 250
     @providers.push provider
 
