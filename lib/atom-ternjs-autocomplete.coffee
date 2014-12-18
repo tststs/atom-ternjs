@@ -5,7 +5,7 @@ clientRef = null
 suggestionsArr = []
 module.exports =
 class AtomTernjsAutocomplete extends Provider
-    exclusive: false
+    exclusive: true
     constructor: (editorView, client, autocompletePlus) ->
         ap = autocompletePlus
         clientRef = client
