@@ -3,13 +3,13 @@ ClientFactory = require './atom-ternjs-client'
 AtomTernjsAutocompleteFactory = require './atom-ternjs-autocomplete'
 _ = require 'underscore-plus'
 apd = require 'atom-package-dependencies'
-client = null
 provider = null
 
 class AtomTernInitializer
 
   disposables: []
   grammars: ['JavaScript', 'CoffeeScript']
+  client: null
 
   # autocomplete
   autocomplete = null
@@ -34,18 +34,21 @@ class AtomTernInitializer
     # autocomplete
     @editorSubscription?.off()
     @editorSubscription = null
+    @unregisterProviders()
+
+  unregisterProviders: ->
     @providers.forEach (provider) =>
       @autocomplete.unregisterProvider provider
     @providers = []
 
   update: (editor) ->
-    client.update(editor.getUri(), editor.getText())
+    @client.update(editor.getUri(), editor.getText())
 
   findDefinition: ->
     editor = atom.workspace.getActiveEditor()
     cursor = editor.getCursor()
     position = cursor.getBufferPosition()
-    client.definition(editor.getUri(),
+    @client.definition(editor.getUri(),
       line: position.row
       ch: position.column
     editor.getText()).then (data) =>
@@ -68,7 +71,6 @@ class AtomTernInitializer
     @disposables.push atom.workspace.onDidOpen (e) =>
       grammar = e.item.getGrammar().name
       if grammar in @grammars
-      #if e.item.getGrammar().name is 'JavaScript'
         @startServer()
 
   registerEditors: ->
@@ -82,7 +84,7 @@ class AtomTernInitializer
     if grammar not in @grammars
       return
     buffer = editor.getBuffer()
-    provider = new AtomTernjsAutocompleteFactory(editorView, client, @ap)
+    provider = new AtomTernjsAutocompleteFactory(editorView, @client, @ap)
     @disposables.push buffer.onDidStopChanging =>
       _.throttle @update(editor), 2000
     @disposables.push buffer.onDidStopChanging =>
@@ -92,7 +94,6 @@ class AtomTernInitializer
     for view in @autocomplete.autocompleteViews
       grammar = view.editor.getGrammar().name
       if grammar in @grammars
-      #if view.editor.getGrammar().name is 'JavaScript'
         view.maxItems = 250
     @providers.push provider
 
@@ -117,11 +118,20 @@ class AtomTernInitializer
       return
     @server = new TernServerFactory()
     @server.start (port) =>
-      @ternPort = port
-      client = new ClientFactory(port)
-      @activatePackage()
-      atom.workspaceView.command 'tern:definition', =>
-        @findDefinition(atom.workspace.getActiveEditor())
+      if !@client
+        @client = new ClientFactory()
+      @client.port = port
+      if !@ap
+        @activatePackage()
+        @registerCommands()
+
+  registerCommands: ->
+    atom.workspaceView.command 'tern:definition', =>
+      @findDefinition(atom.workspace.getActiveEditor())
+    atom.workspaceView.command 'tern:stop', =>
+      @stopServer()
+    atom.workspaceView.command 'tern:start', =>
+      @startServer()
 
   stopServer: ->
     unless @server?.process

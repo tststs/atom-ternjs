@@ -6,9 +6,10 @@ suggestionsArr = []
 module.exports =
 class AtomTernjsAutocomplete extends Provider
     exclusive: true
+    client: null
     constructor: (editorView, client, autocompletePlus) ->
         ap = autocompletePlus
-        clientRef = client
+        @client = client
         super
     buildSuggestions: ->
         selection = atom.workspace.getActiveEditor().getLastSelection()
@@ -38,7 +39,7 @@ class AtomTernjsAutocomplete extends Provider
         editor = atom.workspace.getActiveEditor()
         cursor = editor.getCursor()
         position = cursor.getBufferPosition()
-        clientRef.completions(editor.getUri(),
+        @client.completions(editor.getUri(),
             line: position.row
             ch: position.column
             editor.getText()).then (data) =>

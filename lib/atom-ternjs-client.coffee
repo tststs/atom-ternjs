@@ -1,7 +1,8 @@
 {View} = require 'atom'
-module.exports = (port) ->
-  completions: (file, end, text) =>
-    View.post("http://localhost:#{port}",
+module.exports = ->
+  @port = false
+  completions: (file, end, text) ->
+    View.post("http://localhost:#{@port}",
       JSON.stringify
         query:
           type: 'completions'
@@ -13,8 +14,8 @@ module.exports = (port) ->
           caseInsensitive: true
     ).then (data) ->
       data
-  update: (file, text) =>
-    View.post("http://localhost:#{port}",
+  update: (file, text) ->
+    View.post("http://localhost:#{@port}",
       JSON.stringify
         files: [
             type: 'full'
@@ -23,8 +24,8 @@ module.exports = (port) ->
         ]
     ).then (data) ->
       data
-  definition: (file, end, text) =>
-    View.post("http://localhost:#{port}",
+  definition: (file, end, text) ->
+    View.post("http://localhost:#{@port}",
       JSON.stringify
         query:
           type: 'definition'
