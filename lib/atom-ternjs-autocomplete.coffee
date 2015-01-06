@@ -7,9 +7,12 @@ module.exports =
 class AtomTernjsAutocomplete extends Provider
     exclusive: true
     client: null
-    constructor: (editorView, client, autocompletePlus) ->
+    editor: null
+    #constructor: (editorView, client, autocompletePlus) ->
+    constructor: (editor, client, autocompletePlus) ->
         ap = autocompletePlus
         @client = client
+        @editor = editor
         super
     buildSuggestions: ->
         selection = atom.workspace.getActiveEditor().getLastSelection()
