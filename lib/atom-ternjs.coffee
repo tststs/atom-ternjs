@@ -78,12 +78,7 @@ class AtomTernInitializer
     @editorSubscription = atom.workspace.observeTextEditors (editor) =>
       @registerEditor(editor)
 
-    # @editorSubscription = atom.workspaceView.eachEditorView (editorView) =>
-    #   if editorView.attached and not editorView.mini
-    #     @registerEditor (editorView)
-
   registerEditor: (editor) ->
-    #editor = editorView.editor
     editorView = atom.views.getView(editor)
     return unless editorView?
     if editorView.mini
@@ -92,14 +87,11 @@ class AtomTernInitializer
     if grammar not in @grammars
       return
     buffer = editor.getBuffer()
-    #provider = new AtomTernjsAutocompleteFactory(editorView, @client, @ap)
     provider = new AtomTernjsAutocompleteFactory(editor, @client, @ap)
-    #provider = new AtomTernjsAutocompleteFactory.ProviderClass(@autocomplete.Provider, @autocomplete.Suggestion)
     @disposables.push buffer.onDidStopChanging =>
       _.throttle @update(editor), 2000
     @disposables.push buffer.onDidStopChanging =>
       @callPreBuildSuggestions()
-    #@autocomplete.registerProviderForEditorView provider, editorView
     @autocomplete.registerProviderForEditor provider, editor
     # force maxItems for now
     for view in @autocomplete.autocompleteManagers

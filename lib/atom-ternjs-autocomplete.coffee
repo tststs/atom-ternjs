@@ -8,7 +8,6 @@ class AtomTernjsAutocomplete extends Provider
     exclusive: true
     client: null
     editor: null
-    #constructor: (editorView, client, autocompletePlus) ->
     constructor: (editor, client, autocompletePlus) ->
         ap = autocompletePlus
         @client = client
