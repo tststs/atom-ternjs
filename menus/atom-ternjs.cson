@@ -1,6 +1,6 @@
 # See https://atom.io/docs/latest/creating-a-package#menus for more details
 'context-menu':
-  '.source.js': [
+  'atom-workspace': [
     {
       label: 'Find definition',
       command: 'tern:definition'
