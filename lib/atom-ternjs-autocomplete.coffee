@@ -32,7 +32,7 @@ class AtomTernjsAutocomplete extends Provider
         suggestionsArr = []
         @getEditorView().cancel()
     getEditorView: ->
-        for view in ap.autocompleteViews
+        for view in ap.autocompleteManagers
             if view.editor is atom.workspace.getActiveEditor()
                 return view
     checkCompletion: ->
