@@ -100,11 +100,11 @@ class AtomTernInitializer
         view.maxItems = 250
     @providers.push provider
 
-  callPreBuildSuggestions: ->
+  callPreBuildSuggestions: (force) ->
     editor = atom.workspace.getActiveEditor()
     cursor = editor.getCursor()
     prefix = cursor.getCurrentWordPrefix()
-    if /^[a-z0-9.\"\']$/i.test(prefix[prefix.length - 1])
+    if force || /^[a-z0-9.\"\']$/i.test(prefix[prefix.length - 1])
       provider.preBuildSuggestions()
     else
       provider.cancelAutocompletion()
@@ -131,6 +131,8 @@ class AtomTernInitializer
   registerCommands: ->
     atom.workspaceView.command 'tern:definition', =>
       @findDefinition(atom.workspace.getActiveEditor())
+    atom.workspaceView.command 'tern:startCompletion', =>
+      @callPreBuildSuggestions(true)
     atom.workspaceView.command 'tern:stop', =>
       @stopServer()
     atom.workspaceView.command 'tern:start', =>
