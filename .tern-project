@@ -4,6 +4,6 @@
     "jquery"
   ],
   "loadEagerly": [
-    "test/**/*.js"
+    "/Users/tobiasschubert/github/atom-ternjs/test/**/*.js"
   ]
 }
