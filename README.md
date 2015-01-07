@@ -13,12 +13,12 @@ Uses suggestion provider by autocomplete-plus.
     "jquery"
   ],
   "loadEagerly": [
-    "path/to/your/js/**/*.js"
+    "absolute/path/to/your/js/**/*.js"
   ]
 }
 ```
 
 # Currently supports the following features
 
-* Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition")
-* Completion (completion triggers if we are in the right context)
+* Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition" or use the shortcut strg+alt+d)
+* Completion (autocompletion triggers automatically or can be forced with strg+alt+space)
