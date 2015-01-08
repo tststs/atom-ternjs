@@ -1,6 +1,7 @@
-TernServerFactory = require './atom-ternjs-server'
-ClientFactory = require './atom-ternjs-client'
-AtomTernjsAutocompleteFactory = require './atom-ternjs-autocomplete'
+TernServer = require './atom-ternjs-server'
+TernClient = require './atom-ternjs-client'
+DocumentationView = require './atom-ternjs-documentation-view'
+AtomTernjsAutocomplete = require './atom-ternjs-autocomplete'
 _ = require 'underscore-plus'
 apd = require 'atom-package-dependencies'
 provider = null
@@ -10,22 +11,31 @@ class AtomTernInitializer
   disposables: []
   grammars: ['JavaScript', 'CoffeeScript']
   client: null
+  documentationView: null
 
   # autocomplete
-  autocomplete = null
-  ap = null
+  autocompletePlus = null
   editorSubscription: null
   providers: []
+
+  # config
+  config:
+    displayDocsIfAvailable:
+      type: 'boolean'
+      default: true
 
   activate: (state) ->
     @startServer()
     @registerEvents()
+    @addComponents(state)
+
+  serialize: ->
+    atomTernjsViewState: @documentationView.serialize()
 
   activatePackage: ->
     atom.packages.activatePackage('autocomplete-plus')
       .then (pkg) =>
-        @ap = apd.require('autocomplete-plus')
-        @autocomplete = pkg.mainModule
+        @autocompletePlus = apd.require('autocomplete-plus')
         @registerEditors()
 
   deactivate: ->
@@ -36,9 +46,13 @@ class AtomTernInitializer
     @editorSubscription = null
     @unregisterProviders()
 
+  addComponents: (state) ->
+    @documentationView = new DocumentationView(state.atomTernjsViewState)
+    atom.workspaceView.append(@documentationView.getElement())
+
   unregisterProviders: ->
     @providers.forEach (provider) =>
-      @autocomplete.unregisterProvider provider
+      @autocompletePlus.unregisterProvider provider
     @providers = []
 
   update: (editor) ->
@@ -74,7 +88,6 @@ class AtomTernInitializer
         @startServer()
 
   registerEditors: ->
-
     @editorSubscription = atom.workspace.observeTextEditors (editor) =>
       @registerEditor(editor)
 
@@ -87,17 +100,12 @@ class AtomTernInitializer
     if grammar not in @grammars
       return
     buffer = editor.getBuffer()
-    provider = new AtomTernjsAutocompleteFactory(editor, @client, @ap)
+    provider = new AtomTernjsAutocomplete(editor, @client, @autocompletePlus, @documentationView)
     @disposables.push buffer.onDidStopChanging =>
       _.throttle @update(editor), 2000
     @disposables.push buffer.onDidStopChanging =>
       @callPreBuildSuggestions()
-    @autocomplete.registerProviderForEditor provider, editor
-    # force maxItems for now
-    for view in @autocomplete.autocompleteManagers
-      grammar = view.editor.getGrammar().name
-      if grammar in @grammars
-        view.maxItems = 250
+    @autocompletePlus.registerProviderForEditor provider, editor
     @providers.push provider
 
   callPreBuildSuggestions: (force) ->
@@ -119,12 +127,12 @@ class AtomTernInitializer
       return
     if !atom.project.getRootDirectory()
       return
-    @server = new TernServerFactory()
+    @server = new TernServer()
     @server.start (port) =>
       if !@client
-        @client = new ClientFactory()
+        @client = new TernClient()
       @client.port = port
-      if !@ap
+      if !@autocompletePlus
         @activatePackage()
         @registerCommands()
 
@@ -143,5 +151,5 @@ class AtomTernInitializer
       return
     @server.stop()
 
-#epose init class
+#expose init class
 module.exports = new AtomTernInitializer()

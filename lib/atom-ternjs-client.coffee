@@ -10,6 +10,7 @@ module.exports = ->
           end: end
           types: true
           guess: true
+          docs: atom.config.get('atom-ternjs.displayDocsIfAvailable')
           lineCharPositions: true
           caseInsensitive: true
     ).then (data) ->

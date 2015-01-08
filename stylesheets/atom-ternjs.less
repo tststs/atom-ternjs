@@ -3,3 +3,32 @@
 // See https://github.com/atom/atom-dark-ui/blob/master/stylesheets/ui-variables.less
 // for a full listing of what's available.
 @import "ui-variables";
+
+.atom-ternjs-doc {
+
+    border-radius: @component-border-radius;
+    color: @text-color;
+    padding: 5px 20px;
+    margin: 0 40px 60px 0;
+    overflow-y: auto;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: 1px solid @base-border-color;
+    background: @app-background-color;
+    width: 30%;
+    height: 20%;
+    font-size: @font-size;
+    opacity: 0;
+    -webkit-transition: opacity 0.5s ease;
+
+    &.active {
+
+        opacity: 1;
+    }
+
+    p {
+
+        line-height: @component-line-height;
+    }
+}
