@@ -1,4 +1,3 @@
-{CompositeDisposable} = require 'event-kit'
 {Provider, Suggestion} = require atom.packages.resolvePackagePath('autocomplete-plus')
 
 suggestionsArr = []
