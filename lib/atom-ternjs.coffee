@@ -83,14 +83,21 @@ class AtomTernInitializer
 
   registerEvents: ->
     @disposables.push atom.workspace.onDidOpen (e) =>
-      grammar = e.item.getGrammar().name
-      if grammar in @grammars
+      if isGrammarInGrammars(e.item)
         @startServer()
     @disposables.push atom.workspace.onDidChangeActivePaneItem =>
       @setCurrentProvider()
 
+  isGrammarInGrammars: (editor) ->
+    grammar = editor.getGrammar().name
+    if grammar in @grammars
+      return true
+    else
+      return false
+
   setCurrentProvider: ->
     editor = atom.workspace.getActiveEditor()
+    return unless editor
     for provider, idx in @providers
       if provider.editor.id is editor.id
         @currentProviderIdx = idx
