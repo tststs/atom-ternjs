@@ -83,7 +83,7 @@ class AtomTernInitializer
 
   registerEvents: ->
     @disposables.push atom.workspace.onDidOpen (e) =>
-      if isGrammarInGrammars(e.item)
+      if @isGrammarInGrammars(e.item)
         @startServer()
     @disposables.push atom.workspace.onDidChangeActivePaneItem =>
       @setCurrentProvider()
@@ -127,6 +127,7 @@ class AtomTernInitializer
     @disposables = []
 
   startServer: ->
+    console.log 'startserver'
     return unless !@server?.process
     return unless atom.project.getRootDirectory()
     @server = new TernServer()
