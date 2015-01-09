@@ -2,6 +2,7 @@ module.exports =
 class DocumentationView
 
   @title = null
+  @sub = null
   @content = null
   @allowed = false
 
@@ -12,12 +13,15 @@ class DocumentationView
 
     # Create child elements
     @title = document.createElement('h1')
+    @sub = document.createElement('h2')
     @content = document.createElement('p')
 
-    @title.textContent = @title
-    @content.textContent = @content
+    @title.textContent = ''
+    @sub.textContent = ''
+    @content.textContent = ''
 
     @element.appendChild(@title)
+    @element.appendChild(@sub)
     @element.appendChild(@content)
 
   # Returns an object that can be retrieved when package is activated
@@ -33,8 +37,9 @@ class DocumentationView
   hide: ->
     @element.classList.remove('active')
 
-  setTitle: (str) ->
-    @title.textContent = str
+  setTitle: (name, params) ->
+    @title.textContent = name
+    @sub.textContent = params
 
   setContent: (str) ->
     if str

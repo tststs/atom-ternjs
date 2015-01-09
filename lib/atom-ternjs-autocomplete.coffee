@@ -63,7 +63,7 @@ class AtomTernjsAutocomplete extends Provider
 
     setDocumentationContent: ->
         return unless suggestionsArr.length
-        @documentationView.setTitle(suggestionsArr[@currentSuggestionIndex][0])
+        @documentationView.setTitle(suggestionsArr[@currentSuggestionIndex][0], suggestionsArr[@currentSuggestionIndex][1])
         @documentationView.setContent(suggestionsArr[@currentSuggestionIndex][2])
         @documentationView.show()
 
