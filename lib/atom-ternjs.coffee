@@ -4,7 +4,6 @@ DocumentationView = require './atom-ternjs-documentation-view'
 AtomTernjsAutocomplete = require './atom-ternjs-autocomplete'
 _ = require 'underscore-plus'
 apd = require 'atom-package-dependencies'
-provider = null
 
 class AtomTernInitializer
 
@@ -12,6 +11,7 @@ class AtomTernInitializer
   grammars: ['JavaScript', 'CoffeeScript']
   client: null
   documentationView: null
+  currentProviderIdx: 0
 
   # autocomplete
   autocompletePlus = null
@@ -86,36 +86,40 @@ class AtomTernInitializer
       grammar = e.item.getGrammar().name
       if grammar in @grammars
         @startServer()
+    @disposables.push atom.workspace.onDidChangeActivePaneItem =>
+      @setCurrentProvider()
+
+  setCurrentProvider: ->
+    editor = atom.workspace.getActiveEditor()
+    for provider, idx in @providers
+      if provider.editor.id is editor.id
+        @currentProviderIdx = idx
+        break
 
   registerEditors: ->
     @editorSubscription = atom.workspace.observeTextEditors (editor) =>
       @registerEditor(editor)
 
   registerEditor: (editor) ->
-    editorView = atom.views.getView(editor)
-    return unless editorView?
-    if editorView.mini
-      return
-    grammar = editor.getGrammar().name
-    if grammar not in @grammars
-      return
+    return unless (editorView = atom.views.getView(editor))?
+    return unless !editorView.mini
+    return unless editor.getGrammar().name in @grammars
     buffer = editor.getBuffer()
-    provider = new AtomTernjsAutocomplete(editor, @client, @autocompletePlus, @documentationView)
+    index = @providers.push new AtomTernjsAutocomplete(editor, @client, @autocompletePlus, @documentationView)
     @disposables.push buffer.onDidStopChanging =>
       _.throttle @update(editor), 2000
     @disposables.push buffer.onDidStopChanging =>
-      @callPreBuildSuggestions()
-    @autocompletePlus.registerProviderForEditor provider, editor
-    @providers.push provider
+      _.throttle @callPreBuildSuggestions(), 500
+    @autocompletePlus.registerProviderForEditor @providers[index - 1], editor
 
   callPreBuildSuggestions: (force) ->
     editor = atom.workspace.getActiveEditor()
     cursor = editor.getCursor()
     prefix = cursor.getCurrentWordPrefix()
     if force || /^[a-z0-9.\"\']$/i.test(prefix[prefix.length - 1])
-      provider.preBuildSuggestions()
+      @providers[@currentProviderIdx].preBuildSuggestions()
     else
-      provider.cancelAutocompletion()
+      @providers[@currentProviderIdx].cancelAutocompletion()
 
   unregisterEvents: ->
     for disposable in @disposables
@@ -123,10 +127,8 @@ class AtomTernInitializer
     @disposables = []
 
   startServer: ->
-    if @server?.process
-      return
-    if !atom.project.getRootDirectory()
-      return
+    return unless !@server?.process
+    return unless atom.project.getRootDirectory()
     @server = new TernServer()
     @server.start (port) =>
       if !@client
@@ -147,8 +149,7 @@ class AtomTernInitializer
       @startServer()
 
   stopServer: ->
-    unless @server?.process
-      return
+    return unless @server?.process
     @server.stop()
 
 #expose init class

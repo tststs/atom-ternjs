@@ -1,7 +1,7 @@
 {View} = require 'atom'
 module.exports = ->
   @port = false
-  completions: (file, end, text) ->
+  completions: (file, end) ->
     View.post("http://localhost:#{@port}",
       JSON.stringify
         query:

@@ -96,7 +96,7 @@ class AtomTernjsAutocomplete extends Provider
         @client.completions(editor.getUri(),
             line: position.row
             ch: position.column
-            editor.getText()).then (data) =>
+            ).then (data) =>
             if data.completions.length
                 return data.completions
         , (err) ->
