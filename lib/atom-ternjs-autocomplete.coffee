@@ -21,6 +21,7 @@ class AtomTernjsAutocomplete extends Provider
         @documentationView = documentationView
         atom.workspaceView.command 'tern:cancel', =>
             @cancelAutocompletion()
+        @registerEvents()
         super
 
     buildSuggestions: ->
@@ -35,7 +36,6 @@ class AtomTernjsAutocomplete extends Provider
 
     preBuildSuggestions: ->
         suggestionsArr = []
-        @unregisterEvents()
         @currentSuggestionIndex = false
         @checkCompletion().then (data) =>
             if data?.length
@@ -48,7 +48,6 @@ class AtomTernjsAutocomplete extends Provider
 
     triggerCompletion: =>
         @currentSuggestionIndex = 0
-        @registerEvents()
         @getCurrentAutocompleteManager().runAutocompletion()
         @setDocumentationContent()
 
@@ -60,7 +59,6 @@ class AtomTernjsAutocomplete extends Provider
 
     cancelAutocompletion: ->
         @documentationView.hide()
-        @unregisterEvents()
         @getCurrentAutocompleteManager().cancel()
 
     getMaxIndex: ->
@@ -83,6 +81,10 @@ class AtomTernjsAutocomplete extends Provider
         for disposable in @disposables
             disposable.dispose()
         @disposables = []
+
+    dispose: ->
+        @documentationView.hide()
+        @unregisterEvents()
 
     getCurrentAutocompleteManager: ->
         for manager in @autocompletePlus.autocompleteManagers
