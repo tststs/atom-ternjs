@@ -1,5 +1,7 @@
 {Provider, Suggestion} = require atom.packages.resolvePackagePath('autocomplete-plus')
 
+_ = require 'underscore-plus'
+
 suggestionsArr = []
 maxItems = null
 
@@ -9,24 +11,24 @@ class AtomTernjsAutocomplete extends Provider
     exclusive: true
     autocompletePlus: null
     client: null
-    editor: null
+    _editor: null
+    _buffer: null
     currentSuggestionIndex: false
     disposables: []
     documentationView = null
 
-    constructor: (editor, client, autocompletePlus, documentationView) ->
+    constructor: (_editor, _buffer, client, autocompletePlus, documentationView) ->
         @autocompletePlus = autocompletePlus
         @client = client
-        @editor = editor
+        @_editor = _editor
+        @_buffer = _buffer
         @documentationView = documentationView
-        atom.workspaceView.command 'tern:cancel', =>
-            @cancelAutocompletion()
         @registerEvents()
         super
 
     buildSuggestions: ->
         suggestions = []
-        selection = atom.workspace.getActiveEditor().getLastSelection()
+        selection = @_editor.getLastSelection()
         prefix = @prefixOfSelection selection
         for item, index in suggestionsArr
             if index == maxItems
@@ -34,17 +36,25 @@ class AtomTernjsAutocomplete extends Provider
             suggestions.push new Suggestion(this, word: item[0], label: item[1], prefix: prefix)
         return suggestions
 
+    callPreBuildSuggestions: (force) ->
+        cursor = @_editor.getCursor()
+        prefix = cursor.getCurrentWordPrefix()
+        if force || /^[a-z0-9.\"\']$/i.test(prefix[prefix.length - 1])
+          @preBuildSuggestions()
+        else
+          @cancelAutocompletion()
+
     preBuildSuggestions: ->
         suggestionsArr = []
         @currentSuggestionIndex = false
         @checkCompletion().then (data) =>
-            if data?.length
-                for obj, index in data
-                    if index == maxItems
-                        break
-                    suggestionsArr.push [obj.name, obj.type, obj.doc]
-                # refresh
-                @triggerCompletion()
+            return unless data?.length
+            for obj, index in data
+                if index == maxItems
+                    break
+                suggestionsArr.push [obj.name, obj.type, obj.doc]
+            # refresh
+            @triggerCompletion()
 
     triggerCompletion: =>
         @currentSuggestionIndex = 0
@@ -88,18 +98,16 @@ class AtomTernjsAutocomplete extends Provider
 
     getCurrentAutocompleteManager: ->
         for manager in @autocompletePlus.autocompleteManagers
-            if manager.editor is atom.workspace.getActiveEditor()
+            if manager.editor is @_editor
                 return manager
 
     checkCompletion: ->
-        editor = atom.workspace.getActiveEditor()
-        cursor = editor.getCursor()
+        cursor = @_editor.getCursor()
         position = cursor.getBufferPosition()
-        @client.completions(editor.getUri(),
+        @client.completions(@_editor.getUri(),
             line: position.row
             ch: position.column
             ).then (data) =>
-            if data.completions.length
-                return data.completions
+                data.completions
         , (err) ->
             console.log err

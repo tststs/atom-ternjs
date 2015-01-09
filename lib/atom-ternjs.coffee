@@ -99,27 +99,20 @@ class AtomTernInitializer
   registerEditors: ->
     @editorSubscription = atom.workspace.observeTextEditors (editor) =>
       @registerEditor(editor)
+      @setCurrentProvider()
 
   registerEditor: (editor) ->
     return unless (editorView = atom.views.getView(editor))?
     return unless !editorView.mini
     return unless editor.getGrammar().name in @grammars
-    buffer = editor.getBuffer()
-    index = @providers.push new AtomTernjsAutocomplete(editor, @client, @autocompletePlus, @documentationView)
-    @disposables.push buffer.onDidStopChanging =>
+    _buffer = editor.getBuffer()
+    _editor = editor
+    index = @providers.push new AtomTernjsAutocomplete(_editor, _buffer, @client, @autocompletePlus, @documentationView)
+    @disposables.push _buffer.onDidStopChanging =>
       _.throttle @update(editor), 2000
-    @disposables.push buffer.onDidStopChanging =>
-      _.throttle @callPreBuildSuggestions(), 500
+    @disposables.push _buffer.onDidStopChanging =>
+      _.throttle @providers[@currentProviderIdx].callPreBuildSuggestions(), 500
     @autocompletePlus.registerProviderForEditor @providers[index - 1], editor
-
-  callPreBuildSuggestions: (force) ->
-    editor = atom.workspace.getActiveEditor()
-    cursor = editor.getCursor()
-    prefix = cursor.getCurrentWordPrefix()
-    if force || /^[a-z0-9.\"\']$/i.test(prefix[prefix.length - 1])
-      @providers[@currentProviderIdx].preBuildSuggestions()
-    else
-      @providers[@currentProviderIdx].cancelAutocompletion()
 
   unregisterEvents: ->
     for disposable in @disposables
@@ -142,11 +135,14 @@ class AtomTernInitializer
     atom.workspaceView.command 'tern:definition', =>
       @findDefinition(atom.workspace.getActiveEditor())
     atom.workspaceView.command 'tern:startCompletion', =>
-      @callPreBuildSuggestions(true)
+      @providers[@currentProviderIdx].callPreBuildSuggestions(true)
     atom.workspaceView.command 'tern:stop', =>
       @stopServer()
     atom.workspaceView.command 'tern:start', =>
       @startServer()
+    atom.workspaceView.command 'tern:cancel', =>
+      for provider in @providers
+        provider.cancelAutocompletion()
 
   stopServer: ->
     return unless @server?.process
