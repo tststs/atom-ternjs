@@ -127,7 +127,6 @@ class AtomTernInitializer
     @disposables = []
 
   startServer: ->
-    console.log 'startserver'
     return unless !@server?.process
     return unless atom.project.getRootDirectory()
     @server = new TernServer()
