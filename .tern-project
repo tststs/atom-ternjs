@@ -5,5 +5,10 @@
   ],
   "loadEagerly": [
     "/Users/tobiasschubert/github/atom-ternjs/test/**/*.js"
-  ]
+  ],
+  "plugins": {
+    "doc_comment": {
+      "fullDocs": true
+    }
+  }
 }
