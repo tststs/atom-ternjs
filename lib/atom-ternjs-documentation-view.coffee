@@ -16,10 +16,6 @@ class DocumentationView
     @sub = document.createElement('h2')
     @content = document.createElement('p')
 
-    @title.textContent = ''
-    @sub.textContent = ''
-    @content.textContent = ''
-
     @element.appendChild(@title)
     @element.appendChild(@sub)
     @element.appendChild(@content)
@@ -38,8 +34,8 @@ class DocumentationView
     @element.classList.remove('active')
 
   setTitle: (name, params) ->
-    @title.textContent = name
-    @sub.textContent = params
+    @title.innerHTML = name
+    @sub.innerHTML = params
 
   setContent: (str) ->
     if str
@@ -47,7 +43,8 @@ class DocumentationView
     else
       @allowed = false
       @hide()
-    @content.textContent = str
+    str = str.replace(/(?:\r\n|\r|\n)/g, '<br />')
+    @content.innerHTML = str
 
   # Tear down any state and detach
   destroy: ->
