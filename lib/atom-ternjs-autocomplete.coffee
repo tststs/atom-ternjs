@@ -69,7 +69,7 @@ class AtomTernjsAutocomplete extends Provider
 
     cancelAutocompletion: ->
         @documentationView.hide()
-        @getCurrentAutocompleteManager().cancel()
+        @getCurrentAutocompleteManager()?.cancel()
 
     getMaxIndex: ->
         Math.min(maxItems, suggestionsArr.length)
