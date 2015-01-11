@@ -122,6 +122,7 @@ class AtomTernInitializer
     @disposables.push _buffer.onDidStopChanging =>
       _.throttle @providers[@currentProviderIdx].callPreBuildSuggestions(), 500
     @autocompletePlus.registerProviderForEditor @providers[index - 1], _editor
+    @providers[index - 1].init()
 
   unregisterEvents: ->
     for disposable in @disposables

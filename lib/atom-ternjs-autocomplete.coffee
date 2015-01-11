@@ -25,8 +25,11 @@ class AtomTernjsAutocomplete extends Provider
         @_editor = _editor
         @_buffer = _buffer
         @documentationView = documentationView
-        @registerEvents()
         super
+
+    init: ->
+        @getAutocompletionManager()
+        @registerEvents()
 
     buildSuggestions: ->
         suggestions = []
@@ -47,6 +50,7 @@ class AtomTernjsAutocomplete extends Provider
           @cancelAutocompletion()
 
     preBuildSuggestions: ->
+        return unless @autocompleteManager
         suggestionsArr = []
         @checkCompletion().then (data) =>
             return unless data?.length
@@ -58,19 +62,19 @@ class AtomTernjsAutocomplete extends Provider
             @triggerCompletion()
 
     triggerCompletion: =>
-        @getCurrentAutocompleteManager().runAutocompletion()
+        @autocompleteManager.runAutocompletion()
         @currentSuggestionIndex = 0
         @setDocumentationContent()
 
     setDocumentationContent: ->
-        return unless suggestionsArr.length
         @documentationView.setTitle(suggestionsArr[@currentSuggestionIndex][0], suggestionsArr[@currentSuggestionIndex][1])
         @documentationView.setContent(suggestionsArr[@currentSuggestionIndex][2])
         @documentationView.show()
 
     cancelAutocompletion: ->
         @documentationView.hide()
-        @getCurrentAutocompleteManager()?.cancel()
+        return unless @autocompleteManager
+        @autocompleteManager.cancel()
 
     getMaxIndex: ->
         Math.min(maxItems, suggestionsArr.length)
@@ -79,12 +83,12 @@ class AtomTernjsAutocomplete extends Provider
         @disposables.push atom.config.observe('autocomplete-plus.maxSuggestions', => maxItems = atom.config.get('autocomplete-plus.maxSuggestions'))
         @disposables.push atom.workspace.onDidChangeActivePaneItem =>
             @cancelAutocompletion()
-        @disposables.push @getCurrentAutocompleteManager().emitter.on 'do-select-next', =>
+        @disposables.push @autocompleteManager.emitter.on 'do-select-next', =>
             return unless @isActive
             if ++@currentSuggestionIndex >= @getMaxIndex()
                 @currentSuggestionIndex = 0
             @setDocumentationContent()
-        @disposables.push @getCurrentAutocompleteManager().emitter.on 'do-select-previous', =>
+        @disposables.push @autocompleteManager.emitter.on 'do-select-previous', =>
             return unless @isActive
             if --@currentSuggestionIndex < 0
                 @currentSuggestionIndex = @getMaxIndex() - 1
@@ -99,10 +103,10 @@ class AtomTernjsAutocomplete extends Provider
         @documentationView.hide()
         @unregisterEvents()
 
-    getCurrentAutocompleteManager: ->
+    getAutocompletionManager: ->
         for manager in @autocompletePlus.autocompleteManagers
             if manager.editor is @_editor
-                return manager
+                @autocompleteManager = manager
 
     checkCompletion: ->
         cursor = @_editor.getCursor()
