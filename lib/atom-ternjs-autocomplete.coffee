@@ -46,7 +46,6 @@ class AtomTernjsAutocomplete extends Provider
 
     preBuildSuggestions: ->
         suggestionsArr = []
-        @currentSuggestionIndex = false
         @checkCompletion().then (data) =>
             return unless data?.length
             for obj, index in data
@@ -57,8 +56,8 @@ class AtomTernjsAutocomplete extends Provider
             @triggerCompletion()
 
     triggerCompletion: =>
-        @currentSuggestionIndex = 0
         @getCurrentAutocompleteManager().runAutocompletion()
+        @currentSuggestionIndex = 0
         @setDocumentationContent()
 
     setDocumentationContent: ->
