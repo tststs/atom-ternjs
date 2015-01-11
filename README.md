@@ -14,7 +14,12 @@ Uses suggestion provider by autocomplete-plus.
   ],
   "loadEagerly": [
     "absolute/path/to/your/js/**/*.js"
-  ]
+  ],
+  "plugins": {
+    "doc_comment": {
+      "fullDocs": true // tern will look for JSDoc-style type declarations. Returns the full comment text instead of the first sentence.
+    }
+  }
 }
 ```
 
