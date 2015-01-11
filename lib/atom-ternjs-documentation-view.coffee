@@ -34,17 +34,18 @@ class DocumentationView
     @element.classList.remove('active')
 
   setTitle: (name, params) ->
+    return unless name
     @title.innerHTML = name
     @sub.innerHTML = params
 
   setContent: (str) ->
     if str
       @allowed = true
+      str = str.replace(/(?:\r\n|\r|\n)/g, '<br />')
+      @content.innerHTML = str
     else
       @allowed = false
       @hide()
-    str = str.replace(/(?:\r\n|\r|\n)/g, '<br />')
-    @content.innerHTML = str
 
   # Tear down any state and detach
   destroy: ->
