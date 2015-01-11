@@ -16,6 +16,8 @@ class AtomTernjsAutocomplete extends Provider
     currentSuggestionIndex: false
     disposables: []
     documentationView = null
+    autocompleteManager = null
+    isActive = false
 
     constructor: (_editor, _buffer, client, autocompletePlus, documentationView) ->
         @autocompletePlus = autocompletePlus
@@ -78,10 +80,12 @@ class AtomTernjsAutocomplete extends Provider
         @disposables.push atom.workspace.onDidChangeActivePaneItem =>
             @cancelAutocompletion()
         @disposables.push @getCurrentAutocompleteManager().emitter.on 'do-select-next', =>
+            return unless @isActive
             if ++@currentSuggestionIndex >= @getMaxIndex()
                 @currentSuggestionIndex = 0
             @setDocumentationContent()
         @disposables.push @getCurrentAutocompleteManager().emitter.on 'do-select-previous', =>
+            return unless @isActive
             if --@currentSuggestionIndex < 0
                 @currentSuggestionIndex = @getMaxIndex() - 1
             @setDocumentationContent()

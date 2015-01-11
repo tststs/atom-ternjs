@@ -99,8 +99,10 @@ class AtomTernInitializer
     editor = atom.workspace.getActiveEditor()
     return unless editor
     for provider, idx in @providers
+      provider.isActive = false
       if provider.editor.id is editor.id
         @currentProviderIdx = idx
+        provider.isActive = true
         break
 
   registerEditors: ->
@@ -119,7 +121,7 @@ class AtomTernInitializer
       _.throttle @update(editor), 2000
     @disposables.push _buffer.onDidStopChanging =>
       _.throttle @providers[@currentProviderIdx].callPreBuildSuggestions(), 500
-    @autocompletePlus.registerProviderForEditor @providers[index - 1], editor
+    @autocompletePlus.registerProviderForEditor @providers[index - 1], _editor
 
   unregisterEvents: ->
     for disposable in @disposables
