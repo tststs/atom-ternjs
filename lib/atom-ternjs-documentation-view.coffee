@@ -5,6 +5,7 @@ class DocumentationView
   @sub = null
   @content = null
   @allowed = false
+  @active = false
 
   constructor: (serializeState) ->
     # Create root element
@@ -20,17 +21,27 @@ class DocumentationView
     @element.appendChild(@sub)
     @element.appendChild(@content)
 
+    @registerEvents()
+
   # Returns an object that can be retrieved when package is activated
   serialize: ->
+
+  registerEvents: ->
+    @element.addEventListener 'webkitTransitionEnd', =>
+      return unless !@active
+      @element.classList.remove('visible')
 
   toggle: ->
     @element.classList.toggle('active')
 
   show: ->
     return unless @allowed
+    @active = true
+    @element.classList.add('visible')
     @element.classList.add('active')
 
   hide: ->
+    @active = false
     @element.classList.remove('active')
 
   setTitle: (name, params) ->
