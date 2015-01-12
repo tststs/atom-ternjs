@@ -45,6 +45,7 @@ class DocumentationView
       @content.innerHTML = str
     else
       @allowed = false
+      @content.innerHTML = ''
       @hide()
 
   # Tear down any state and detach
