@@ -83,8 +83,11 @@ class AtomTernInitializer
 
   registerEvents: ->
     @disposables.push atom.workspace.onDidOpen (e) =>
-      if @isGrammarInGrammars(e.item)
-        @startServer()
+      return unless e.item
+      return unless !e.item.mini
+      return unless e.item.getGrammar?
+      return unless e.item.getGrammar().name in @grammars
+      @startServer()
     @disposables.push atom.workspace.onDidChangeActivePaneItem =>
       @setCurrentProvider()
 
@@ -107,13 +110,12 @@ class AtomTernInitializer
 
   registerEditors: ->
     @editorSubscription = atom.workspace.observeTextEditors (editor) =>
+      return unless !editor.mini
+      return unless editor.getGrammar().name in @grammars
       @registerEditor(editor)
       @setCurrentProvider()
 
   registerEditor: (editor) ->
-    return unless (editorView = atom.views.getView(editor))?
-    return unless !editorView.mini
-    return unless editor.getGrammar().name in @grammars
     _buffer = editor.getBuffer()
     _editor = editor
     index = @providers.push new AtomTernjsAutocomplete(_editor, _buffer, @client, @autocompletePlus, @documentationView)
