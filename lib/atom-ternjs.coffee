@@ -12,6 +12,7 @@ class AtomTernInitializer
   client: null
   documentationView: null
   currentProviderIdx: 0
+  activeTextEditor: null
 
   # autocomplete
   autocompletePlus = null
@@ -59,17 +60,16 @@ class AtomTernInitializer
     @client.update(editor.getURI(), editor.getText())
 
   findDefinition: ->
-    editor = atom.workspace.getActiveTextEditor()
-    cursor = editor.getLastCursor()
+    cursor = @activeTextEditor.getLastCursor()
     position = cursor.getBufferPosition()
-    @client.definition(editor.getURI(),
+    @client.definition(@activeTextEditor.getURI(),
       line: position.row
       ch: position.column
-    editor.getText()).then (data) =>
+    @activeTextEditor.getText()).then (data) =>
       if data?.start
         # check if definition is in current active TextEditor
-        if atom.workspace.getActiveTextEditor().getPath().indexOf(data.file) > -1
-          buffer = editor.getBuffer()
+        if @activeTextEditor.getPath().indexOf(data.file) > -1
+          buffer = @activeTextEditor.getBuffer()
           cursor.setBufferPosition(buffer.positionForCharacterIndex(data.start))
           return
         # else open the file and set cursor position to definition
@@ -83,35 +83,30 @@ class AtomTernInitializer
 
   registerEvents: ->
     @disposables.push atom.workspace.onDidOpen (e) =>
-      return unless e.item
-      return unless !e.item.mini
-      return unless e.item.getGrammar?
-      return unless e.item.getGrammar().name in @grammars
+      return unless e.item and @isValidEditor(e.item)
       @startServer()
     @disposables.push atom.workspace.onDidChangeActivePaneItem =>
       @setCurrentProvider()
 
-  isGrammarInGrammars: (editor) ->
-    grammar = editor.getGrammar().name
-    if grammar in @grammars
-      return true
-    else
-      return false
+  isValidEditor: (editor) ->
+    return false if editor.mini
+    return false if !editor.getGrammar
+    return false if editor.getGrammar().name not in @grammars
+    return true
 
   setCurrentProvider: ->
-    editor = atom.workspace.getActiveTextEditor()
-    return unless editor
+    @activeTextEditor = atom.workspace.getActiveTextEditor()
+    return unless @activeTextEditor
     for provider, idx in @providers
       provider.isActive = false
-      if provider.editor.id is editor.id
+      if provider.editor.id is @activeTextEditor.id
         @currentProviderIdx = idx
         provider.isActive = true
         break
 
   registerEditors: ->
     @editorSubscription = atom.workspace.observeTextEditors (editor) =>
-      return unless !editor.mini
-      return unless editor.getGrammar().name in @grammars
+      return unless @isValidEditor(editor)
       @registerEditor(editor)
       @setCurrentProvider()
 
@@ -132,8 +127,7 @@ class AtomTernInitializer
     @disposables = []
 
   startServer: ->
-    return unless !@server?.process
-    return unless atom.project.getDirectories()[0]
+    return unless !@server?.process and atom.project.getDirectories()[0]
     @server = new TernServer()
     @server.start (port) =>
       if !@client
@@ -145,7 +139,7 @@ class AtomTernInitializer
 
   registerCommands: ->
     atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
-        @findDefinition(atom.workspace.getActiveTextEditor())
+        @findDefinition()
     atom.commands.add 'atom-text-editor', 'tern:startCompletion': (event) =>
       @providers[@currentProviderIdx].callPreBuildSuggestions(true)
     atom.commands.add 'atom-text-editor', 'tern:stop': (event) =>
