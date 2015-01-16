@@ -13,7 +13,7 @@ module.exports = ->
       console.log "Tern server running on port #{port}"
       cb port
     options =
-      cwd: atom.project.getRootDirectory().getPath()
+      cwd: atom.project.getDirectories()[0].path
     exit = (code) -> console.log("tern exited with code: #{code}")
     @process = new BufferedNodeProcess {command, args, options, stdout, stderr, exit}
 

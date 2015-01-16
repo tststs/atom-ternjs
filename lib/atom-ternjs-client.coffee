@@ -1,36 +1,40 @@
-{View} = require 'atom'
-module.exports = ->
-  @port = false
+$ = require('jquery')
+
+module.exports =
+class AtomTernjsClient
+
+  port: null
+
   completions: (file, end) ->
-    View.post("http://localhost:#{@port}",
-      JSON.stringify
-        query:
-          type: 'completions'
-          file: file
-          end: end
-          types: true
-          guess: true
-          docs: atom.config.get('atom-ternjs.displayDocsIfAvailable')
-          lineCharPositions: true
-          caseInsensitive: true
-    ).then (data) ->
-      data
+    @post(JSON.stringify
+      query:
+        type: 'completions'
+        file: file
+        end: end
+        types: true
+        guess: true
+        docs: atom.config.get('atom-ternjs.displayDocsIfAvailable')
+        lineCharPositions: true
+        caseInsensitive: true
+    )
+
   update: (file, text) ->
-    View.post("http://localhost:#{@port}",
-      JSON.stringify
-        files: [
-            type: 'full'
-            name: file
-            text: text
-        ]
-    ).then (data) ->
-      data
+    @post(JSON.stringify
+      files: [
+          type: 'full'
+          name: file
+          text: text
+      ]
+    )
+
   definition: (file, end, text) ->
-    View.post("http://localhost:#{@port}",
-      JSON.stringify
-        query:
-          type: 'definition'
-          file: file
-          end: end
-    ).then (data) ->
+    @post(JSON.stringify
+      query:
+        type: 'definition'
+        file: file
+        end: end
+    )
+
+  post: (data) ->
+    $.post("http://localhost:#{@port}", data).then (data) ->
       data

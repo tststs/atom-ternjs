@@ -48,7 +48,7 @@ class AtomTernInitializer
 
   addComponents: (state) ->
     @documentationView = new DocumentationView(state.atomTernjsViewState)
-    atom.workspaceView.append(@documentationView.getElement())
+    atom.views.getView(atom.workspace).appendChild(@documentationView.getElement())
 
   unregisterProviders: ->
     @providers.forEach (provider) =>
@@ -56,13 +56,13 @@ class AtomTernInitializer
     @providers = []
 
   update: (editor) ->
-    @client.update(editor.getUri(), editor.getText())
+    @client.update(editor.getURI(), editor.getText())
 
   findDefinition: ->
-    editor = atom.workspace.getActiveEditor()
-    cursor = editor.getCursor()
+    editor = atom.workspace.getActiveTextEditor()
+    cursor = editor.getLastCursor()
     position = cursor.getBufferPosition()
-    @client.definition(editor.getUri(),
+    @client.definition(editor.getURI(),
       line: position.row
       ch: position.column
     editor.getText()).then (data) =>
@@ -75,7 +75,7 @@ class AtomTernInitializer
         # else open the file and set cursor position to definition
         atom.workspace.open(data.file).then (textEditor) ->
           buffer = textEditor.getBuffer()
-          cursor = textEditor.getCursor()
+          cursor = textEditor.getLastCursor()
           cursor.setBufferPosition(buffer.positionForCharacterIndex(data.start))
           return
     , (err) ->
@@ -99,7 +99,7 @@ class AtomTernInitializer
       return false
 
   setCurrentProvider: ->
-    editor = atom.workspace.getActiveEditor()
+    editor = atom.workspace.getActiveTextEditor()
     return unless editor
     for provider, idx in @providers
       provider.isActive = false
@@ -133,7 +133,7 @@ class AtomTernInitializer
 
   startServer: ->
     return unless !@server?.process
-    return unless atom.project.getRootDirectory()
+    return unless atom.project.getDirectories()[0]
     @server = new TernServer()
     @server.start (port) =>
       if !@client
@@ -144,15 +144,15 @@ class AtomTernInitializer
         @registerCommands()
 
   registerCommands: ->
-    atom.workspaceView.command 'tern:definition', =>
-      @findDefinition(atom.workspace.getActiveEditor())
-    atom.workspaceView.command 'tern:startCompletion', =>
+    atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
+        @findDefinition(atom.workspace.getActiveTextEditor())
+    atom.commands.add 'atom-text-editor', 'tern:startCompletion': (event) =>
       @providers[@currentProviderIdx].callPreBuildSuggestions(true)
-    atom.workspaceView.command 'tern:stop', =>
+    atom.commands.add 'atom-text-editor', 'tern:stop': (event) =>
       @stopServer()
-    atom.workspaceView.command 'tern:start', =>
+    atom.commands.add 'atom-text-editor', 'tern:start': (event) =>
       @startServer()
-    atom.workspaceView.command 'tern:cancel', =>
+    atom.commands.add 'atom-text-editor', 'tern:cancel': (event) =>
       for provider in @providers
         provider.cancelAutocompletion()
 

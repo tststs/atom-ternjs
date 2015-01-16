@@ -11,11 +11,13 @@
     "atom": ">0.140.0"
   },
   "dependencies": {
+    "jquery": "latest",
     "underscore-plus": "*",
     "tern": "git://github.com/marijnh/tern.git",
     "atom-package-dependencies": "latest"
   },
   "package-dependencies": {
+    "atom-space-pen-views": "^2.0.3",
     "autocomplete-plus": "latest"
   }
 }

@@ -42,7 +42,7 @@ class AtomTernjsAutocomplete extends Provider
         return suggestions
 
     callPreBuildSuggestions: (force) ->
-        cursor = @_editor.getCursor()
+        cursor = @_editor.getLastCursor()
         prefix = cursor.getCurrentWordPrefix()
         if force || /^[a-z0-9.\"\']$/i.test(prefix[prefix.length - 1])
           @preBuildSuggestions()
@@ -110,9 +110,9 @@ class AtomTernjsAutocomplete extends Provider
                 @autocompleteManager = manager
 
     checkCompletion: ->
-        cursor = @_editor.getCursor()
+        cursor = @_editor.getLastCursor()
         position = cursor.getBufferPosition()
-        @client.completions(@_editor.getUri(),
+        @client.completions(@_editor.getURI(),
             line: position.row
             ch: position.column
             ).then (data) =>
