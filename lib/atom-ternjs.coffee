@@ -56,9 +56,6 @@ class AtomTernInitializer
       @autocompletePlus.unregisterProvider provider
     @providers = []
 
-  update: (editor) ->
-    @client.update(editor.getURI(), editor.getText())
-
   findDefinition: ->
     cursor = @activeTextEditor.getLastCursor()
     position = cursor.getBufferPosition()
@@ -104,6 +101,11 @@ class AtomTernInitializer
         provider.isActive = true
         break
 
+  getProviderForEditor: (editor) ->
+    for provider, idx in @providers
+      if provider.editor.id is editor.id
+        return provider
+
   registerEditors: ->
     @editorSubscription = atom.workspace.observeTextEditors (editor) =>
       return unless @isValidEditor(editor)
@@ -114,12 +116,17 @@ class AtomTernInitializer
     _buffer = editor.getBuffer()
     _editor = editor
     index = @providers.push new AtomTernjsAutocomplete(_editor, _buffer, @client, @autocompletePlus, @documentationView)
-    @disposables.push _buffer.onDidStopChanging =>
-      _.throttle @update(editor), 2000
-    @disposables.push _buffer.onDidStopChanging =>
-      _.throttle @providers[@currentProviderIdx].callPreBuildSuggestions(), 500
     @autocompletePlus.registerProviderForEditor @providers[index - 1], _editor
     @providers[index - 1].init()
+    _editor.onDidDestroy =>
+      @unregisterEditor(_editor)
+
+  unregisterEditor: (editor) ->
+    provider = @getProviderForEditor(editor)
+    return unless provider
+    provider.dispose()
+    idx = @providers.indexOf(provider)
+    @providers.splice(idx, 1)
 
   unregisterEvents: ->
     for disposable in @disposables

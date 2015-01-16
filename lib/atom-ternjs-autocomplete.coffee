@@ -80,7 +80,14 @@ class AtomTernjsAutocomplete extends Provider
     getMaxIndex: ->
         Math.min(maxItems, suggestionsArr.length)
 
+    update: ->
+        @client.update(@_editor.getURI(), @_editor.getText())
+
     registerEvents: ->
+        @disposables.push @_buffer.onDidStopChanging =>
+            _.throttle @update(@_editor), 2000
+        @disposables.push @_buffer.onDidStopChanging =>
+            _.throttle @callPreBuildSuggestions(), 500
         @disposables.push atom.config.observe('autocomplete-plus.maxSuggestions', => maxItems = atom.config.get('autocomplete-plus.maxSuggestions'))
         @disposables.push atom.workspace.onDidChangeActivePaneItem =>
             @cancelAutocompletion()
