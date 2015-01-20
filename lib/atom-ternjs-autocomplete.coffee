@@ -33,8 +33,7 @@ class AtomTernjsAutocomplete extends Provider
 
     buildSuggestions: ->
         suggestions = []
-        selection = @_editor.getLastSelection()
-        prefix = @prefixOfSelection selection
+        prefix = @getPrefix()
         for item, index in suggestionsArr
             if index == maxItems
                 break
@@ -42,6 +41,7 @@ class AtomTernjsAutocomplete extends Provider
         return suggestions
 
     callPreBuildSuggestions: (force) ->
+        return if @client.request
         cursor = @_editor.getLastCursor()
         prefix = cursor.getCurrentWordPrefix()
         if force || /^[a-z0-9.\"\']$/i.test(prefix[prefix.length - 1])
@@ -49,11 +49,18 @@ class AtomTernjsAutocomplete extends Provider
         else
           @cancelAutocompletion()
 
+    getPrefix: ->
+        return @prefixOfSelection(@_editor.getLastSelection())
+
     preBuildSuggestions: ->
         return unless @autocompleteManager
         suggestionsArr = []
         @checkCompletion().then (data) =>
             return unless data?.length
+            prefix = @getPrefix()
+            if data.length is 1 and prefix is data[0].name
+                @cancelAutocompletion()
+                return
             for obj, index in data
                 if index == maxItems
                     break
@@ -73,6 +80,7 @@ class AtomTernjsAutocomplete extends Provider
         @documentationView.show()
 
     cancelAutocompletion: ->
+        suggestionsArr = []
         @documentationView.hide()
         return unless @autocompleteManager
         @autocompleteManager.cancel()
