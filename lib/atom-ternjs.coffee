@@ -21,9 +21,26 @@ class AtomTernInitializer
 
   # config
   config:
-    displayDocsIfAvailable:
+    docs:
+      title: 'Documentation'
+      description: 'Whether to include documentation strings, urls, and origin files (if found) in the result data.'
       type: 'boolean'
       default: true
+    guess:
+      title: 'Guess'
+      description: 'When completing a property and no completions are found, Tern will use some heuristics to try and return some properties anyway. Set this to false to turn that off.'
+      type: 'boolean'
+      default: true
+    sort:
+      title: 'Sort'
+      description: 'Determines whether the result set will be sorted.'
+      type: 'boolean'
+      default: true
+    caseInsensitive:
+      title: 'Case-insensitive'
+      description: 'Whether to use a case-insensitive compare between the current word and potential completions.'
+      type: 'boolean'
+      default: false
 
   activate: (state) ->
     @startServer()

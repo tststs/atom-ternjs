@@ -12,10 +12,11 @@ class AtomTernjsClient
         file: file
         end: end
         types: true
-        guess: true
-        docs: atom.config.get('atom-ternjs.displayDocsIfAvailable')
+        sort: atom.config.get('atom-ternjs.sort')
+        guess: atom.config.get('atom-ternjs.guess')
+        docs: atom.config.get('atom-ternjs.docs')
         lineCharPositions: true
-        caseInsensitive: true
+        caseInsensitive: atom.config.get('atom-ternjs.caseInsensitive')
     )
 
   update: (file, text) ->
