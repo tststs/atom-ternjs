@@ -7,10 +7,10 @@ apd = require 'atom-package-dependencies'
 class AtomTernInitializer
 
   disposables: []
-  grammars: ['JavaScript', 'CoffeeScript']
+  grammars: ['JavaScript']
   client: null
   documentationView: null
-  currentProviderIdx: 0
+  currentProviderIdx: false
   activeTextEditor: null
 
   # autocomplete
@@ -20,6 +20,11 @@ class AtomTernInitializer
 
   # config
   config:
+    coffeeScript:
+      title: 'CoffeeScript'
+      description: 'Completions for CoffeeScript.'
+      type: 'boolean'
+      default: false
     docs:
       title: 'Documentation'
       description: 'Whether to include documentation strings, urls, and origin files (if found) in the result data.'
@@ -95,6 +100,15 @@ class AtomTernInitializer
       console.error 'error', err
 
   registerEvents: ->
+    @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
+      if atom.config.get('atom-ternjs.coffeeScript')
+        @grammars.push 'CoffeeScript'
+        # TODO: register editors
+      else
+        idx = @grammars.indexOf('CoffeeScript')
+        return unless idx > -1
+        @grammars.splice(idx, 1)
+        # TODO: unregister editors
     @disposables.push atom.workspace.onDidOpen (e) =>
       return unless e.item and @isValidEditor(e.item)
       @startServer()
@@ -108,6 +122,7 @@ class AtomTernInitializer
     return true
 
   setCurrentProvider: ->
+    @currentProviderIdx = false
     @activeTextEditor = atom.workspace.getActiveTextEditor()
     return unless @activeTextEditor
     for provider, idx in @providers
@@ -140,6 +155,7 @@ class AtomTernInitializer
   unregisterEditor: (editor) ->
     provider = @getProviderForEditor(editor)
     return unless provider
+    @autocompletePlus.unregisterProvider provider
     provider.dispose()
     idx = @providers.indexOf(provider)
     @providers.splice(idx, 1)
@@ -164,6 +180,7 @@ class AtomTernInitializer
     atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
         @findDefinition()
     atom.commands.add 'atom-text-editor', 'tern:startCompletion': (event) =>
+      return if @currentProviderIdx is false
       @providers[@currentProviderIdx].callPreBuildSuggestions(true)
     atom.commands.add 'atom-text-editor', 'tern:stop': (event) =>
       @stopServer()
