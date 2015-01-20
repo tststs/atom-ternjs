@@ -41,7 +41,6 @@ class AtomTernjsAutocomplete extends Provider
         return suggestions
 
     callPreBuildSuggestions: (force) ->
-        return if @client.request
         cursor = @_editor.getLastCursor()
         prefix = cursor.getCurrentWordPrefix()
         if force || /^[a-z0-9.\"\']$/i.test(prefix[prefix.length - 1])
