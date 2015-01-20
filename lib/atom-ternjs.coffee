@@ -2,7 +2,6 @@ TernServer = require './atom-ternjs-server'
 TernClient = require './atom-ternjs-client'
 DocumentationView = require './atom-ternjs-documentation-view'
 AtomTernjsAutocomplete = require './atom-ternjs-autocomplete'
-_ = require 'underscore-plus'
 apd = require 'atom-package-dependencies'
 
 class AtomTernInitializer
