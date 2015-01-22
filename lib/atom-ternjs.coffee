@@ -44,7 +44,7 @@ class AtomTernInitializer
       title: 'Case-insensitive'
       description: 'Whether to use a case-insensitive compare between the current word and potential completions.'
       type: 'boolean'
-      default: false
+      default: true
 
   activate: (state) ->
     @startServer()
@@ -103,12 +103,15 @@ class AtomTernInitializer
     @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
       if atom.config.get('atom-ternjs.coffeeScript')
         @grammars.push 'CoffeeScript'
-        # TODO: register editors
+        for editor in atom.workspace.getTextEditors()
+          @registerEditor(editor)
       else
         idx = @grammars.indexOf('CoffeeScript')
         return unless idx > -1
         @grammars.splice(idx, 1)
-        # TODO: unregister editors
+        for editor in atom.workspace.getTextEditors()
+          if editor.getGrammar().name is 'CoffeeScript'
+            @unregisterEditor(editor)
     @disposables.push atom.workspace.onDidOpen (e) =>
       return unless e.item and @isValidEditor(e.item)
       @startServer()
@@ -139,11 +142,11 @@ class AtomTernInitializer
 
   registerEditors: ->
     @editorSubscription = atom.workspace.observeTextEditors (editor) =>
-      return unless @isValidEditor(editor)
       @registerEditor(editor)
       @setCurrentProvider()
 
   registerEditor: (editor) ->
+    return unless @isValidEditor(editor) and !@getProviderForEditor(editor)
     _buffer = editor.getBuffer()
     _editor = editor
     index = @providers.push new AtomTernjsAutocomplete(_editor, _buffer, @client, @autocompletePlus, @documentationView)
@@ -151,6 +154,7 @@ class AtomTernInitializer
     @providers[index - 1].init()
     _editor.onDidDestroy =>
       @unregisterEditor(_editor)
+    console.log @providers.length
 
   unregisterEditor: (editor) ->
     provider = @getProviderForEditor(editor)

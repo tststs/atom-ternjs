@@ -14,13 +14,14 @@ class AtomTernjsAutocomplete extends Provider
     _editor: null
     _buffer: null
     currentSuggestionIndex: false
-    disposables: []
+    _disposables: null
     documentationView = null
     autocompleteManager = null
     isActive = false
 
     constructor: (_editor, _buffer, client, autocompletePlus, documentationView) ->
         @autocompletePlus = autocompletePlus
+        @_disposables = []
         @client = client
         @_editor = _editor
         @_buffer = _buffer
@@ -91,27 +92,27 @@ class AtomTernjsAutocomplete extends Provider
         @client.update(@_editor.getURI(), @_editor.getText())
 
     registerEvents: ->
-        @disposables.push @_buffer.onDidStopChanging =>
-            _.throttle @update(@_editor), 2000
-            _.throttle @callPreBuildSuggestions(), 500
-        @disposables.push atom.config.observe('autocomplete-plus.maxSuggestions', => maxItems = atom.config.get('autocomplete-plus.maxSuggestions'))
-        @disposables.push atom.workspace.onDidChangeActivePaneItem =>
+        @_disposables.push @_buffer.onDidStopChanging =>
+            _.throttle @update(@_editor), 300
+            _.throttle @callPreBuildSuggestions(), 100
+        @_disposables.push atom.config.observe('autocomplete-plus.maxSuggestions', => maxItems = atom.config.get('autocomplete-plus.maxSuggestions'))
+        @_disposables.push atom.workspace.onDidChangeActivePaneItem =>
             @cancelAutocompletion()
-        @disposables.push @autocompleteManager.emitter.on 'do-select-next', =>
+        @_disposables.push @autocompleteManager.emitter.on 'do-select-next', =>
             return unless @isActive
             if ++@currentSuggestionIndex >= @getMaxIndex()
                 @currentSuggestionIndex = 0
             @setDocumentationContent()
-        @disposables.push @autocompleteManager.emitter.on 'do-select-previous', =>
+        @_disposables.push @autocompleteManager.emitter.on 'do-select-previous', =>
             return unless @isActive
             if --@currentSuggestionIndex < 0
                 @currentSuggestionIndex = @getMaxIndex() - 1
             @setDocumentationContent()
 
     unregisterEvents: ->
-        for disposable in @disposables
+        for disposable in @_disposables
             disposable.dispose()
-        @disposables = []
+        @_disposables = []
 
     dispose: ->
         @documentationView.hide()
