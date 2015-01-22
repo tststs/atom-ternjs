@@ -2,7 +2,6 @@
 
 _ = require 'underscore-plus'
 
-suggestionsArr = []
 maxItems = null
 
 module.exports =
@@ -11,6 +10,7 @@ class AtomTernjsAutocomplete extends Provider
     exclusive: true
     autocompletePlus: null
     client: null
+    suggestionsArr = null
     _editor: null
     _buffer: null
     currentSuggestionIndex: false
@@ -22,6 +22,7 @@ class AtomTernjsAutocomplete extends Provider
     constructor: (_editor, _buffer, client, autocompletePlus, documentationView) ->
         @autocompletePlus = autocompletePlus
         @_disposables = []
+        @suggestionsArr = []
         @client = client
         @_editor = _editor
         @_buffer = _buffer
@@ -35,7 +36,7 @@ class AtomTernjsAutocomplete extends Provider
     buildSuggestions: ->
         suggestions = []
         prefix = @getPrefix()
-        for item, index in suggestionsArr
+        for item, index in @suggestionsArr
             if index == maxItems
                 break
             suggestions.push new Suggestion(this, word: item[0], label: item[1], prefix: prefix)
@@ -54,9 +55,11 @@ class AtomTernjsAutocomplete extends Provider
 
     preBuildSuggestions: ->
         return unless @autocompleteManager
-        suggestionsArr = []
+        @suggestionsArr = []
         @checkCompletion().then (data) =>
-            return unless data?.length
+            if !data?.length
+                @cancelAutocompletion()
+                return
             prefix = @getPrefix()
             if data.length is 1 and prefix is data[0].name
                 @cancelAutocompletion()
@@ -64,7 +67,7 @@ class AtomTernjsAutocomplete extends Provider
             for obj, index in data
                 if index == maxItems
                     break
-                suggestionsArr.push [obj.name, obj.type, obj.doc]
+                @suggestionsArr.push [obj.name, obj.type, obj.doc]
             # refresh
             @triggerCompletion()
 
@@ -74,19 +77,19 @@ class AtomTernjsAutocomplete extends Provider
         @setDocumentationContent()
 
     setDocumentationContent: ->
-        return unless suggestionsArr.length
-        @documentationView.setTitle(suggestionsArr[@currentSuggestionIndex][0], suggestionsArr[@currentSuggestionIndex][1])
-        @documentationView.setContent(suggestionsArr[@currentSuggestionIndex][2])
+        return unless @suggestionsArr.length
+        @documentationView.setTitle(@suggestionsArr[@currentSuggestionIndex][0], @suggestionsArr[@currentSuggestionIndex][1])
+        @documentationView.setContent(@suggestionsArr[@currentSuggestionIndex][2])
         @documentationView.show()
 
     cancelAutocompletion: ->
-        suggestionsArr = []
+        @suggestionsArr = []
         @documentationView.hide()
         return unless @autocompleteManager
         @autocompleteManager.cancel()
 
     getMaxIndex: ->
-        Math.min(maxItems, suggestionsArr.length)
+        Math.min(maxItems, @suggestionsArr.length)
 
     update: ->
         @client.update(@_editor.getURI(), @_editor.getText())
@@ -96,6 +99,9 @@ class AtomTernjsAutocomplete extends Provider
             _.throttle @update(@_editor), 300
             _.throttle @callPreBuildSuggestions(), 100
         @_disposables.push atom.config.observe('autocomplete-plus.maxSuggestions', => maxItems = atom.config.get('autocomplete-plus.maxSuggestions'))
+        @_disposables.push @_editor.onDidChangeCursorPosition (event) =>
+            if !event.textChanged
+                @cancelAutocompletion()
         @_disposables.push atom.workspace.onDidChangeActivePaneItem =>
             @cancelAutocompletion()
         @_disposables.push @autocompleteManager.emitter.on 'do-select-next', =>
