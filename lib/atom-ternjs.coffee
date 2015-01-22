@@ -154,7 +154,6 @@ class AtomTernInitializer
     @providers[index - 1].init()
     _editor.onDidDestroy =>
       @unregisterEditor(_editor)
-    console.log @providers.length
 
   unregisterEditor: (editor) ->
     provider = @getProviderForEditor(editor)
