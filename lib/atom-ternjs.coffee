@@ -48,8 +48,10 @@ class AtomTernInitializer
 
   activate: (state) ->
     @startServer()
-    @registerEvents()
     @addComponents(state)
+    @disposables.push atom.workspace.onDidOpen (e) =>
+      return unless e.item and @isValidEditor(e.item)
+      @startServer()
 
   serialize: ->
     atomTernjsViewState: @documentationView.serialize()
@@ -58,15 +60,21 @@ class AtomTernInitializer
     atom.packages.activatePackage('autocomplete-plus')
       .then (pkg) =>
         @autocompletePlus = apd.require('autocomplete-plus')
-        @registerEditors()
+        @init()
+
+  init: ->
+    @registerCommands()
+    @registerEvents()
+    @registerEditors()
 
   deactivate: ->
     @stopServer()
-    @unregisterEvents()
+    @unregisterEventsAndCommands()
     # autocomplete
     @editorSubscription?.off()
     @editorSubscription = null
-    @unregisterProviders()
+    for editor in atom.workspace.getTextEditors()
+      @unregisterEditor(editor)
 
   addComponents: (state) ->
     @documentationView = new DocumentationView(state.atomTernjsViewState)
@@ -112,9 +120,6 @@ class AtomTernInitializer
         for editor in atom.workspace.getTextEditors()
           if editor.getGrammar().name is 'CoffeeScript'
             @unregisterEditor(editor)
-    @disposables.push atom.workspace.onDidOpen (e) =>
-      return unless e.item and @isValidEditor(e.item)
-      @startServer()
     @disposables.push atom.workspace.onDidChangeActivePaneItem =>
       @setCurrentProvider()
 
@@ -163,7 +168,7 @@ class AtomTernInitializer
     idx = @providers.indexOf(provider)
     @providers.splice(idx, 1)
 
-  unregisterEvents: ->
+  unregisterEventsAndCommands: ->
     for disposable in @disposables
       disposable.dispose()
     @disposables = []
@@ -177,19 +182,16 @@ class AtomTernInitializer
       @client.port = port
       if !@autocompletePlus
         @activatePackage()
-        @registerCommands()
+      else
+        @init()
 
   registerCommands: ->
-    atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
+    @disposables.push atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
         @findDefinition()
-    atom.commands.add 'atom-text-editor', 'tern:startCompletion': (event) =>
+    @disposables.push atom.commands.add 'atom-text-editor', 'tern:startCompletion': (event) =>
       return if @currentProviderIdx is false
       @providers[@currentProviderIdx].callPreBuildSuggestions(true)
-    atom.commands.add 'atom-text-editor', 'tern:stop': (event) =>
-      @stopServer()
-    atom.commands.add 'atom-text-editor', 'tern:start': (event) =>
-      @startServer()
-    atom.commands.add 'atom-text-editor', 'tern:cancel': (event) =>
+    @disposables.push atom.commands.add 'atom-text-editor', 'tern:cancel': (event) =>
       for provider in @providers
         provider.cancelAutocompletion()
 

@@ -13,15 +13,7 @@
       {
         'label': 'Tern'
         'submenu': [
-
-          {
-            label: 'Stop Server',
-            command: 'tern:stop'
-          },
-          {
-            label: 'Start Server',
-            command: 'tern:start'
-          }
+          
         ]
       }
     ]
