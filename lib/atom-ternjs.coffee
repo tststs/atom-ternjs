@@ -136,6 +136,7 @@ class AtomTernInitializer
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:startCompletion': (event) =>
       @provider?.forceCompletion()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:cancel': (event) =>
+      @provider?.forceCancel()
       @documentationView.hide()
 
   stopServer: ->

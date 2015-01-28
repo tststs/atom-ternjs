@@ -30,7 +30,8 @@ class AtomTernjsAutocomplete
     requestHandler: (options) ->
         return [] unless options?.editor? and options?.buffer? and options?.cursor?
         prefix = options.prefix
-        return if prefix.indexOf('..') != -1
+        return [] if prefix.endsWith(';')
+        return [] if prefix.indexOf('..') != -1
         return [] unless prefix.length
         that = this
 
@@ -38,6 +39,9 @@ class AtomTernjsAutocomplete
             that.client.update(options.editor.getURI(), options.editor.getText()).then =>
                 that.client.completions(options.editor.getURI(), {line: options.position.row, ch: options.position.column}).then (data) =>
                     that.suggestionsArr = []
+                    if data.completions.length is 1 and data.completions[0].name.replace('$', '') is prefix
+                        resolve(that.suggestionsArr)
+                        return
                     for obj, index in data.completions
                         if index == maxItems
                             break
@@ -68,6 +72,9 @@ class AtomTernjsAutocomplete
 
     forceCompletion: ->
         @autocompletePlus.autocompleteManager.runAutocompletion()
+
+    forceCancel: ->
+        @autocompletePlus.autocompleteManager.hideSuggestionList()
 
     hideDocumentation: ->
         @documentationView.hide()
