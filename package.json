@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "jquery": "latest",
-    "underscore-plus": "*",
+    "underscore-plus": "latest",
     "tern": "git://github.com/marijnh/tern.git",
     "atom-package-dependencies": "latest"
   },

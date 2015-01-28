@@ -1,141 +1,103 @@
-{Provider, Suggestion} = require atom.packages.resolvePackagePath('autocomplete-plus')
-
-_ = require 'underscore-plus'
-
-maxItems = null
+apd = require 'atom-package-dependencies'
 
 module.exports =
-class AtomTernjsAutocomplete extends Provider
+class AtomTernjsAutocomplete
 
     exclusive: true
-    autocompletePlus: null
     client: null
     suggestionsArr = null
-    _editor: null
-    _buffer: null
-    currentSuggestionIndex: false
-    _disposables: null
+    currentSuggestionIndex: null
+    disposables: null
     documentationView = null
-    autocompleteManager = null
-    isActive = false
+    maxItems = null
+    # automcomplete-plus
+    autocompletePlus = null
+    id: 'atom-ternjs-provider'
+    selector: '.source.js'
+    blacklist: '.source.js .comment'
 
-    constructor: (_editor, _buffer, client, autocompletePlus, documentationView) ->
-        @autocompletePlus = autocompletePlus
-        @_disposables = []
+    init: (client, documentationView) ->
+        atom.packages.activatePackage('autocomplete-plus')
+          .then (pkg) =>
+            @autocompletePlus = apd.require('autocomplete-plus')
+            @registerEvents()
+        @disposables = []
         @suggestionsArr = []
-        @client = client
-        @_editor = _editor
-        @_buffer = _buffer
-        @documentationView = documentationView
-        super
-
-    init: ->
-        @getAutocompletionManager()
-        @registerEvents()
-
-    buildSuggestions: ->
-        suggestions = []
-        prefix = @getPrefix()
-        for item, index in @suggestionsArr
-            if index == maxItems
-                break
-            suggestions.push new Suggestion(this, word: item[0], label: item[1], prefix: prefix)
-        return suggestions
-
-    callPreBuildSuggestions: (force) ->
-        cursor = @_editor.getLastCursor()
-        prefix = cursor.getCurrentWordPrefix()
-        if force || /^[a-z0-9.\"\']$/i.test(prefix[prefix.length - 1])
-          @preBuildSuggestions()
-        else
-          @cancelAutocompletion()
-
-    getPrefix: ->
-        return @prefixOfSelection(@_editor.getLastSelection())
-
-    preBuildSuggestions: ->
-        return unless @autocompleteManager
-        @suggestionsArr = []
-        @checkCompletion().then (data) =>
-            if !data?.length
-                @cancelAutocompletion()
-                return
-            prefix = @getPrefix()
-            if data.length is 1 and prefix is data[0].name
-                @cancelAutocompletion()
-                return
-            for obj, index in data
-                if index == maxItems
-                    break
-                @suggestionsArr.push [obj.name, obj.type, obj.doc]
-            # refresh
-            @triggerCompletion()
-
-    triggerCompletion: =>
-        @autocompleteManager.runAutocompletion()
         @currentSuggestionIndex = 0
-        @setDocumentationContent()
+        @client = client
+        @documentationView = documentationView
+
+    requestHandler: (options) ->
+        return [] unless options?.editor? and options?.buffer? and options?.cursor?
+        prefix = options.prefix
+        return if prefix.indexOf('..') != -1
+        return [] unless prefix.length
+        that = this
+
+        return new Promise (resolve) ->
+            that.client.update(options.editor.getURI(), options.editor.getText()).then =>
+                that.client.completions(options.editor.getURI(), {line: options.position.row, ch: options.position.column}).then (data) =>
+                    that.suggestionsArr = []
+                    for obj, index in data.completions
+                        if index == maxItems
+                            break
+                        that.suggestionsArr.push {
+
+                            word: obj.name,
+                            prefix: prefix,
+                            label: obj.type,
+                            renderLabelAsHtml: false,
+                            className: null,
+                            _ternDocs: obj.doc,
+                            onWillConfirm: ->
+                            onDidConfirm: ->
+                        }
+                    that.currentSuggestionIndex = 0
+                    resolve(that.suggestionsArr)
+                    that.setDocumentationContent()
+                , (err) ->
+                    console.log err
+
+    getPrefix: (cursor) ->
+        return @autocompletePlus.autocompleteManager.prefixForCursor(cursor)
 
     setDocumentationContent: ->
         return unless @suggestionsArr.length
-        @documentationView.setTitle(@suggestionsArr[@currentSuggestionIndex][0], @suggestionsArr[@currentSuggestionIndex][1])
-        @documentationView.setContent(@suggestionsArr[@currentSuggestionIndex][2])
+        @documentationView.setTitle(@suggestionsArr[@currentSuggestionIndex].word, @suggestionsArr[@currentSuggestionIndex].label)
+        @documentationView.setContent(@suggestionsArr[@currentSuggestionIndex]._ternDocs)
         @documentationView.show()
 
-    cancelAutocompletion: ->
-        @suggestionsArr = []
+    forceCompletion: ->
+        @autocompletePlus.autocompleteManager.runAutocompletion()
+
+    hideDocumentation: ->
         @documentationView.hide()
-        return unless @autocompleteManager
-        @autocompleteManager.cancel()
 
     getMaxIndex: ->
         Math.min(maxItems, @suggestionsArr.length)
 
-    update: ->
-        @client.update(@_editor.getURI(), @_editor.getText())
-
     registerEvents: ->
-        @_disposables.push @_buffer.onDidStopChanging =>
-            _.throttle @update(@_editor), 300
-            _.throttle @callPreBuildSuggestions(), 100
-        @_disposables.push atom.config.observe('autocomplete-plus.maxSuggestions', => maxItems = atom.config.get('autocomplete-plus.maxSuggestions'))
-        @_disposables.push @_editor.onDidChangeCursorPosition (event) =>
-            if !event.textChanged
-                @cancelAutocompletion()
-        @_disposables.push atom.workspace.onDidChangeActivePaneItem =>
-            @cancelAutocompletion()
-        @_disposables.push @autocompleteManager.emitter.on 'do-select-next', =>
-            return unless @isActive
+        @disposables.push atom.config.observe('autocomplete-plus.maxSuggestions', => maxItems = atom.config.get('autocomplete-plus.maxSuggestions'))
+        @disposables.push atom.workspace.onDidChangeActivePaneItem =>
+            @hideDocumentation()
+        @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-cancel', =>
+            @hideDocumentation()
+        @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-confirm', =>
+            @hideDocumentation()
+        @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-select-next', =>
             if ++@currentSuggestionIndex >= @getMaxIndex()
                 @currentSuggestionIndex = 0
             @setDocumentationContent()
-        @_disposables.push @autocompleteManager.emitter.on 'do-select-previous', =>
-            return unless @isActive
+        @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-select-previous', =>
             if --@currentSuggestionIndex < 0
                 @currentSuggestionIndex = @getMaxIndex() - 1
             @setDocumentationContent()
 
     unregisterEvents: ->
-        for disposable in @_disposables
+        for disposable in @disposables
             disposable.dispose()
-        @_disposables = []
+        @disposables = []
 
-    dispose: ->
+    cleanup: ->
         @documentationView.hide()
         @unregisterEvents()
-
-    getAutocompletionManager: ->
-        for manager in @autocompletePlus.autocompleteManagers
-            if manager.editor is @_editor
-                @autocompleteManager = manager
-
-    checkCompletion: ->
-        cursor = @_editor.getLastCursor()
-        position = cursor.getBufferPosition()
-        @client.completions(@_editor.getURI(),
-            line: position.row
-            ch: position.column
-            ).then (data) =>
-                data.completions
-        , (err) ->
-            console.log err

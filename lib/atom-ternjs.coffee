@@ -2,7 +2,7 @@ TernServer = require './atom-ternjs-server'
 TernClient = require './atom-ternjs-client'
 DocumentationView = require './atom-ternjs-documentation-view'
 AtomTernjsAutocomplete = require './atom-ternjs-autocomplete'
-apd = require 'atom-package-dependencies'
+_ = require 'underscore-plus'
 
 class AtomTernInitializer
 
@@ -10,21 +10,20 @@ class AtomTernInitializer
   grammars: ['JavaScript']
   client: null
   documentationView: null
-  currentProviderIdx: false
   activeTextEditor: null
-
-  # autocomplete
-  autocompletePlus = null
   editorSubscription: null
-  providers: []
+
+  # autocomplete-plus
+  registration: null
+  provider: null
 
   # config
   config:
-    coffeeScript:
-      title: 'CoffeeScript'
-      description: 'Completions for CoffeeScript.'
-      type: 'boolean'
-      default: false
+    # coffeeScript:
+    #   title: 'CoffeeScript'
+    #   description: 'Completions for CoffeeScript.'
+    #   type: 'boolean'
+    #   default: false
     docs:
       title: 'Documentation'
       description: 'Whether to include documentation strings, urls, and origin files (if found) in the result data.'
@@ -57,45 +56,42 @@ class AtomTernInitializer
     atomTernjsViewState: @documentationView.serialize()
 
   activatePackage: ->
-    atom.packages.activatePackage('autocomplete-plus')
-      .then (pkg) =>
-        @autocompletePlus = apd.require('autocomplete-plus')
-        @init()
+    @provider = new AtomTernjsAutocomplete()
+    @provider.init(@client, @documentationView)
+    @registration = atom.services.provide('autocomplete.provider', '1.0.0', {provider: @provider})
 
   init: ->
+    @activatePackage()
     @registerCommands()
-    @registerEvents()
     @registerEditors()
 
   deactivate: ->
     @stopServer()
     @unregisterEventsAndCommands()
-    # autocomplete
     @editorSubscription?.off()
     @editorSubscription = null
-    for editor in atom.workspace.getTextEditors()
-      @unregisterEditor(editor)
+    # autocomplete-plus
+    @registration?.dispose()
+    @registration = null
+    @provider?.cleanup()
+    @provider = null
 
   addComponents: (state) ->
     @documentationView = new DocumentationView(state.atomTernjsViewState)
     atom.views.getView(atom.workspace).appendChild(@documentationView.getElement())
 
-  unregisterProviders: ->
-    @providers.forEach (provider) =>
-      @autocompletePlus.unregisterProvider provider
-    @providers = []
-
   findDefinition: ->
-    cursor = @activeTextEditor.getLastCursor()
+    editor = atom.workspace.getActiveTextEditor()
+    cursor = editor.getLastCursor()
     position = cursor.getBufferPosition()
-    @client.definition(@activeTextEditor.getURI(),
+    @client.definition(editor.getURI(),
       line: position.row
       ch: position.column
-    @activeTextEditor.getText()).then (data) =>
+    editor.getText()).then (data) =>
       if data?.start
         # check if definition is in current active TextEditor
-        if @activeTextEditor.getPath().indexOf(data.file) > -1
-          buffer = @activeTextEditor.getBuffer()
+        if editor.getPath().indexOf(data.file) > -1
+          buffer = editor.getBuffer()
           cursor.setBufferPosition(buffer.positionForCharacterIndex(data.start))
           return
         # else open the file and set cursor position to definition
@@ -107,66 +103,17 @@ class AtomTernInitializer
     , (err) ->
       console.error 'error', err
 
-  registerEvents: ->
-    @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
-      if atom.config.get('atom-ternjs.coffeeScript')
-        @grammars.push 'CoffeeScript'
-        for editor in atom.workspace.getTextEditors()
-          @registerEditor(editor)
-      else
-        idx = @grammars.indexOf('CoffeeScript')
-        return unless idx > -1
-        @grammars.splice(idx, 1)
-        for editor in atom.workspace.getTextEditors()
-          if editor.getGrammar().name is 'CoffeeScript'
-            @unregisterEditor(editor)
-    @disposables.push atom.workspace.onDidChangeActivePaneItem =>
-      @setCurrentProvider()
-
   isValidEditor: (editor) ->
     return false if editor.mini
     return false if !editor.getGrammar
     return false if editor.getGrammar().name not in @grammars
     return true
 
-  setCurrentProvider: ->
-    @currentProviderIdx = false
-    @activeTextEditor = atom.workspace.getActiveTextEditor()
-    return unless @activeTextEditor
-    for provider, idx in @providers
-      provider.isActive = false
-      if provider.editor.id is @activeTextEditor.id
-        @currentProviderIdx = idx
-        provider.isActive = true
-        break
-
-  getProviderForEditor: (editor) ->
-    for provider, idx in @providers
-      if provider.editor.id is editor.id
-        return provider
-
   registerEditors: ->
     @editorSubscription = atom.workspace.observeTextEditors (editor) =>
-      @registerEditor(editor)
-      @setCurrentProvider()
-
-  registerEditor: (editor) ->
-    return unless @isValidEditor(editor) and !@getProviderForEditor(editor)
-    _buffer = editor.getBuffer()
-    _editor = editor
-    index = @providers.push new AtomTernjsAutocomplete(_editor, _buffer, @client, @autocompletePlus, @documentationView)
-    @autocompletePlus.registerProviderForEditor @providers[index - 1], _editor
-    @providers[index - 1].init()
-    _editor.onDidDestroy =>
-      @unregisterEditor(_editor)
-
-  unregisterEditor: (editor) ->
-    provider = @getProviderForEditor(editor)
-    return unless provider
-    @autocompletePlus.unregisterProvider provider
-    provider.dispose()
-    idx = @providers.indexOf(provider)
-    @providers.splice(idx, 1)
+      @disposables.push editor.onDidChangeCursorPosition (event) =>
+        if !event.textChanged
+          @documentationView.hide()
 
   unregisterEventsAndCommands: ->
     for disposable in @disposables
@@ -180,20 +127,16 @@ class AtomTernInitializer
       if !@client
         @client = new TernClient()
       @client.port = port
-      if !@autocompletePlus
-        @activatePackage()
-      else
+      if (!@provider)
         @init()
 
   registerCommands: ->
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
         @findDefinition()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:startCompletion': (event) =>
-      return if @currentProviderIdx is false
-      @providers[@currentProviderIdx].callPreBuildSuggestions(true)
+      @provider?.forceCompletion()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:cancel': (event) =>
-      for provider in @providers
-        provider.cancelAutocompletion()
+      @documentationView.hide()
 
   stopServer: ->
     return unless @server?.process

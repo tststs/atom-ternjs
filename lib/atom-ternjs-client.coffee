@@ -1,4 +1,5 @@
 $ = require('jquery')
+$.ajaxSetup({ cache: false })
 
 module.exports =
 class AtomTernjsClient
@@ -6,6 +7,7 @@ class AtomTernjsClient
   port: null
 
   completions: (file, end) ->
+    console.log file, end
     @post(JSON.stringify
       query:
         type: 'completions'
