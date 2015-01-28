@@ -60,9 +60,6 @@ class AtomTernjsAutocomplete
                 , (err) ->
                     console.log err
 
-    getPrefix: (cursor) ->
-        return @autocompletePlus.autocompleteManager.prefixForCursor(cursor)
-
     setDocumentationContent: ->
         return unless @suggestionsArr.length
         @documentationView.setTitle(@suggestionsArr[@currentSuggestionIndex].word, @suggestionsArr[@currentSuggestionIndex].label)
