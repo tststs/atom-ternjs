@@ -10,11 +10,12 @@ class AtomTernjsAutocomplete
     disposables: null
     documentationView = null
     maxItems = null
+    force = false
     # automcomplete-plus
     autocompletePlus = null
     id: 'atom-ternjs-provider'
     selector: '.source.js'
-    blacklist: '.source.js .comment'
+    blacklist: '.source.js .comment,source.js .string'
 
     init: (client, documentationView) ->
         atom.packages.activatePackage('autocomplete-plus')
@@ -31,7 +32,7 @@ class AtomTernjsAutocomplete
         return [] unless options?.editor? and options?.buffer? and options?.cursor?
         prefix = options.prefix
 
-        if prefix.endsWith(';') or prefix.indexOf('..') != -1 or !prefix.length
+        if (!(/^[a-z0-9.\"\' ]$/i).test(prefix[prefix.length - 1]) or prefix.indexOf('..') != -1) and !@force
             @documentationView.hide()
             return []
 
@@ -78,7 +79,9 @@ class AtomTernjsAutocomplete
         @documentationView.show()
 
     forceCompletion: ->
+        @force = true
         @autocompletePlus.autocompleteManager.runAutocompletion()
+        @force = false
 
     forceCancel: ->
         @autocompletePlus.autocompleteManager.hideSuggestionList()
