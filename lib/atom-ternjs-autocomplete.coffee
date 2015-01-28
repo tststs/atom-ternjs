@@ -50,6 +50,8 @@ class AtomTernjsAutocomplete
                             className: null,
                             _ternDocs: obj.doc,
                             onWillConfirm: ->
+                                if prefix.endsWith('.')
+                                    this.word = this.prefix + this.word
                             onDidConfirm: ->
                         }
                     that.currentSuggestionIndex = 0
