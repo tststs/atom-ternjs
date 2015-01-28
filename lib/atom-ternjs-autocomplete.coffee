@@ -10,12 +10,11 @@ class AtomTernjsAutocomplete
     disposables: null
     documentationView = null
     maxItems = null
-    force = false
     # automcomplete-plus
     autocompletePlus = null
     id: 'atom-ternjs-provider'
     selector: '.source.js'
-    blacklist: '.source.js .comment,source.js .string'
+    blacklist: '.source.js .comment'
 
     init: (client, documentationView) ->
         atom.packages.activatePackage('autocomplete-plus')
@@ -32,7 +31,7 @@ class AtomTernjsAutocomplete
         return [] unless options?.editor? and options?.buffer? and options?.cursor?
         prefix = options.prefix
 
-        if (!(/^[a-z0-9.\"\' ]$/i).test(prefix[prefix.length - 1]) or prefix.indexOf('..') != -1) and !@force
+        if prefix.endsWith(';') or prefix.indexOf('..') != -1 or !prefix.length
             @documentationView.hide()
             return []
 
@@ -54,8 +53,14 @@ class AtomTernjsAutocomplete
                     for obj, index in data.completions
                         if index == maxItems
                             break
+                        if obj.type == 'string'
+                            # remove leading and trailing double quotes since
+                            # they are already typed and won't be replaced by
+                            # the suggestion and who would use double quotes
+                            # anyway duh
+                            obj.name = obj.name.replace /(^"|"$)/g, ''
+                            
                         that.suggestionsArr.push {
-
                             word: obj.name,
                             prefix: prefix,
                             label: obj.type,
@@ -79,9 +84,7 @@ class AtomTernjsAutocomplete
         @documentationView.show()
 
     forceCompletion: ->
-        @force = true
         @autocompletePlus.autocompleteManager.runAutocompletion()
-        @force = false
 
     forceCancel: ->
         @autocompletePlus.autocompleteManager.hideSuggestionList()
