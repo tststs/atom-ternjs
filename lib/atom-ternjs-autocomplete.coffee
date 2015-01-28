@@ -30,15 +30,22 @@ class AtomTernjsAutocomplete
     requestHandler: (options) ->
         return [] unless options?.editor? and options?.buffer? and options?.cursor?
         prefix = options.prefix
-        return [] if prefix.endsWith(';')
-        return [] if prefix.indexOf('..') != -1
-        return [] unless prefix.length
+
+        if prefix.endsWith(';') or prefix.indexOf('..') != -1 or !prefix.length
+            @documentationView.hide()
+            return []
+
         that = this
 
         return new Promise (resolve) ->
             that.client.update(options.editor.getURI(), options.editor.getText()).then =>
                 that.client.completions(options.editor.getURI(), {line: options.position.row, ch: options.position.column}).then (data) =>
                     that.suggestionsArr = []
+                    that.currentSuggestionIndex = 0
+                    if !data.completions.length
+                        resolve([])
+                        that.documentationView.hide()
+                        return
                     if data.completions.length is 1 and data.completions[0].name.replace('$', '') is prefix
                         resolve(that.suggestionsArr)
                         return
@@ -58,7 +65,6 @@ class AtomTernjsAutocomplete
                                     this.word = this.prefix + this.word
                             onDidConfirm: ->
                         }
-                    that.currentSuggestionIndex = 0
                     resolve(that.suggestionsArr)
                     that.setDocumentationContent()
                 , (err) ->
