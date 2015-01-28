@@ -82,6 +82,12 @@ class AtomTernjsAutocomplete
     getMaxIndex: ->
         Math.min(maxItems, @suggestionsArr.length)
 
+    addSelector: (selector) ->
+        @selector = @selector + ',' + selector
+
+    removeSelector: (selector) ->
+        @selector = @selector.replace(',' + selector, '')
+
     registerEvents: ->
         @disposables.push atom.config.observe('autocomplete-plus.maxSuggestions', => maxItems = atom.config.get('autocomplete-plus.maxSuggestions'))
         @disposables.push atom.workspace.onDidChangeActivePaneItem =>

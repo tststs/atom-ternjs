@@ -18,11 +18,11 @@ class AtomTernInitializer
 
   # config
   config:
-    # coffeeScript:
-    #   title: 'CoffeeScript'
-    #   description: 'Completions for CoffeeScript.'
-    #   type: 'boolean'
-    #   default: false
+    coffeeScript:
+      title: 'CoffeeScript'
+      description: 'Completions for CoffeeScript.'
+      type: 'boolean'
+      default: false
     docs:
       title: 'Documentation'
       description: 'Whether to include documentation strings, urls, and origin files (if found) in the result data.'
@@ -57,6 +57,7 @@ class AtomTernInitializer
   activatePackage: ->
     @provider = new AtomTernjsAutocomplete()
     @provider.init(@client, @documentationView)
+    @registerEvents()
     @registration = atom.services.provide('autocomplete.provider', '1.0.0', {provider: @provider})
 
   init: ->
@@ -128,6 +129,13 @@ class AtomTernInitializer
       @client.port = port
       if (!@provider)
         @init()
+
+  registerEvents: ->
+    @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
+      if atom.config.get('atom-ternjs.coffeeScript')
+        @provider.addSelector('.source.coffee')
+      else
+        @provider.removeSelector('.source.coffee')
 
   registerCommands: ->
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
