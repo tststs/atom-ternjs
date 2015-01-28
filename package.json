@@ -16,7 +16,6 @@
     "atom-package-dependencies": "latest"
   },
   "package-dependencies": {
-    "atom-space-pen-views": "^2.0.3",
     "autocomplete-plus": "latest"
   }
 }
