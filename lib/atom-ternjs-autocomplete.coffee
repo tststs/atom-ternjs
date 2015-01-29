@@ -10,6 +10,7 @@ class AtomTernjsAutocomplete
     disposables: null
     documentationView = null
     maxItems = null
+    force = false
     # automcomplete-plus
     autocompletePlus = null
     id: 'atom-ternjs-provider'
@@ -31,7 +32,7 @@ class AtomTernjsAutocomplete
         return [] unless options?.editor? and options?.buffer? and options?.cursor?
         prefix = options.prefix
 
-        if prefix.endsWith(';') or prefix.indexOf('..') != -1 or !prefix.length
+        if (!(/^[a-z0-9.\"\' ]$/i).test(prefix[prefix.length - 1]) or prefix.indexOf('..') != -1) and !@force
             @documentationView.hide()
             return []
 
@@ -59,7 +60,7 @@ class AtomTernjsAutocomplete
                             # the suggestion and who would use double quotes
                             # anyway duh
                             obj.name = obj.name.replace /(^"|"$)/g, ''
-                            
+
                         that.suggestionsArr.push {
                             word: obj.name,
                             prefix: prefix,
@@ -68,7 +69,7 @@ class AtomTernjsAutocomplete
                             className: null,
                             _ternDocs: obj.doc,
                             onWillConfirm: ->
-                                if prefix.endsWith('.')
+                                if /^[.\"\']$/i.test(prefix[0])
                                     this.word = this.prefix + this.word
                             onDidConfirm: ->
                         }
@@ -84,7 +85,9 @@ class AtomTernjsAutocomplete
         @documentationView.show()
 
     forceCompletion: ->
+        @force = true
         @autocompletePlus.autocompleteManager.runAutocompletion()
+        @force = false
 
     forceCancel: ->
         @autocompletePlus.autocompleteManager.hideSuggestionList()
