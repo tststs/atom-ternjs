@@ -41,8 +41,7 @@ class AtomTernjsAutocomplete
         return new Promise (resolve) ->
             that.client.update(options.editor.getURI(), options.editor.getText()).then =>
                 that.client.completions(options.editor.getURI(), {line: options.position.row, ch: options.position.column}).then (data) =>
-                    that.suggestionsArr = []
-                    that.currentSuggestionIndex = 0
+                    that.clearSuggestions()
                     if !data.completions.length
                         resolve([])
                         that.documentationView.hide()
@@ -89,8 +88,13 @@ class AtomTernjsAutocomplete
         @autocompletePlus.autocompleteManager.runAutocompletion()
         @force = false
 
+    clearSuggestions: ->
+        @suggestionsArr = []
+        @currentSuggestionIndex = 0
+
     forceCancel: ->
         @autocompletePlus.autocompleteManager.hideSuggestionList()
+        @clearSuggestions()
 
     hideDocumentation: ->
         @documentationView.hide()
@@ -107,9 +111,11 @@ class AtomTernjsAutocomplete
     registerEvents: ->
         @disposables.push atom.config.observe('autocomplete-plus.maxSuggestions', => maxItems = atom.config.get('autocomplete-plus.maxSuggestions'))
         @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-cancel', =>
-            @hideDocumentation()
+            @clearSuggestions()
+            @documentationView.hide()
         @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-confirm', =>
-            @hideDocumentation()
+            @clearSuggestions()
+            @documentationView.hide()
         @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-select-next', =>
             if ++@currentSuggestionIndex >= @getMaxIndex()
                 @currentSuggestionIndex = 0
