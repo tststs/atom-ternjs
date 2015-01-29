@@ -75,29 +75,6 @@ class AtomTernInitializer
     @documentationView = new DocumentationView(state.atomTernjsViewState)
     atom.views.getView(atom.workspace).appendChild(@documentationView.getElement())
 
-  findDefinition: ->
-    editor = atom.workspace.getActiveTextEditor()
-    cursor = editor.getLastCursor()
-    position = cursor.getBufferPosition()
-    @client.definition(editor.getURI(),
-      line: position.row
-      ch: position.column
-    editor.getText()).then (data) =>
-      if data?.start
-        # check if definition is in current active TextEditor
-        if editor.getPath().indexOf(data.file) > -1
-          buffer = editor.getBuffer()
-          cursor.setBufferPosition(buffer.positionForCharacterIndex(data.start))
-          return
-        # else open the file and set cursor position to definition
-        atom.workspace.open(data.file).then (textEditor) ->
-          buffer = textEditor.getBuffer()
-          cursor = textEditor.getLastCursor()
-          cursor.setBufferPosition(buffer.positionForCharacterIndex(data.start))
-          return
-    , (err) ->
-      console.error 'error', err
-
   unregisterEventsAndCommands: ->
     for disposable in @disposables
       disposable.dispose()
@@ -139,7 +116,7 @@ class AtomTernInitializer
 
   registerCommands: ->
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
-        @findDefinition()
+      @client?.definition()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:startCompletion': (event) =>
       @provider?.forceCompletion()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:cancel': (event) =>

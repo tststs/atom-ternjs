@@ -29,13 +29,33 @@ class AtomTernjsClient
       ]
     )
 
-  definition: (file, end, text) ->
+  definition: ->
+    editor = atom.workspace.getActiveTextEditor()
+    cursor = editor.getLastCursor()
+    position = cursor.getBufferPosition()
+    file = editor.getURI()
+    end = {line: position.row, ch: position.column}
+    text = editor.getText()
+
     @post(JSON.stringify
       query:
         type: 'definition'
         file: file
         end: end
-    )
+    ).then (data) =>
+      if data?.start
+        # check if definition is in active TextEditor
+        if editor.getPath().indexOf(data.file) > -1
+          buffer = editor.getBuffer()
+          cursor.setBufferPosition(buffer.positionForCharacterIndex(data.start))
+          return
+        # else open the file and set cursor position to definition
+        atom.workspace.open(data.file).then (textEditor) ->
+          buffer = textEditor.getBuffer()
+          cursor = textEditor.getLastCursor()
+          cursor.setBufferPosition(buffer.positionForCharacterIndex(data.start))
+    , (err) ->
+      console.error 'error', err
 
   post: (data) ->
     $.post("http://localhost:#{@port}", data).then (data) ->
