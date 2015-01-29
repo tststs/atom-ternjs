@@ -133,9 +133,20 @@ class AtomTernInitializer
   registerEvents: ->
     @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
       if atom.config.get('atom-ternjs.coffeeScript')
+        @addGrammar('CoffeeScript')
         @provider.addSelector('.source.coffee')
       else
+        @removeGrammar('CoffeeScript')
         @provider.removeSelector('.source.coffee')
+
+  addGrammar: (grammar) ->
+    return unless @grammars.indexOf(grammar) is -1
+    @grammars.push grammar
+
+  removeGrammar: (grammar) ->
+    idx = @grammars.indexOf(grammar)
+    return if idx is -1
+    @grammars.splice(idx, 1)
 
   registerCommands: ->
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
