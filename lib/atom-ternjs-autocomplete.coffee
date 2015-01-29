@@ -36,6 +36,9 @@ class AtomTernjsAutocomplete
             @documentationView.hide()
             return []
 
+        if (!prefix.replace(/\s/g, '').length) or prefix.endsWith(';')
+            prefix = ''
+
         that = this
 
         return new Promise (resolve) ->
