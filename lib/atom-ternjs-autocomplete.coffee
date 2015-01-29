@@ -106,8 +106,6 @@ class AtomTernjsAutocomplete
 
     registerEvents: ->
         @disposables.push atom.config.observe('autocomplete-plus.maxSuggestions', => maxItems = atom.config.get('autocomplete-plus.maxSuggestions'))
-        @disposables.push atom.workspace.onDidChangeActivePaneItem =>
-            @hideDocumentation()
         @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-cancel', =>
             @hideDocumentation()
         @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-confirm', =>

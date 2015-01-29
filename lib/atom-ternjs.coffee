@@ -124,6 +124,8 @@ class AtomTernInitializer
         @init()
 
   registerEvents: ->
+    @disposables.push atom.workspace.onDidChangeActivePaneItem =>
+      @documentationView.hide()
     @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
       if atom.config.get('atom-ternjs.coffeeScript')
         @addGrammar('CoffeeScript')
