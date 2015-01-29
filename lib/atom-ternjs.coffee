@@ -10,7 +10,6 @@ class AtomTernInitializer
   client: null
   documentationView: null
   activeTextEditor: null
-  editorSubscription: null
 
   # autocomplete-plus
   registration: null
@@ -62,13 +61,10 @@ class AtomTernInitializer
   init: ->
     @activatePackage()
     @registerCommands()
-    @registerEditors()
 
   deactivate: ->
     @stopServer()
     @unregisterEventsAndCommands()
-    @editorSubscription?.off()
-    @editorSubscription = null
     # autocomplete-plus
     @registration?.dispose()
     @registration = null
@@ -102,12 +98,6 @@ class AtomTernInitializer
     , (err) ->
       console.error 'error', err
 
-  registerEditors: ->
-    @editorSubscription = atom.workspace.observeTextEditors (editor) =>
-      @disposables.push editor.onDidChangeCursorPosition (event) =>
-        if !event.textChanged
-          @documentationView.hide()
-
   unregisterEventsAndCommands: ->
     for disposable in @disposables
       disposable.dispose()
@@ -124,6 +114,10 @@ class AtomTernInitializer
         @init()
 
   registerEvents: ->
+    @disposables.push atom.workspace.observeTextEditors (editor) =>
+      @disposables.push editor.onDidChangeCursorPosition (event) =>
+        if !event.textChanged
+          @documentationView.hide()
     @disposables.push atom.workspace.onDidChangeActivePaneItem =>
       @documentationView.hide()
     @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
