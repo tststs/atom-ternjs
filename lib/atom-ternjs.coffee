@@ -48,7 +48,6 @@ class AtomTernInitializer
     @startServer()
     @addComponents(state)
     @disposables.push atom.workspace.onDidOpen (e) =>
-      return unless e.item and @isValidEditor(e.item)
       @startServer()
 
   serialize: ->
@@ -102,12 +101,6 @@ class AtomTernInitializer
           return
     , (err) ->
       console.error 'error', err
-
-  isValidEditor: (editor) ->
-    return false if editor.mini
-    return false if !editor.getGrammar
-    return false if editor.getGrammar().name not in @grammars
-    return true
 
   registerEditors: ->
     @editorSubscription = atom.workspace.observeTextEditors (editor) =>
