@@ -9,7 +9,6 @@ class AtomTernInitializer
   grammars: ['JavaScript']
   client: null
   documentationView: null
-  activeTextEditor: null
 
   # autocomplete-plus
   registration: null
