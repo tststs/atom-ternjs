@@ -110,14 +110,14 @@ class AtomTernInitializer
       if !@client
         @client = new TernClient()
       @client.port = port
-      if (!@provider)
+      if !@provider
         @init()
 
   registerEvents: ->
     @disposables.push atom.workspace.observeTextEditors (editor) =>
       @disposables.push editor.onDidChangeCursorPosition (event) =>
-        if !event.textChanged
-          @documentationView.hide()
+        return unless event.textChanged
+        @documentationView.hide()
     @disposables.push atom.workspace.onDidChangeActivePaneItem =>
       @documentationView.hide()
     @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
