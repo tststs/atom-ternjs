@@ -92,7 +92,7 @@ class AtomTernInitializer
   registerEvents: ->
     @disposables.push atom.workspace.observeTextEditors (editor) =>
       @disposables.push editor.onDidChangeCursorPosition (event) =>
-        return unless event.textChanged
+        return if event.textChanged
         @documentationView.hide()
     @disposables.push atom.workspace.onDidChangeActivePaneItem =>
       @documentationView.hide()
