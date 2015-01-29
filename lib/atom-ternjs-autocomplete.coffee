@@ -68,7 +68,7 @@ class AtomTernjsAutocomplete
                             className: null,
                             _ternDocs: obj.doc,
                             onWillConfirm: ->
-                                if /^[.\"\']$/i.test(prefix[0])
+                                if /^[.\"\']$/i.test(prefix[prefix.length - 1])
                                     this.word = this.prefix + this.word
                             onDidConfirm: ->
                         }
