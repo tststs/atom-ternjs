@@ -15,7 +15,7 @@ class AtomTernjsAutocomplete
     autocompletePlus = null
     id: 'atom-ternjs-provider'
     selector: '.source.js'
-    blacklist: '.source.js .comment,source.js .string'
+    blacklist: '.source.js .comment'
 
     init: (client, documentationView) ->
         atom.packages.activatePackage('autocomplete-plus')
@@ -54,8 +54,14 @@ class AtomTernjsAutocomplete
                     for obj, index in data.completions
                         if index == maxItems
                             break
-                        that.suggestionsArr.push {
+                        if obj.type == 'string'
+                            # remove leading and trailing double quotes since
+                            # they are already typed and won't be replaced by
+                            # the suggestion and who would use double quotes
+                            # anyway duh
+                            obj.name = obj.name.replace /(^"|"$)/g, ''
 
+                        that.suggestionsArr.push {
                             word: obj.name,
                             prefix: prefix,
                             label: obj.type,
@@ -63,7 +69,7 @@ class AtomTernjsAutocomplete
                             className: null,
                             _ternDocs: obj.doc,
                             onWillConfirm: ->
-                                if prefix.endsWith('.')
+                                if /^[.\"\']$/i.test(prefix[0])
                                     this.word = this.prefix + this.word
                             onDidConfirm: ->
                         }
