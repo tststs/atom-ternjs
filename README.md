@@ -11,9 +11,7 @@ Uses suggestion provider by autocomplete-plus.
 ```
 {
   "libs": [
-    // vanilla js (optional)
     "browser",
-    // jquery (optional)
     "jquery"
   ],
   "loadEagerly": [
@@ -21,15 +19,16 @@ Uses suggestion provider by autocomplete-plus.
   ],
   "plugins": {
     "doc_comment": {
-      // tern will look for JSDoc-style type declarations. Returns the full comment text instead of the first sentence.
       "fullDocs": true
     }
   }
 }
 ```
-
 * Absolute path is recommended, but not necessary
-* 'loadEagerly' is recommended, but not necessary. If no files are provided via 'loadEagerly', tern will register all files opened in the current workspace
+* loadEagerly: recommended, but not necessary. If no files are provided via 'loadEagerly', tern will register all files opened in the current workspace
+* doc_comment: tern will look for JSDoc-style type declarations. Returns the full comment text instead of the first sentence. (optional)
+* browser: completion for vanilla js (optional)
+* jquery: completion for jquery (optional)
 
 # Notes
 
