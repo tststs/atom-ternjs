@@ -30,6 +30,9 @@ Uses suggestion provider by autocomplete-plus.
 * browser: completion for vanilla js (optional)
 * jquery: completion for jquery (optional)
 
+# Platform Windows
+* Make sure node is installed and the PATH variable is set
+
 # Notes
 
 * This package is a work in progress and may contain various bugs, misbehaviours and performance issues
