@@ -2,8 +2,10 @@
 'context-menu':
   'atom-text-editor': [
     {
-      label: 'Find definition',
-      command: 'tern:definition'
+      label: 'Atom Ternjs'
+      submenu: [
+        {label: 'Find definition', command: 'tern:definition'}
+      ]
     }
   ]
 'menu': [
@@ -13,7 +15,7 @@
       {
         'label': 'Tern'
         'submenu': [
-          
+
         ]
       }
     ]
