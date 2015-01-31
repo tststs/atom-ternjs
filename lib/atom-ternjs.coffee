@@ -127,8 +127,9 @@ class AtomTernInitializer
       @documentationView.hide()
 
   stopServer: ->
-    return unless @server?.process
-    @server.stop()
+    if @server?.process
+      @server.stop()
+    @server = null
 
   restartServer: ->
     if @server?.process
