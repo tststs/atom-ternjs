@@ -9,6 +9,7 @@ class AtomTernInitializer
   grammars: ['JavaScript']
   client: null
   documentationView: null
+  server: null
 
   # autocomplete-plus
   registration: null
@@ -81,7 +82,8 @@ class AtomTernInitializer
 
   startServer: ->
     return unless !@server?.process and atom.project.getDirectories()[0]
-    @server = new TernServer()
+    if !@server
+      @server = new TernServer()
     @server.start (port) =>
       if !@client
         @client = new TernClient()
@@ -116,6 +118,8 @@ class AtomTernInitializer
   registerCommands: ->
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
       @client?.definition()
+    @disposables.push atom.commands.add 'atom-text-editor', 'tern:restart': (event) =>
+      @restartServer()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:startCompletion': (event) =>
       @provider?.forceCompletion()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:cancel': (event) =>
@@ -125,6 +129,12 @@ class AtomTernInitializer
   stopServer: ->
     return unless @server?.process
     @server.stop()
+
+  restartServer: ->
+    if @server?.process
+      @server.stop()
+    @server = null
+    @startServer()
 
 #expose init class
 module.exports = new AtomTernInitializer()

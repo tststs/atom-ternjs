@@ -4,7 +4,7 @@
     {
       label: 'Atom Ternjs'
       submenu: [
-        {label: 'Find definition', command: 'tern:definition'}
+        {label: 'Find definition', command: 'tern:definition'},
       ]
     }
   ]
@@ -13,9 +13,10 @@
     'label': 'Packages'
     'submenu': [
       {
-        'label': 'Tern'
+        'label': 'Atom Ternjs'
         'submenu': [
-
+          'label': 'Restart server'
+          'command': 'tern:restart'
         ]
       }
     ]
