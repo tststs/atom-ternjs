@@ -27,10 +27,12 @@ class AtomTernjsServer
     @process = null
 
   stderr: (output) ->
-    console.error output
+    content = "atom-ternjs<br />" + output
+    atom.notifications.addError(content, dismissable: true)
 
   exit: (code) ->
-    console.log("tern exited with code: #{code}")
+    content = "tern exited with code: #{code}.<br />Restart the server via Packages -> Atom Ternjs -> Restart server"
+    atom.notifications.addError(content, dismissable: true)
 
   isPlatformWindows: ->
     document.getElementsByTagName('body')[0].classList.toString().indexOf('platform-win') > -1
