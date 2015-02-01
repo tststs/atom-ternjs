@@ -8,8 +8,13 @@ Uses suggestion provider by autocomplete-plus.
 # Installation
 
 In your project root create a file named .tern-project
-* With default config via context-menu (Atom Ternjs -> Create default .tern-project) or by adding it manually. See docs @ http://ternjs.net/doc/manual.html#configuration.
+--
+
+* With default config via menu (Packages -> Atom Ternjs -> Create default .tern-project) or by adding it manually. See docs @ http://ternjs.net/doc/manual.html#configuration.
+* Check path in loadEagerly
 * Restart the server via Packages -> Atom Ternjs -> Restart server
+--
+
 Example .tern-project file:
 ```
 {
@@ -42,13 +47,12 @@ Example .tern-project file:
 * Make sure node is installed and the PATH variable is set
 
 # Notes
-
 * This package is a work in progress and may contain various bugs, misbehaviours and performance issues
-* If a .tern-project file is added to the current project, reopen the project. If this doesn't work, kill all atom instances and try to open the project again
 
 # Features
 
 * Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition" or use the shortcut strg+alt+d)
+* Find references (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find references" or use the shortcut strg+alt+r)
 * Completion (autocompletion triggers automatically or can be forced with strg+alt+space)
 * Documentation (displayed if a suggestion with a valid documentation is selected in the select-list)
 
