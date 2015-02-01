@@ -5,6 +5,7 @@
       label: 'Atom Ternjs'
       submenu: [
         {label: 'Find definition', command: 'tern:definition'},
+        {label: 'Find references', command: 'tern:references'},
       ]
     }
   ],

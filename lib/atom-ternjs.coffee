@@ -1,6 +1,7 @@
 TernServer = require './atom-ternjs-server'
 TernClient = require './atom-ternjs-client'
 DocumentationView = require './atom-ternjs-documentation-view'
+Reference = require './atom-ternjs-reference'
 AtomTernjsAutocomplete = require './atom-ternjs-autocomplete'
 Helper = require './atom-ternjs-helper'
 
@@ -54,11 +55,12 @@ class AtomTernInitializer
       @startServer()
 
   serialize: ->
-    atomTernjsViewState: @documentationView.serialize()
+    viewStateDocumentation: @documentationView.serialize()
 
   activatePackage: ->
     @provider = new AtomTernjsAutocomplete()
     @provider.init(@client, @documentationView)
+    @reference = new Reference(@client, @helper)
     @registerEvents()
     @registration = atom.services.provide('autocomplete.provider', '1.0.0', {provider: @provider})
 
@@ -74,6 +76,8 @@ class AtomTernInitializer
     @registration = null
     @provider?.cleanup()
     @provider = null
+    @reference?.destroy()
+    @reference = null
 
   addComponents: (state) ->
     @documentationView = new DocumentationView(state.atomTernjsViewState)
@@ -90,18 +94,29 @@ class AtomTernInitializer
       @server = new TernServer()
     @server.start (port) =>
       if !@client
-        @client = new TernClient()
+        @client = new TernClient(@helper)
       @client.port = port
       if !@provider
         @init()
+
+  isValidEditor: (editor) ->
+    return false if !editor
+    return false if editor.mini
+    return false if editor.getGrammar?().name not in @grammars
+    return true
 
   registerEvents: ->
     @disposables.push atom.workspace.observeTextEditors (editor) =>
       @disposables.push editor.onDidChangeCursorPosition (event) =>
         return if event.textChanged
         @documentationView.hide()
-    @disposables.push atom.workspace.onDidChangeActivePaneItem =>
+      @disposables.push editor.getBuffer().onDidChangeModified (modified) =>
+        return unless modified
+        @reference.hide()
+    @disposables.push atom.workspace.onDidChangeActivePaneItem (item) =>
       @documentationView.hide()
+      if !@isValidEditor(item)
+        @reference.hide()
     @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
       if atom.config.get('atom-ternjs.coffeeScript')
         @addGrammar('CoffeeScript')

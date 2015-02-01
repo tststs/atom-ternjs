@@ -5,6 +5,10 @@ module.exports =
 class AtomTernjsClient
 
   port: null
+  helper: null
+
+  constructor: (helper) ->
+    @helper = helper
 
   completions: (file, end) ->
     @post(JSON.stringify
@@ -18,6 +22,14 @@ class AtomTernjsClient
         docs: atom.config.get('atom-ternjs.docs')
         lineCharPositions: true
         caseInsensitive: atom.config.get('atom-ternjs.caseInsensitive')
+    )
+
+  refs: (file, end) ->
+    @post(JSON.stringify
+      query:
+        type: 'refs'
+        file: file
+        end: end
     )
 
   update: (file, text) ->
@@ -44,16 +56,7 @@ class AtomTernjsClient
         end: end
     ).then (data) =>
       if data?.start
-        # check if definition is in active TextEditor
-        if editor.getPath().indexOf(data.file) > -1
-          buffer = editor.getBuffer()
-          cursor.setBufferPosition(buffer.positionForCharacterIndex(data.start))
-          return
-        # else open the file and set cursor position to definition
-        atom.workspace.open(data.file).then (textEditor) ->
-          buffer = textEditor.getBuffer()
-          cursor = textEditor.getLastCursor()
-          cursor.setBufferPosition(buffer.positionForCharacterIndex(data.start))
+        @helper.openFileAndGoTo(data.start, data.file, editor)
     , (err) ->
       console.error 'error', err
 

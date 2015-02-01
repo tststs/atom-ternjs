@@ -4,6 +4,46 @@
 // for a full listing of what's available.
 @import "ui-variables";
 
+atom-ternjs-reference {
+
+    > div {
+
+        position: relative;
+
+        > div {
+
+            padding: 0 0 10px 20px;
+            max-height: 140px;
+            overflow-y: auto;
+        }
+    }
+
+    li {
+
+        cursor: pointer;
+
+        &:hover {
+
+            text-decoration: underline;
+            color: @text-color-highlight;
+        }
+    }
+}
+
+.atom-ternjs-reference-close {
+
+    margin: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.atom-ternjs-reference-panel {
+
+    max-height: 140px;
+    overflow-y: auto;
+}
+
 .atom-ternjs-doc {
 
     border-radius: @component-border-radius;
