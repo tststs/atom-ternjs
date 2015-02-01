@@ -3,17 +3,13 @@
 Javascript code intelligence for atom with tern.js.
 Uses suggestion provider by autocomplete-plus.
 
-![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs.png)
-
 # Installation
 
 In your project root create a file named .tern-project
---
 
 * With default config via menu (Packages -> Atom Ternjs -> Create default .tern-project) or by adding it manually. See docs @ http://ternjs.net/doc/manual.html#configuration.
 * Check path in loadEagerly
 * Restart the server via Packages -> Atom Ternjs -> Restart server
---
 
 Example .tern-project file:
 ```
@@ -40,8 +36,12 @@ Example .tern-project file:
 * browser: completion for vanilla js (optional)
 * jquery: completion for jQuery (optional)
 
+
 # .tern-project created/modified
 * After the file was created or has been modified, restart the server via Packages -> Atom Ternjs -> Restart server
+
+# Max Suggestions
+* Use autocomplete-plus's settings to increase the max suggestions being displayed
 
 # Platform Windows
 * Make sure node is installed and the PATH variable is set
@@ -50,12 +50,13 @@ Example .tern-project file:
 * This package is a work in progress and may contain various bugs, misbehaviours and performance issues
 
 # Features
+* Completion (autocompletion triggers automatically or can be forced with strg+alt+space)
+
+![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs.png)
+
+* Find references (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find references" or use the shortcut strg+alt+r) Click any item in the generated reference-list and navigate directly to file and position
+
+![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-2.png)
 
 * Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition" or use the shortcut strg+alt+d)
-* Find references (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find references" or use the shortcut strg+alt+r)
-* Completion (autocompletion triggers automatically or can be forced with strg+alt+space)
 * Documentation (displayed if a suggestion with a valid documentation is selected in the select-list)
-
-# Max Suggestions
-
-* Use autocomplete-plus's settings to increase the max suggestions being displayed
