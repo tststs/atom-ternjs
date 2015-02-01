@@ -7,6 +7,14 @@
         {label: 'Find definition', command: 'tern:definition'},
       ]
     }
+  ],
+  'atom-panel-container': [
+    {
+      label: 'Atom Ternjs'
+      submenu: [
+        {label: 'Create default .tern-project', command: 'tern:createTernProjectFile'},
+      ]
+    }
   ]
 'menu': [
   {

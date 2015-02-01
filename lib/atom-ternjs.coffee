@@ -2,6 +2,7 @@ TernServer = require './atom-ternjs-server'
 TernClient = require './atom-ternjs-client'
 DocumentationView = require './atom-ternjs-documentation-view'
 AtomTernjsAutocomplete = require './atom-ternjs-autocomplete'
+Helper = require './atom-ternjs-helper'
 
 class AtomTernInitializer
 
@@ -10,6 +11,7 @@ class AtomTernInitializer
   client: null
   documentationView: null
   server: null
+  helper: null
 
   # autocomplete-plus
   registration: null
@@ -44,6 +46,7 @@ class AtomTernInitializer
       default: true
 
   activate: (state) ->
+    @helper = new Helper()
     @startServer()
     @addComponents(state)
     @disposables.push atom.workspace.onDidOpen (e) =>
@@ -120,6 +123,8 @@ class AtomTernInitializer
       @client?.definition()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:restart': (event) =>
       @restartServer()
+    @disposables.push atom.commands.add 'atom-panel-container', 'tern:createTernProjectFile': (event) =>
+      @helper.createTernProjectFile()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:startCompletion': (event) =>
       @provider?.forceCompletion()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:cancel': (event) =>
