@@ -5,7 +5,6 @@ module.exports =
 class AtomTernjsHelper
 
   projectRoot: null
-  package: null
   ternProjectFileContent: '{\n
     \ "libs": [\n
     \ \ \ "browser",\n
