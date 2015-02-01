@@ -48,6 +48,7 @@ class AtomTernInitializer
   activate: (state) ->
     @startServer()
     @helper = new Helper()
+    @registerHelperCommands()
     @addComponents(state)
     @disposables.push atom.workspace.onDidOpen (e) =>
       @startServer()
@@ -118,13 +119,15 @@ class AtomTernInitializer
     return if idx is -1
     @grammars.splice(idx, 1)
 
+  registerHelperCommands: ->
+    @disposables.push atom.commands.add 'atom-panel-container', 'tern:createTernProjectFile': (event) =>
+      @helper.createTernProjectFile()
+
   registerCommands: ->
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
       @client?.definition()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:restart': (event) =>
       @restartServer()
-    @disposables.push atom.commands.add 'atom-panel-container', 'tern:createTernProjectFile': (event) =>
-      @helper.createTernProjectFile()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:startCompletion': (event) =>
       @provider?.forceCompletion()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:cancel': (event) =>
