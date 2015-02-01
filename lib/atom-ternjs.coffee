@@ -46,7 +46,6 @@ class AtomTernInitializer
       default: true
 
   activate: (state) ->
-    @helper = new Helper()
     @startServer()
     @addComponents(state)
     @disposables.push atom.workspace.onDidOpen (e) =>
@@ -91,6 +90,8 @@ class AtomTernInitializer
       if !@client
         @client = new TernClient()
       @client.port = port
+      if !@helper
+        @helper = new Helper()
       if !@provider
         @init()
 
