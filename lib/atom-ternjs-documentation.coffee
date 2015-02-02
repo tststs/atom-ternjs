@@ -6,6 +6,7 @@ class Reference
   documentation: null
   disposables: []
   client: null
+  orientation: null
 
   constructor: (client, state = {}) ->
     state.attached ?= true
@@ -14,12 +15,41 @@ class Reference
 
     @documentation = new DocumentationView()
     @documentation.initialize(state)
-    @documentationPanel = atom.workspace.addBottomPanel(item: @documentation, priority: 0)
+
+    @addBottom()
     @documentationPanel.hide()
 
     atom.views.getView(@documentationPanel).classList.add("atom-ternjs-documentation-panel", "panel-bottom")
 
+  addBottom: ->
+    @orientation = 'bottom'
+    @documentationPanel = atom.workspace.addBottomPanel(item: @documentation, priority: 0)
+
+  addTop: ->
+    @orientation = 'right'
+    @documentationPanel = atom.workspace.addModalPanel(item: @documentation, priority: 0)
+
+  destroyPanel: ->
+    @documentationPanel?.destroy()
+    @documentationPanel = null
+
+  setPosition: ->
+    editor = atom.workspace.getActiveTextEditor()
+    cursor = editor.getLastCursor()
+    cursorTop = cursor.getPixelRect().top
+    editorHeight = editor.getHeight()
+
+    if editorHeight - cursorTop <= 200 and @orientation is 'bottom'
+      @destroyPanel()
+      @addTop()
+      return
+
+    if editorHeight - cursorTop > 200 and @orientation is 'right'
+      @destroyPanel()
+      @addBottom()
+
   set: (data) ->
+    @setPosition()
     @documentation.setTitle(data.word, data.label)
     @documentation.setContent(data.docs)
     @show()
@@ -33,6 +63,3 @@ class Reference
   destroy: ->
     @documentation?.destroy()
     @documentation = null
-
-    @documentationPanel?.destroy()
-    @documentationPanel = null
