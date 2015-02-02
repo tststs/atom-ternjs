@@ -6,9 +6,13 @@
 
 atom-ternjs-documentation > div, atom-ternjs-reference > div > div {
 
-    padding: 0 0 10px 20px;
     max-height: 140px;
     overflow-y: auto;
+}
+
+atom-ternjs-documentation > div {
+
+    padding: 15px 20px 0 20px;
 }
 
 atom-ternjs-reference {
@@ -16,6 +20,11 @@ atom-ternjs-reference {
     > div {
 
         position: relative;
+
+        > div {
+
+            padding: 0 0 10px 20px;
+        }
     }
 
     li {
@@ -34,12 +43,18 @@ atom-ternjs-documentation {
 
     h1, h2 {
 
+        margin: 0;
         display: inline-block;
     }
 
     h1.seperator {
 
         margin: 0 10px;
+    }
+
+    p {
+
+        margin-top: 20px;
     }
 }
 
