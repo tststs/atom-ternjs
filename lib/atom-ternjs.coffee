@@ -1,8 +1,8 @@
 TernServer = require './atom-ternjs-server'
 TernClient = require './atom-ternjs-client'
-DocumentationView = require './atom-ternjs-documentation-view'
+Documentation = require './atom-ternjs-documentation'
 Reference = require './atom-ternjs-reference'
-AtomTernjsAutocomplete = require './atom-ternjs-autocomplete'
+Autocomplete = require './atom-ternjs-autocomplete'
 Helper = require './atom-ternjs-helper'
 
 class AtomTernInitializer
@@ -10,7 +10,6 @@ class AtomTernInitializer
   disposables: []
   grammars: ['JavaScript']
   client: null
-  documentationView: null
   server: null
   helper: null
 
@@ -50,16 +49,15 @@ class AtomTernInitializer
     @startServer()
     @helper = new Helper()
     @registerHelperCommands()
-    @addComponents(state)
     @disposables.push atom.workspace.onDidOpen (e) =>
       @startServer()
 
   serialize: ->
-    viewStateDocumentation: @documentationView.serialize()
 
   activatePackage: ->
-    @provider = new AtomTernjsAutocomplete()
-    @provider.init(@client, @documentationView)
+    @provider = new Autocomplete()
+    @documentation = new Documentation()
+    @provider.init(@client, @documentation)
     @reference = new Reference(@client)
     @registerEvents()
     @registration = atom.services.provide('autocomplete.provider', '1.0.0', {provider: @provider})
@@ -78,10 +76,6 @@ class AtomTernInitializer
     @provider = null
     @reference?.destroy()
     @reference = null
-
-  addComponents: (state) ->
-    @documentationView = new DocumentationView(state.atomTernjsViewState)
-    atom.views.getView(atom.workspace).appendChild(@documentationView.getElement())
 
   unregisterEventsAndCommands: ->
     for disposable in @disposables
@@ -109,12 +103,12 @@ class AtomTernInitializer
     @disposables.push atom.workspace.observeTextEditors (editor) =>
       @disposables.push editor.onDidChangeCursorPosition (event) =>
         return if event.textChanged
-        @documentationView.hide()
+        @documentation.hide()
       @disposables.push editor.getBuffer().onDidChangeModified (modified) =>
         return unless modified
         @reference.hide()
     @disposables.push atom.workspace.onDidChangeActivePaneItem (item) =>
-      @documentationView.hide()
+      @documentation.hide()
       if !@isValidEditor(item)
         @reference.hide()
     @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
@@ -147,7 +141,7 @@ class AtomTernInitializer
       @provider?.forceCompletion()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:cancel': (event) =>
       @provider?.forceCancel()
-      @documentationView.hide()
+      @documentation.hide()
 
   stopServer: ->
     if @server?.process

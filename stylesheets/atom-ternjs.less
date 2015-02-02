@@ -4,18 +4,18 @@
 // for a full listing of what's available.
 @import "ui-variables";
 
+atom-ternjs-documentation > div, atom-ternjs-reference > div > div {
+
+    padding: 0 0 10px 20px;
+    max-height: 140px;
+    overflow-y: auto;
+}
+
 atom-ternjs-reference {
 
     > div {
 
         position: relative;
-
-        > div {
-
-            padding: 0 0 10px 20px;
-            max-height: 140px;
-            overflow-y: auto;
-        }
     }
 
     li {
@@ -27,6 +27,19 @@ atom-ternjs-reference {
             text-decoration: underline;
             color: @text-color-highlight;
         }
+    }
+}
+
+atom-ternjs-documentation {
+
+    h1, h2 {
+
+        display: inline-block;
+    }
+
+    h1.seperator {
+
+        margin: 0 10px;
     }
 }
 

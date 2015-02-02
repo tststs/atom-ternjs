@@ -1,67 +1,45 @@
-module.exports =
-class DocumentationView
+class DocumentationView extends HTMLElement
 
-  @title = null
-  @sub = null
-  @content = null
-  @allowed = false
+  @elTitle = null
+  @elSub = null
+  @elContent = null
+  #@allowed = false
   @active = false
 
-  constructor: (serializeState) ->
-    # Create root element
-    @element = document.createElement('div')
-    @element.classList.add('atom-ternjs-doc')
+  createdCallback: ->
+    @classList.add('atom-ternjs-documentation')
+    container = document.createElement('div')
 
-    # Create child elements
-    @title = document.createElement('h1')
-    @sub = document.createElement('h2')
-    @content = document.createElement('p')
+    @elTitle = document.createElement('h1')
+    seperator = document.createElement('h1')
+    seperator.classList.add('seperator')
+    seperator.innerHTML = '-'
+    @elSub = document.createElement('h2')
+    @elContent = document.createElement('p')
 
-    @element.appendChild(@title)
-    @element.appendChild(@sub)
-    @element.appendChild(@content)
+    container.appendChild(@elTitle)
+    container.appendChild(seperator)
+    container.appendChild(@elSub)
+    container.appendChild(@elContent)
 
-    @registerEvents()
+    @appendChild(container)
 
-  # Returns an object that can be retrieved when package is activated
-  serialize: ->
-
-  registerEvents: ->
-    @element.addEventListener 'webkitTransitionEnd', =>
-      return unless !@active
-      @element.classList.remove('visible')
-
-  toggle: ->
-    @element.classList.toggle('active')
-
-  show: ->
-    return unless @allowed
-    @active = true
-    @element.classList.add('visible')
-    @element.classList.add('active')
-
-  hide: ->
-    @active = false
-    @element.classList.remove('active')
+  initialize: (state) ->
+    this
 
   setTitle: (name, params) ->
     return unless name
-    @title.innerHTML = name
-    @sub.innerHTML = params
+    @elTitle.innerHTML = name
+    @elSub.innerHTML = params
 
   setContent: (str) ->
     if str
-      @allowed = true
       str = str.replace(/(?:\r\n|\r|\n)/g, '<br />')
-      @content.innerHTML = str
+      @elContent.innerHTML = str
     else
-      @allowed = false
-      @content.innerHTML = ''
-      @hide()
+      @elContent.innerHTML = ''
 
-  # Tear down any state and detach
   destroy: ->
-    @element.remove()
+    @remove()
 
-  getElement: ->
-    @element
+module.exports = document.registerElement('atom-ternjs-documentation', prototype: DocumentationView.prototype)
