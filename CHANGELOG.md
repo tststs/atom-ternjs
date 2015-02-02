@@ -1,3 +1,6 @@
+## 0.4.4
+* Improved decision if completion should be triggered
+
 ## 0.4.2
 * Documentation is now being displayed via a panel
 * Various bugfixing

@@ -1,4 +1,5 @@
 apd = require 'atom-package-dependencies'
+{Function} = require 'loophole'
 
 module.exports =
 class AtomTernjsAutocomplete
@@ -28,13 +29,23 @@ class AtomTernjsAutocomplete
         @client = client
         @documentation = documentation
 
+    isValidPrefix: (prefix) ->
+        if prefix.length? > 1
+            prefix = '_' + prefix
+        if prefix.replace(/\s/g, '').length is 0
+            prefix = '_'
+        try (new Function("var " + prefix))()
+        catch e then return false
+        return true
+
     requestHandler: (options) ->
         return [] unless options?.editor? and options?.buffer? and options?.cursor?
         prefix = options.prefix
 
-        if (!(/^[a-z0-9.\"\' ]$/i).test(prefix[prefix.length - 1]) or prefix.indexOf('..') != -1) and !@force
-            @documentation.hide()
-            return []
+        if prefix[prefix.length - 1].indexOf('.') is -1
+            if (!@isValidPrefix(prefix) or prefix.indexOf('..') != -1) and !@force
+                @documentation.hide()
+                return []
 
         if (!prefix.replace(/\s/g, '').length) or prefix.endsWith(';')
             prefix = ''

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "jquery": "latest",
+    "loophole": "latest",
     "tern": "git://github.com/marijnh/tern.git",
     "atom-package-dependencies": "latest"
   },
