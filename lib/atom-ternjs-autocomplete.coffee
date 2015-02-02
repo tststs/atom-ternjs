@@ -82,10 +82,14 @@ class AtomTernjsAutocomplete
 
     setDocumentationContent: ->
         return unless @suggestionsArr.length
+        currentSuggestion = @suggestionsArr[@currentSuggestionIndex]
+        if !currentSuggestion._ternDocs
+            @documentation.hide()
+            return
         @documentation.set({
-            word: @suggestionsArr[@currentSuggestionIndex].word,
-            label: @suggestionsArr[@currentSuggestionIndex].label,
-            docs: @suggestionsArr[@currentSuggestionIndex]._ternDocs
+            word: currentSuggestion.word,
+            label: currentSuggestion.label,
+            docs: currentSuggestion._ternDocs
         })
 
     forceCompletion: ->
