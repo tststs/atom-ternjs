@@ -38,7 +38,7 @@ class AtomTernInitializer
       title: 'Sort'
       description: 'Determines whether the result set will be sorted.'
       type: 'boolean'
-      default: true
+      default: false
     caseInsensitive:
       title: 'Case-insensitive'
       description: 'Whether to use a case-insensitive compare between the current word and potential completions.'
