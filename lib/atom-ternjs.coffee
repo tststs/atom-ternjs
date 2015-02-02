@@ -60,7 +60,7 @@ class AtomTernInitializer
   activatePackage: ->
     @provider = new AtomTernjsAutocomplete()
     @provider.init(@client, @documentationView)
-    @reference = new Reference(@client, @helper)
+    @reference = new Reference(@client)
     @registerEvents()
     @registration = atom.services.provide('autocomplete.provider', '1.0.0', {provider: @provider})
 
@@ -94,7 +94,7 @@ class AtomTernInitializer
       @server = new TernServer()
     @server.start (port) =>
       if !@client
-        @client = new TernClient(@helper)
+        @client = new TernClient()
       @client.port = port
       if !@provider
         @init()

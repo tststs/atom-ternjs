@@ -1,5 +1,6 @@
 $ = require('jquery')
 $.ajaxSetup({ cache: false })
+Helper = require './atom-ternjs-helper'
 
 module.exports =
 class AtomTernjsClient
@@ -7,8 +8,8 @@ class AtomTernjsClient
   port: null
   helper: null
 
-  constructor: (helper) ->
-    @helper = helper
+  constructor: ->
+    @helper = new Helper()
 
   completions: (file, end) ->
     @post(JSON.stringify

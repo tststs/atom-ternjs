@@ -1,8 +1,11 @@
+Helper = require './atom-ternjs-helper'
+
 class ReferenceView extends HTMLElement
 
   @content: null
   @close: null
   @data: null
+  @helper = null
 
   createdCallback: ->
     @classList.add('atom-ternjs-reference')
@@ -16,9 +19,10 @@ class ReferenceView extends HTMLElement
     @appendChild(container)
 
   initialize: (state) ->
+    @helper = new Helper()
     this
 
-  buildItems: (data, helper) ->
+  buildItems: (data) ->
     @data = data
     @content.innerHTML = ''
     headline = document.createElement('h2')
@@ -30,17 +34,17 @@ class ReferenceView extends HTMLElement
       li.dataset.idx = i;
       li.innerHTML = item.file + ':' + item.start
       li.addEventListener('click', (e) =>
-        @goToReference(e, helper)
+        @goToReference(e)
       )
       list.appendChild(li)
     @content.appendChild(list)
 
-  goToReference: (e, helper) ->
+  goToReference: (e) ->
     editor = atom.workspace.getActiveTextEditor()
     return unless editor
     idx = e.target.dataset.idx
     ref = @data.refs[idx]
-    helper.openFileAndGoTo(ref.start, ref.file, editor)
+    @helper.openFileAndGoTo(ref.start, ref.file, editor)
 
   destroy: ->
     @remove()

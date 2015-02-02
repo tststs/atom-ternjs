@@ -6,13 +6,11 @@ class Reference
   reference: null
   disposables: []
   client: null
-  helper: null
 
-  constructor: (client, helper, state = {}) ->
+  constructor: (client, state = {}) ->
     state.attached ?= true
 
     @client = client
-    @helper = helper
 
     @reference = new ReferenceView()
     @reference.initialize(state)
@@ -45,7 +43,7 @@ class Reference
     position = cursor.getBufferPosition()
     @client.refs(editor.getURI(), {line: position.row, ch: position.column}).then (data) =>
       @referencePanel?.show()
-      @reference.buildItems(data, @helper)
+      @reference.buildItems(data)
 
   hide: ->
     @referencePanel?.hide()
