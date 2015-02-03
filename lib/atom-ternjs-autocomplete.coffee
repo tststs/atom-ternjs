@@ -66,7 +66,6 @@ class AtomTernjsAutocomplete
         return new Promise (resolve) ->
             that.client.update(options.editor.getURI(), options.editor.getText()).then =>
                 that.client.completions(options.editor.getURI(), {line: options.position.row, ch: options.position.column}).then (data) =>
-                    console.log data
                     that.clearSuggestions()
                     if !data.completions.length
                         resolve([])
@@ -93,6 +92,8 @@ class AtomTernjsAutocomplete
                             renderLabelAsHtml: false,
                             className: null,
                             _ternDocs: obj.doc,
+                            _ternUrl: obj.url,
+                            _ternOrigin: obj.origin,
                             onWillConfirm: ->
                                 if this.word[0] is '$'
                                     begin = options.cursor.getBeginningOfCurrentWordBufferPosition()
@@ -114,13 +115,17 @@ class AtomTernjsAutocomplete
     setDocumentationContent: ->
         return unless @suggestionsArr.length
         currentSuggestion = @suggestionsArr[@currentSuggestionIndex]
-        if !currentSuggestion._ternDocs
+        if !currentSuggestion._ternDocs and !currentSuggestion._ternUrl and !currentSuggestion._ternOrigin
             @documentation.hide()
             return
         @documentation.set({
             word: currentSuggestion.word,
             label: currentSuggestion.label,
-            docs: currentSuggestion._ternDocs
+            docs: {
+                doc: currentSuggestion._ternDocs,
+                url: currentSuggestion._ternUrl,
+                origin: currentSuggestion._ternOrigin,
+            }
         })
 
     forceCompletion: ->

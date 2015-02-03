@@ -1,5 +1,6 @@
 $(function () {
 
+    // jQuery test
     var $jQuery = $();
     var $$proto = null;
     var _var = "<3";
@@ -12,5 +13,4 @@ $(function () {
     tststs.init();
     helper = new Helper();
     helper.help();
-    helper.exampleMethod();
 });
