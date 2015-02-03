@@ -30,24 +30,35 @@ class AtomTernjsAutocomplete
         @documentation = documentation
 
     isValidPrefix: (prefix) ->
-        if prefix.length? > 1
+        return true if prefix[prefix.length - 1] is '\.'
+        if prefix.length > 1
             prefix = '_' + prefix
         return true if prefix.replace(/\s/g, '').length is 0
         try (new Function("var " + prefix))()
         catch e then return false
         return true
 
+    fixPrefix: (prefix) ->
+        if prefix.lastIndexOf(' ') is prefix.length - 1
+            return ''
+        if (!prefix.replace(/\s/g, '').length) or prefix.endsWith(';')
+            return ''
+        prefix
+
     requestHandler: (options) ->
         return [] unless options?.editor? and options?.buffer? and options?.cursor?
         prefix = options.prefix
 
-        if prefix[prefix.length - 1].indexOf('.') is -1
-            if (!@isValidPrefix(prefix) or prefix.indexOf('..') != -1) and !@force
-                @documentation.hide()
-                return []
+        # .. crashes the server
+        if prefix.indexOf('..') != -1
+            @documentation.hide()
+            return []
 
-        if (!prefix.replace(/\s/g, '').length) or prefix.endsWith(';')
-            prefix = ''
+        if !@isValidPrefix(prefix) and !@force
+            @documentation.hide()
+            return []
+
+        prefix = @fixPrefix(prefix)
 
         that = this
 
