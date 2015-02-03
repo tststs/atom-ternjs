@@ -31,9 +31,9 @@ class AtomTernjsAutocomplete
 
     isValidPrefix: (prefix) ->
         return true if prefix[prefix.length - 1] is '\.'
+        return true if prefix.replace(/\s/g, '').length is 0
         if prefix.length > 1
             prefix = '_' + prefix
-        return true if prefix.replace(/\s/g, '').length is 0
         try (new Function("var " + prefix))()
         catch e then return false
         return true
