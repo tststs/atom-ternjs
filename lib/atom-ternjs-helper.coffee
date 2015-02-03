@@ -43,6 +43,7 @@ class AtomTernjsHelper
 
   writeFile: (path) ->
     fs.writeFile path, @ternProjectFileContent, (err) =>
+      atom.workspace.open(path)
       return unless err
       content = 'Could not create .tern-project file. Use the README to manually create a .tern-project file.'
       atom.notifications.addInfo(content, dismissable: true)
