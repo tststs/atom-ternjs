@@ -26,7 +26,17 @@ class AtomTernInitializer
       default: false
     docs:
       title: 'Documentation'
-      description: 'Whether to include documentation strings, urls, and origin files (if found) in the result data.'
+      description: 'Whether to include documentation strings (if found) in the result data.'
+      type: 'boolean'
+      default: true
+    urls:
+      title: 'Url'
+      description: 'Whether to include documentation urls (if found) in the result data.'
+      type: 'boolean'
+      default: true
+    origins:
+      title: 'Origin'
+      description: 'Whether to include origins (if found) in the result data.'
       type: 'boolean'
       default: true
     guess:

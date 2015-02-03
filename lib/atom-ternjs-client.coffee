@@ -21,6 +21,8 @@ class AtomTernjsClient
         sort: atom.config.get('atom-ternjs.sort')
         guess: atom.config.get('atom-ternjs.guess')
         docs: atom.config.get('atom-ternjs.docs')
+        urls: atom.config.get('atom-ternjs.urls')
+        origins: atom.config.get('atom-ternjs.origins')
         lineCharPositions: true
         caseInsensitive: atom.config.get('atom-ternjs.caseInsensitive')
     )

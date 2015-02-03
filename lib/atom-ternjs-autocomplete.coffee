@@ -66,6 +66,7 @@ class AtomTernjsAutocomplete
         return new Promise (resolve) ->
             that.client.update(options.editor.getURI(), options.editor.getText()).then =>
                 that.client.completions(options.editor.getURI(), {line: options.position.row, ch: options.position.column}).then (data) =>
+                    console.log data
                     that.clearSuggestions()
                     if !data.completions.length
                         resolve([])
