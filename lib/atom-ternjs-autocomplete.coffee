@@ -50,9 +50,6 @@ class AtomTernjsAutocomplete
         return [] unless options?.editor? and options?.buffer? and options?.cursor?
         prefix = options.prefix
 
-        begin = options.cursor.getBeginningOfCurrentWordBufferPosition()
-        char = options.editor.getTextInRange([[begin.row, begin.column - 1], [begin.row, begin.column]])
-
         # .. crashes the server
         if prefix.indexOf('..') != -1
             @documentation.hide()
