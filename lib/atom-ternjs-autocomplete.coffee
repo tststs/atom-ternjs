@@ -72,7 +72,7 @@ class AtomTernjsAutocomplete
                         that.documentation.hide()
                         return
                     if data.completions.length is 1 and data.completions[0].name.replace('$', '') is prefix
-                        resolve(that.suggestionsArr)
+                        resolve([])
                         that.documentation.hide()
                         return
                     for obj, index in data.completions
