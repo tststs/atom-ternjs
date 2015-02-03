@@ -1,5 +1,6 @@
 apd = require 'atom-package-dependencies'
 {Function} = require 'loophole'
+{Point} = require 'atom'
 
 module.exports =
 class AtomTernjsAutocomplete
@@ -49,6 +50,9 @@ class AtomTernjsAutocomplete
         return [] unless options?.editor? and options?.buffer? and options?.cursor?
         prefix = options.prefix
 
+        begin = options.cursor.getBeginningOfCurrentWordBufferPosition()
+        char = options.editor.getTextInRange([[begin.row, begin.column - 1], [begin.row, begin.column]])
+
         # .. crashes the server
         if prefix.indexOf('..') != -1
             @documentation.hide()
@@ -92,6 +96,12 @@ class AtomTernjsAutocomplete
                             className: null,
                             _ternDocs: obj.doc,
                             onWillConfirm: ->
+                                if this.word[0] is '$'
+                                    begin = options.cursor.getBeginningOfCurrentWordBufferPosition()
+                                    char = options.editor.getTextInRange([[begin.row, begin.column - 1], [begin.row, begin.column]])
+                                    if char is '$'
+                                        idx = this.word.lastIndexOf('$')
+                                        this.word = this.word.substring(idx + 1)
                                 if /^[.\"\']$/i.test(prefix[prefix.length - 1])
                                     this.word = this.prefix + this.word
                             onDidConfirm: ->
