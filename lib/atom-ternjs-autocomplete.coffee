@@ -102,6 +102,8 @@ class AtomTernjsAutocomplete
                                 if /^[.\"\']$/i.test(prefix[prefix.length - 1])
                                     this.word = this.prefix + this.word
                             onDidConfirm: ->
+                                that.clearSuggestions()
+                                that.documentation.hide()
                         }
                     resolve(that.suggestionsArr)
                     that.setDocumentationContent()
@@ -148,9 +150,6 @@ class AtomTernjsAutocomplete
     registerEvents: ->
         @disposables.push atom.config.observe('autocomplete-plus.maxSuggestions', => maxItems = atom.config.get('autocomplete-plus.maxSuggestions'))
         @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-cancel', =>
-            @clearSuggestions()
-            @documentation.hide()
-        @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-confirm', =>
             @clearSuggestions()
             @documentation.hide()
         @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-select-next', =>
