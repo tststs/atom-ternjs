@@ -139,7 +139,7 @@ class AtomTernInitializer
     @grammars.splice(idx, 1)
 
   registerHelperCommands: ->
-    @disposables.push atom.commands.add 'atom-panel-container', 'tern:createTernProjectFile': (event) =>
+    @disposables.push atom.commands.add 'atom-text-editor', 'tern:createTernProjectFile': (event) =>
       @helper.createTernProjectFile()
 
   registerCommands: ->

@@ -31,7 +31,8 @@ class AtomTernjsHelper
   hasTernProjectFile: ->
     @projectRoot = atom.project.getDirectories()[0]
     return undefined unless @projectRoot
-    return true if @fileExists(path.resolve(__dirname, @projectRoot.path + '/.tern-project'))
+    console.log @fileExists(path.resolve(__dirname, @projectRoot.path + '/.tern-project'))
+    return true if @fileExists(path.resolve(__dirname, @projectRoot.path + '/.tern-project')) is undefined
     return false
 
   createTernProjectFile: ->
@@ -39,7 +40,9 @@ class AtomTernjsHelper
     @writeFile(path.resolve(__dirname, @projectRoot.path + '/.tern-project'))
 
   fileExists: (path) ->
-    fs.existsSync(path)
+    try fs.accessSync path, fs.F_OK, (err) =>
+      console.log err
+    catch e then return false
 
   writeFile: (path) ->
     fs.writeFile path, @ternProjectFileContent, (err) =>
