@@ -1,3 +1,7 @@
+## 0.4.6
+* Documentation now provides urls and origin
+* Various improvements and bugfixing
+
 ## 0.4.4
 * Improved decision if completion should be triggered
 
