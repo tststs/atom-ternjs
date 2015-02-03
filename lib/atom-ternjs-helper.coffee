@@ -31,7 +31,6 @@ class AtomTernjsHelper
   hasTernProjectFile: ->
     @projectRoot = atom.project.getDirectories()[0]
     return undefined unless @projectRoot
-    console.log @fileExists(path.resolve(__dirname, @projectRoot.path + '/.tern-project'))
     return true if @fileExists(path.resolve(__dirname, @projectRoot.path + '/.tern-project')) is undefined
     return false
 
