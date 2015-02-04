@@ -70,7 +70,7 @@ class AtomTernInitializer
     @provider.init(@client, @documentation)
     @reference = new Reference(@client)
     @registerEvents()
-    @registration = atom.services.provide('autocomplete.provider', '1.0.0', {provider: @provider})
+    @registration = atom.packages.serviceHub.provide('autocomplete.provider', '1.0.0', {provider: @provider})
 
   init: ->
     @activatePackage()
