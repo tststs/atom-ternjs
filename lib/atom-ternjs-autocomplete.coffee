@@ -137,6 +137,11 @@ class AtomTernjsAutocomplete
         @autocompletePlus.autocompleteManager.runAutocompletion()
         @force = false
 
+    clearSuggestionsAndHide: ->
+        @suggestionsArr = []
+        @currentSuggestionIndex = 0
+        @documentation?.hide()
+
     clearSuggestions: ->
         @suggestionsArr = []
         @currentSuggestionIndex = 0

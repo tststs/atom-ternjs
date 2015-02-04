@@ -118,7 +118,7 @@ class AtomTernInitializer
         return unless modified
         @reference.hide()
     @disposables.push atom.workspace.onDidChangeActivePaneItem (item) =>
-      @documentation.hide()
+      @provider?.clearSuggestionsAndHide()
       if !@isValidEditor(item)
         @reference.hide()
     @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
