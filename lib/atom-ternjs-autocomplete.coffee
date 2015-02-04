@@ -134,7 +134,9 @@ class AtomTernjsAutocomplete
 
     forceCompletion: ->
         @force = true
-        @autocompletePlus.autocompleteManager.runAutocompletion()
+        # need this for now. no plan, to hook this forever
+        @autocompletePlus.autocompleteManager.shouldDisplaySuggestions = true
+        @autocompletePlus.autocompleteManager.findSuggestions()
         @force = false
 
     clearSuggestionsAndHide: ->
