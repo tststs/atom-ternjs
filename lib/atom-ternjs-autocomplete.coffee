@@ -112,12 +112,17 @@ class AtomTernjsAutocomplete
                 , (err) ->
                     console.log err
 
-    setDocumentationContent: ->
+    setDocumentationContent: (length) ->
         return unless @suggestionsArr.length
+        if @currentSuggestionIndex >= @suggestionsArr.length
+            @hideDocumentation()
+            return
+
         currentSuggestion = @suggestionsArr[@currentSuggestionIndex]
         if !currentSuggestion._ternDocs and !currentSuggestion._ternUrl and !currentSuggestion._ternOrigin
             @documentation.hide()
             return
+        
         @documentation.set({
             word: currentSuggestion.word,
             label: currentSuggestion.label,
@@ -144,8 +149,9 @@ class AtomTernjsAutocomplete
     hideDocumentation: ->
         @documentation.hide()
 
-    getMaxIndex: ->
-        Math.min(maxItems, @suggestionsArr.length)
+    getMaxIndex: (length) ->
+        #Math.min(maxItems, @suggestionsArr.length)
+        Math.min(maxItems, length)
 
     addSelector: (selector) ->
         @selector = @selector + ',' + selector
@@ -159,13 +165,15 @@ class AtomTernjsAutocomplete
             @clearSuggestions()
             @documentation.hide()
         @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-select-next', =>
-            if ++@currentSuggestionIndex >= @getMaxIndex()
+            length = @autocompletePlus.autocompleteManager.suggestionList.items.length
+            if ++@currentSuggestionIndex >= @getMaxIndex(length)
                 @currentSuggestionIndex = 0
-            @setDocumentationContent()
+            @setDocumentationContent(length)
         @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-select-previous', =>
+            length = @autocompletePlus.autocompleteManager.suggestionList.items.length
             if --@currentSuggestionIndex < 0
-                @currentSuggestionIndex = @getMaxIndex() - 1
-            @setDocumentationContent()
+                @currentSuggestionIndex = @getMaxIndex(length) - 1
+            @setDocumentationContent(length)
 
     unregisterEvents: ->
         for disposable in @disposables
