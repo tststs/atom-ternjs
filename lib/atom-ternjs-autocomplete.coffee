@@ -1,6 +1,5 @@
 apd = require 'atom-package-dependencies'
 {Function} = require 'loophole'
-{Point} = require 'atom'
 
 module.exports =
 class AtomTernjsAutocomplete
@@ -122,7 +121,7 @@ class AtomTernjsAutocomplete
         if !currentSuggestion._ternDocs and !currentSuggestion._ternUrl and !currentSuggestion._ternOrigin
             @documentation.hide()
             return
-        
+
         @documentation.set({
             word: currentSuggestion.word,
             label: currentSuggestion.label,
