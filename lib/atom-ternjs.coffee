@@ -1,6 +1,7 @@
 TernServer = require './atom-ternjs-server'
 TernClient = require './atom-ternjs-client'
 Documentation = require './atom-ternjs-documentation'
+#Type = require './atom-ternjs-type'
 Reference = require './atom-ternjs-reference'
 Autocomplete = require './atom-ternjs-autocomplete'
 Helper = require './atom-ternjs-helper'
@@ -66,7 +67,8 @@ class AtomTernInitializer
 
   activatePackage: ->
     @provider = new Autocomplete()
-    @documentation = new Documentation(@client)
+    @documentation = new Documentation()
+    #@type = new Type()
     @provider.init(@client, @documentation)
     @reference = new Reference(@client)
     @registerEvents()
@@ -113,7 +115,7 @@ class AtomTernInitializer
   registerEvents: ->
     @disposables.push atom.workspace.observeTextEditors (editor) =>
       @disposables.push editor.onDidChangeCursorPosition (event) =>
-        #@documentation.queryType()
+        #@type.queryType()
         return if event.textChanged
         @documentation.hide()
       @disposables.push editor.getBuffer().onDidChangeModified (modified) =>

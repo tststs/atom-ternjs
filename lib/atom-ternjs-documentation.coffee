@@ -5,13 +5,10 @@ class Reference
 
   documentation: null
   disposables: []
-  client: null
   orientation: null
 
-  constructor: (client, state = {}) ->
+  constructor: (state = {}) ->
     state.attached ?= true
-
-    @client = client
 
     @documentation = new DocumentationView()
     @documentation.initialize(state)
@@ -36,7 +33,7 @@ class Reference
   setPosition: ->
     editor = atom.workspace.getActiveTextEditor()
     cursor = editor.getLastCursor()
-    cursorTop = cursor.getPixelRect().top
+    cursorTop = cursor.getPixelRect().top - editor.getScrollTop()
     editorHeight = editor.getHeight()
 
     if editorHeight - cursorTop <= 200 and @orientation is 'bottom'
@@ -53,29 +50,6 @@ class Reference
     @documentation.setTitle(data.word, data.label)
     @documentation.setContent(data.docs)
     @show()
-
-  # queryType: ->
-  #   editor = atom.workspace.getActiveTextEditor()
-  #   cursor = editor.getLastCursor()
-  #   lineText = cursor.getCurrentBufferLine()
-  #   positionInLine = cursor.getBufferPosition()
-  #   before = lineText.substring(0, positionInLine.column)
-  #   after = lineText.substring(positionInLine.column, lineText.length)
-  #
-  #   return unless before.indexOf('(') > -1 and after.indexOf(')') > -1
-  #
-  #   begin = cursor.getBeginningOfCurrentWordBufferPosition()
-  #   @client.type(editor, begin).then (data) =>
-  #     return unless data
-  #     @set({
-  #       word: data.exprName,
-  #       label: data.type,
-  #       docs: {
-  #         doc: data.doc,
-  #         url: data.url,
-  #         origin: data.origin,
-  #       }
-  #     })
 
   hide: ->
     @documentationPanel?.hide()
