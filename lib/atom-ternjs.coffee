@@ -66,7 +66,7 @@ class AtomTernInitializer
 
   activatePackage: ->
     @provider = new Autocomplete()
-    @documentation = new Documentation()
+    @documentation = new Documentation(@client)
     @provider.init(@client, @documentation)
     @reference = new Reference(@client)
     @registerEvents()
@@ -104,14 +104,16 @@ class AtomTernInitializer
         @init()
 
   isValidEditor: (editor) ->
-    return false if !editor
-    return false if editor.mini
-    return false if editor.getGrammar?().name not in @grammars
+    return false if !editor or editor.mini
+    return false if !editor.getGrammar
+    return false if !editor.getGrammar()
+    return false if editor.getGrammar().name not in @grammars
     return true
 
   registerEvents: ->
     @disposables.push atom.workspace.observeTextEditors (editor) =>
       @disposables.push editor.onDidChangeCursorPosition (event) =>
+        #@documentation.queryType()
         return if event.textChanged
         @documentation.hide()
       @disposables.push editor.getBuffer().onDidChangeModified (modified) =>

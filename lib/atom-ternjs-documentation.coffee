@@ -54,6 +54,29 @@ class Reference
     @documentation.setContent(data.docs)
     @show()
 
+  # queryType: ->
+  #   editor = atom.workspace.getActiveTextEditor()
+  #   cursor = editor.getLastCursor()
+  #   lineText = cursor.getCurrentBufferLine()
+  #   positionInLine = cursor.getBufferPosition()
+  #   before = lineText.substring(0, positionInLine.column)
+  #   after = lineText.substring(positionInLine.column, lineText.length)
+  #
+  #   return unless before.indexOf('(') > -1 and after.indexOf(')') > -1
+  #
+  #   begin = cursor.getBeginningOfCurrentWordBufferPosition()
+  #   @client.type(editor, begin).then (data) =>
+  #     return unless data
+  #     @set({
+  #       word: data.exprName,
+  #       label: data.type,
+  #       docs: {
+  #         doc: data.doc,
+  #         url: data.url,
+  #         origin: data.origin,
+  #       }
+  #     })
+
   hide: ->
     @documentationPanel?.hide()
 

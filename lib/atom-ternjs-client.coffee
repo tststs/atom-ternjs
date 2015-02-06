@@ -44,13 +44,24 @@ class AtomTernjsClient
       ]
     )
 
+  type: (editor, position) ->
+    file = editor.getURI()
+    end = {line: position.row, ch: position.column}
+
+    @post(JSON.stringify
+      query:
+        type: 'type'
+        file: file
+        end: end
+        preferFunction: true
+    )
+
   definition: ->
     editor = atom.workspace.getActiveTextEditor()
     cursor = editor.getLastCursor()
     position = cursor.getBufferPosition()
     file = editor.getURI()
     end = {line: position.row, ch: position.column}
-    text = editor.getText()
 
     @post(JSON.stringify
       query:
