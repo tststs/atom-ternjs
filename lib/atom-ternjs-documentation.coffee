@@ -20,11 +20,11 @@ class Reference
 
   addBottom: ->
     @orientation = 'bottom'
-    @documentationPanel = atom.workspace.addBottomPanel(item: @documentation, priority: 0)
+    @documentationPanel = atom.workspace.addBottomPanel(item: @documentation, priority: 100)
 
   addTop: ->
     @orientation = 'right'
-    @documentationPanel = atom.workspace.addModalPanel(item: @documentation, priority: 0)
+    @documentationPanel = atom.workspace.addRightPanel(item: @documentation, priority: 100)
 
   destroyPanel: ->
     @documentationPanel?.destroy()
@@ -36,12 +36,12 @@ class Reference
     cursorTop = cursor.getPixelRect().top - editor.getScrollTop()
     editorHeight = editor.getHeight()
 
-    if editorHeight - cursorTop <= 200 and @orientation is 'bottom'
+    if editorHeight - cursorTop <= 160 and @orientation is 'bottom'
       @destroyPanel()
       @addTop()
       return
 
-    if editorHeight - cursorTop > 200 and @orientation is 'right'
+    if editorHeight - cursorTop > 160 and @orientation is 'right'
       @destroyPanel()
       @addBottom()
 
