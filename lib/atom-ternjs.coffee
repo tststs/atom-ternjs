@@ -25,11 +25,19 @@ class AtomTernInitializer
       description: 'Completions for CoffeeScript.'
       type: 'boolean'
       default: false
+      order: 7
     docs:
-      title: 'Documentation'
-      description: 'Whether to include documentation strings (if found) in the result data.'
+      title: 'Show Documentation'
+      description: 'Display the documentation view'
       type: 'boolean'
       default: true
+      order: 3
+    documentation:
+      title: 'Documentation'
+      description: 'Whether to include documentation string (if found) in the result data.'
+      type: 'boolean'
+      default: true
+      order: 4
     docsPosition:
       title: 'Force the documentation view to be positioned top/bottom/middle'
       type: 'string'
@@ -40,26 +48,31 @@ class AtomTernInitializer
       description: 'Whether to include documentation urls (if found) in the result data.'
       type: 'boolean'
       default: true
+      order: 5
     origins:
       title: 'Origin'
       description: 'Whether to include origins (if found) in the result data.'
       type: 'boolean'
       default: true
+      order: 6
     guess:
       title: 'Guess'
       description: 'When completing a property and no completions are found, Tern will use some heuristics to try and return some properties anyway. Set this to false to turn that off.'
       type: 'boolean'
       default: true
+      order: 0
     sort:
       title: 'Sort'
       description: 'Determines whether the result set will be sorted.'
       type: 'boolean'
       default: true
+      order: 1
     caseInsensitive:
       title: 'Case-insensitive'
       description: 'Whether to use a case-insensitive compare between the current word and potential completions.'
       type: 'boolean'
       default: true
+      order: 2
 
   activate: (state) ->
     @startServer()

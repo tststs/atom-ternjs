@@ -12,6 +12,7 @@ class AtomTernjsClient
     @helper = new Helper()
 
   completions: (file, end) ->
+    docs = atom.config.get('atom-ternjs.docs')
     @post(JSON.stringify
       query:
         type: 'completions'
@@ -20,9 +21,9 @@ class AtomTernjsClient
         types: true
         sort: atom.config.get('atom-ternjs.sort')
         guess: atom.config.get('atom-ternjs.guess')
-        docs: atom.config.get('atom-ternjs.docs')
-        urls: atom.config.get('atom-ternjs.urls')
-        origins: atom.config.get('atom-ternjs.origins')
+        docs: docs and atom.config.get('atom-ternjs.docs')
+        urls: docs and atom.config.get('atom-ternjs.urls')
+        origins: docs and atom.config.get('atom-ternjs.origins')
         lineCharPositions: true
         caseInsensitive: atom.config.get('atom-ternjs.caseInsensitive')
     )
