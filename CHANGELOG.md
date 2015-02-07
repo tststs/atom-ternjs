@@ -1,3 +1,6 @@
+## 0.4.13
+* TypeView to display completions for fn-params
+
 ## 0.4.6
 * Documentation now provides urls and origin
 * Various improvements and bugfixing
