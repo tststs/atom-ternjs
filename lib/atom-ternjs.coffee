@@ -1,7 +1,7 @@
 TernServer = require './atom-ternjs-server'
 TernClient = require './atom-ternjs-client'
 Documentation = require './atom-ternjs-documentation'
-#Type = require './atom-ternjs-type'
+Type = require './atom-ternjs-type'
 Reference = require './atom-ternjs-reference'
 Autocomplete = require './atom-ternjs-autocomplete'
 Helper = require './atom-ternjs-helper'
@@ -26,19 +26,25 @@ class AtomTernInitializer
       description: 'Completions for CoffeeScript.'
       type: 'boolean'
       default: false
-      order: 7
+      order: 8
     docs:
       title: 'Show Documentation'
       description: 'Display the documentation view'
       type: 'boolean'
       default: true
       order: 3
+    inlineFnCompletion:
+      title: 'Display inline suggestions for function params'
+      description: 'Displays a inline suggestion located right next to the current cursor'
+      type: 'boolean'
+      default: true
+      order: 4
     documentation:
       title: 'Documentation'
       description: 'Whether to include documentation string (if found) in the result data.'
       type: 'boolean'
       default: true
-      order: 4
+      order: 5
     docsPosition:
       title: 'Force the documentation view to be positioned top/bottom/middle'
       type: 'string'
@@ -49,13 +55,13 @@ class AtomTernInitializer
       description: 'Whether to include documentation urls (if found) in the result data.'
       type: 'boolean'
       default: true
-      order: 5
+      order: 6
     origins:
       title: 'Origin'
       description: 'Whether to include origins (if found) in the result data.'
       type: 'boolean'
       default: true
-      order: 6
+      order: 7
     guess:
       title: 'Guess'
       description: 'When completing a property and no completions are found, Tern will use some heuristics to try and return some properties anyway. Set this to false to turn that off.'
@@ -87,7 +93,7 @@ class AtomTernInitializer
 
   activatePackage: ->
     @documentation = new Documentation()
-    #@type = new Type()
+    @type = new Type(@client)
     @provider.init(@client, @documentation)
     @reference = new Reference(@client)
     @registerEvents()
@@ -112,6 +118,8 @@ class AtomTernInitializer
     @reference = null
     @documentation?.destroy()
     @documentation = null
+    @type?.destroy()
+    @type = null
     @active = false
 
   unregisterEventsAndCommands: ->
@@ -140,9 +148,16 @@ class AtomTernInitializer
   registerEvents: ->
     @disposables.push atom.workspace.observeTextEditors (editor) =>
       @disposables.push editor.onDidChangeCursorPosition (event) =>
-        #@type.queryType()
+        return unless @isValidEditor(editor)
+        if atom.config.get('atom-ternjs.inlineFnCompletion')
+          if event.textChanged
+            @client.update(editor.getURI(), editor.getText()).then =>
+              @type.queryType()
+          else
+            @type.queryType()
         return if event.textChanged
         @documentation.hide()
+
       @disposables.push editor.getBuffer().onDidChangeModified (modified) =>
         return unless modified
         @reference.hide()
@@ -150,6 +165,8 @@ class AtomTernInitializer
       @provider?.clearSuggestionsAndHide()
       if !@isValidEditor(item)
         @reference.hide()
+    @disposables.push atom.config.observe 'atom-ternjs.inlineFnCompletion', =>
+      @type?.destroyOverlay()
     @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
       if atom.config.get('atom-ternjs.coffeeScript')
         @addGrammar('CoffeeScript')

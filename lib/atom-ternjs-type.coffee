@@ -4,43 +4,48 @@ TypeView = require './atom-ternjs-type-view'
 module.exports =
 class Type
 
-  type: null
+  view: null
   disposables: []
   client: null
+  overlayDecoration: null
+  marker: null
 
   constructor: (client, state = {}) ->
-    state.attached ?= true
-
     @client = client
 
-    @type = new TypeView()
-    @type.initialize(state)
+    @view = new TypeView()
+    @view.initialize(state)
 
-    @typePanel = atom.workspace.addRightPanel(item: @type, priority: 0)
-    @typePanel.hide()
+    atom.views.getView(atom.workspace).appendChild(@view)
 
-    atom.views.getView(@typePanel).classList.add("atom-ternjs-documentation-panel", "panel-right")
+  setPosition: ->
+    editor = atom.workspace.getActiveTextEditor()
+    @marker = editor.getLastCursor()?.getMarker()
+    @overlayDecoration = editor.decorateMarker(@marker, {type: 'overlay', item: @view, class: 'atom-ternjs-type', position: 'tale', invalidate: 'touch'})
 
-  set: (data) ->
-    @show()
+  destroyOverlay: ->
+    @overlayDecoration?.destroy()
+    @overlayDecoration = null
 
   queryType: ->
+    @destroyOverlay()
     editor = atom.workspace.getActiveTextEditor()
     cursor = editor.getLastCursor()
+
     lineText = cursor.getCurrentBufferLine()
     positionInLine = cursor.getBufferPosition()
     before = lineText.substring(0, positionInLine.column)
     after = lineText.substring(positionInLine.column, lineText.length)
 
-    idxBefore = before.indexOf('(')
-    idxAfter = after.indexOf(')')
+    idxBefore = before.lastIndexOf('(')
+    idxAfter = after.lastIndexOf(')')
     return unless idxBefore > -1 and idxAfter > -1
 
     positionAtParentheses = new Point(positionInLine.row, idxBefore)
 
     @client.type(editor, positionAtParentheses).then (data) =>
-      return unless data
-      @set({
+      return unless data and data.exprName
+      @view.setData({
         word: data.exprName,
         label: data.type,
         docs: {
@@ -49,13 +54,14 @@ class Type
           origin: data.origin,
         }
       })
+      @setPosition()
 
   hide: ->
-    @documentationPanel?.hide()
+    @view.classList.remove('active')
 
   show: ->
-    @documentationPanel?.show()
+    @view.classList.add('active')
 
   destroy: ->
-    @documentation?.destroy()
-    @documentation = null
+    @view?.destroy()
+    @view = null
