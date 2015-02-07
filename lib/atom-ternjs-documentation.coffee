@@ -8,27 +8,10 @@ class Reference
   orientation: null
 
   constructor: (state = {}) ->
-    state.attached ?= true
-
     @documentation = new DocumentationView()
     @documentation.initialize(state)
 
-    @addBottom()
-    @documentationPanel.hide()
-
-    atom.views.getView(@documentationPanel).classList.add("atom-ternjs-documentation-panel", "panel-bottom")
-
-  addBottom: ->
-    @orientation = 'bottom'
-    @documentationPanel = atom.workspace.addBottomPanel(item: @documentation, priority: 100)
-
-  addTop: ->
-    @orientation = 'right'
-    @documentationPanel = atom.workspace.addRightPanel(item: @documentation, priority: 100)
-
-  destroyPanel: ->
-    @documentationPanel?.destroy()
-    @documentationPanel = null
+    atom.views.getView(atom.workspace).appendChild(@documentation)
 
   setPosition: ->
     editor = atom.workspace.getActiveTextEditor()
@@ -36,14 +19,14 @@ class Reference
     cursorTop = cursor.getPixelRect().top - editor.getScrollTop()
     editorHeight = editor.getHeight()
 
-    if editorHeight - cursorTop <= 160 and @orientation is 'bottom'
-      @destroyPanel()
-      @addTop()
+    if editorHeight - cursorTop <= 180
+      @documentation.classList.remove('bottom')
+      @documentation.classList.add('top')
       return
 
-    if editorHeight - cursorTop > 160 and @orientation is 'right'
-      @destroyPanel()
-      @addBottom()
+    if editorHeight - cursorTop > 180
+      @documentation.classList.remove('top')
+      @documentation.classList.add('bottom')
 
   set: (data) ->
     @setPosition()
@@ -52,10 +35,10 @@ class Reference
     @show()
 
   hide: ->
-    @documentationPanel?.hide()
+    @documentation.classList.remove('active')
 
   show: ->
-    @documentationPanel?.show()
+    @documentation.classList.add('active')
 
   destroy: ->
     @documentation?.destroy()

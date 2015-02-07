@@ -5,7 +5,6 @@ class DocumentationView extends HTMLElement
   @elOrigin = null
   @elSub = null
   @elContent = null
-  #@allowed = false
   @active = false
 
   createdCallback: ->

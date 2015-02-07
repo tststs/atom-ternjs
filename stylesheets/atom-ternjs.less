@@ -3,16 +3,18 @@
 // See https://github.com/atom/atom-dark-ui/blob/master/stylesheets/ui-variables.less
 // for a full listing of what's available.
 @import "ui-variables";
+@atom-ternjs-padding: 20px;
+@atom-ternjs-height: 180px;
 
 atom-ternjs-documentation > div, atom-ternjs-reference > div > div {
 
-    max-height: 140px;
+    max-height: @atom-ternjs-height;
     overflow-y: auto;
 }
 
 atom-ternjs-documentation > div {
 
-    padding: 15px 20px 0 20px;
+    padding: @atom-ternjs-padding;
 }
 
 atom-ternjs-reference {
@@ -23,7 +25,7 @@ atom-ternjs-reference {
 
         > div {
 
-            padding: 0 0 10px 20px;
+            padding: 0 0 @atom-ternjs-padding @atom-ternjs-padding;
         }
     }
 
@@ -41,6 +43,34 @@ atom-ternjs-reference {
 
 atom-ternjs-documentation {
 
+    position: absolute;
+    right: calc(@component-padding + 10);
+    background: @app-background-color;
+    color: @text-color;
+    border-radius: @component-border-radius;
+    width: 40%;
+    min-height: @atom-ternjs-height;
+    max-width: 640px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+
+    &.active {
+
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    &.top {
+
+        top: calc(@component-padding + 36);
+    }
+
+    &.bottom {
+
+        bottom: calc(@component-padding + 26);
+    }
+
     h1, h2 {
 
         margin: 0;
@@ -55,7 +85,6 @@ atom-ternjs-documentation {
     p {
 
         margin-top: 10px;
-        max-width: 600px;
 
         > span {
 
@@ -76,18 +105,9 @@ atom-ternjs-documentation {
     }
 }
 
-.panel-right {
-
-    atom-ternjs-documentation > div, atom-ternjs-reference > div > div {
-
-        max-height: none;
-        max-width: 500px;
-    }
-}
-
 .atom-ternjs-reference-close {
 
-    margin: 20px;
+    margin: @atom-ternjs-padding;
     position: absolute;
     right: 0;
     top: 0;
