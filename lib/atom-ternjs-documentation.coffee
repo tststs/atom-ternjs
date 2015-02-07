@@ -29,7 +29,7 @@ class Reference
     if position is 'force middle'
       @documentation.classList.add('middle')
       return
-      
+
     editor = atom.workspace.getActiveTextEditor()
     cursor = editor.getLastCursor()
     cursorTop = cursor.getPixelRect().top - editor.getScrollTop()
@@ -48,9 +48,6 @@ class Reference
     @documentation.classList.remove('bottom', 'top', 'middle')
 
   registerEvents: ->
-    # @disposables.push atom.config.observe('atom-ternjs.docsForceTop', => @removeClasses())
-    # @disposables.push atom.config.observe('atom-ternjs.docsForceBottom', => @removeClasses())
-    # @disposables.push atom.config.observe('atom-ternjs.docsForceMiddle', => @removeClasses())
     @disposables.push atom.config.observe('atom-ternjs.docsPosition', => @removeClasses())
 
   set: (data) ->
