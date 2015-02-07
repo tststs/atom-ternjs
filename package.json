@@ -18,5 +18,12 @@
   },
   "package-dependencies": {
     "autocomplete-plus": "latest"
+  },
+  "providedServices": {
+    "autocomplete.provider": {
+      "versions": {
+        "1.1.0": "provide"
+      }
+    }
   }
 }

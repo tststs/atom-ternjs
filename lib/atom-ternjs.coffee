@@ -13,6 +13,7 @@ class AtomTernInitializer
   client: null
   server: null
   helper: null
+  active: false
 
   # autocomplete-plus
   registration: null
@@ -76,6 +77,7 @@ class AtomTernInitializer
 
   activate: (state) ->
     @startServer()
+    @provider = new Autocomplete()
     @helper = new Helper()
     @registerHelperCommands()
     @disposables.push atom.workspace.onDidOpen (e) =>
@@ -84,17 +86,19 @@ class AtomTernInitializer
   serialize: ->
 
   activatePackage: ->
-    @provider = new Autocomplete()
     @documentation = new Documentation()
     #@type = new Type()
     @provider.init(@client, @documentation)
     @reference = new Reference(@client)
     @registerEvents()
-    @registration = atom.packages.serviceHub.provide('autocomplete.provider', '1.0.0', {provider: @provider})
 
   init: ->
+    @active = true
     @activatePackage()
     @registerCommands()
+
+  provide: ->
+    return {providers: [@provider]}
 
   deactivate: ->
     @stopServer()
@@ -106,6 +110,9 @@ class AtomTernInitializer
     @provider = null
     @reference?.destroy()
     @reference = null
+    @documentation?.destroy()
+    @documentation = null
+    @active = false
 
   unregisterEventsAndCommands: ->
     for disposable in @disposables
@@ -120,7 +127,7 @@ class AtomTernInitializer
       if !@client
         @client = new TernClient()
       @client.port = port
-      if !@provider
+      if !@active
         @init()
 
   isValidEditor: (editor) ->
