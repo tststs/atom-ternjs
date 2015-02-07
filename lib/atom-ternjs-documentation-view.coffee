@@ -54,12 +54,15 @@ class DocumentationView extends HTMLElement
         elOriginWrapper = document.createElement('span')
         elOriginWrapper.innerHTML = 'Origin: '
         elOrigin = document.createElement('span')
-        elOrigin.classList.add('link')
         elOrigin.innerHTML = data.origin
-        elOrigin.dataset.origin = data.origin;
-        elOrigin.addEventListener('click', (e) =>
-          @goToOrigin(e)
-        )
+
+        if data.origin.endsWith('.js') or data.origin.endsWith('.coffee')
+          elOrigin.classList.add('link')
+          elOrigin.dataset.origin = data.origin;
+          elOrigin.addEventListener('click', (e) =>
+            @goToOrigin(e)
+          )
+
         elOriginWrapper.appendChild(elOrigin)
         elDoc.appendChild(elOriginWrapper)
       @elContent.appendChild(elDoc)
