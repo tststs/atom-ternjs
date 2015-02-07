@@ -12,8 +12,24 @@ class Reference
     @documentation.initialize(state)
 
     atom.views.getView(atom.workspace).appendChild(@documentation)
+    @registerEvents()
 
   setPosition: ->
+
+    position = atom.config.get('atom-ternjs.docsPosition')
+
+    if position is 'force top'
+      @documentation.classList.add('top')
+      return
+
+    if position is 'force bottom'
+      @documentation.classList.add('bottom')
+      return
+
+    if position is 'force middle'
+      @documentation.classList.add('middle')
+      return
+      
     editor = atom.workspace.getActiveTextEditor()
     cursor = editor.getLastCursor()
     cursorTop = cursor.getPixelRect().top - editor.getScrollTop()
@@ -28,6 +44,15 @@ class Reference
       @documentation.classList.remove('top')
       @documentation.classList.add('bottom')
 
+  removeClasses: ->
+    @documentation.classList.remove('bottom', 'top', 'middle')
+
+  registerEvents: ->
+    # @disposables.push atom.config.observe('atom-ternjs.docsForceTop', => @removeClasses())
+    # @disposables.push atom.config.observe('atom-ternjs.docsForceBottom', => @removeClasses())
+    # @disposables.push atom.config.observe('atom-ternjs.docsForceMiddle', => @removeClasses())
+    @disposables.push atom.config.observe('atom-ternjs.docsPosition', => @removeClasses())
+
   set: (data) ->
     @setPosition()
     @documentation.setTitle(data.word, data.label)
@@ -41,5 +66,7 @@ class Reference
     @documentation.classList.add('active')
 
   destroy: ->
+    for disposable in @disposables
+      disposable.dispose()
     @documentation?.destroy()
     @documentation = null

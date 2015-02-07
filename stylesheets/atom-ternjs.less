@@ -45,7 +45,8 @@ atom-ternjs-documentation {
 
     position: absolute;
     right: calc(@component-padding + 10);
-    background: @app-background-color;
+    background: fade(@overlay-background-color, 80%);
+    border: 1px solid fade(@base-border-color, 20%);
     color: @text-color;
     border-radius: @component-border-radius;
     width: 40%;
@@ -64,6 +65,11 @@ atom-ternjs-documentation {
     &.top {
 
         top: calc(@component-padding + 36);
+    }
+
+    &.middle {
+
+        top: calc(~'50% - '(@atom-ternjs-height / 2));
     }
 
     &.bottom {

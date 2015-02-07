@@ -30,6 +30,11 @@ class AtomTernInitializer
       description: 'Whether to include documentation strings (if found) in the result data.'
       type: 'boolean'
       default: true
+    docsPosition:
+      title: 'Force the documentation view to be positioned top/bottom/middle'
+      type: 'string'
+      default: 'auto'
+      enum: ['auto', 'force top', 'force bottom', 'force middle']
     urls:
       title: 'Url'
       description: 'Whether to include documentation urls (if found) in the result data.'
