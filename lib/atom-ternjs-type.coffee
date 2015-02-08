@@ -44,6 +44,7 @@ class Type
 
     @manager.client.type(editor, positionAtParentheses).then (data) =>
       return unless data and data.exprName
+      data.type = data.type.replace('fn', data.exprName).replace('->', ':')
       @view.setData({
         word: data.exprName,
         label: data.type,

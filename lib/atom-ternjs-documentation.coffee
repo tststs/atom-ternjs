@@ -49,9 +49,15 @@ class Reference
     @disposables.push atom.config.observe('atom-ternjs.docsPosition', => @removeClasses())
 
   set: (data) ->
-    @setPosition()
+    return unless data.word
+    data.label = data.label.replace('<', '&lt;').replace('>', '&gt;')
+    if data.label.startsWith('fn')
+      content = data.label.replace('fn', data.word)
+    else
+      content = "(#{data.label}) #{data.word}"
     @documentation.setTitle(data.word, data.label)
     @documentation.setContent(data.docs)
+    @setPosition()
     @show()
 
   hide: ->

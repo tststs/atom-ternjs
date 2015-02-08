@@ -5,14 +5,14 @@ class TypeView extends HTMLElement
   createdCallback: ->
     @classList.add('atom-ternjs-type')
     @container = document.createElement('span')
-    
+
     @appendChild(@container)
 
   initialize: (state) ->
     this
 
   setData: (data) ->
-    @container.innerHTML = data.label.replace('fn', data.word)
+    @container.innerHTML = data.label
 
   destroy: ->
     @remove()

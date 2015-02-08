@@ -79,6 +79,8 @@ class Provider
                             # anyway duh
                             obj.name = obj.name.replace /(^"|"$)/g, ''
 
+                        obj.type = obj.type.replace('->', ':')
+
                         that.suggestionsArr.push {
                             word: obj.name,
                             prefix: prefix,

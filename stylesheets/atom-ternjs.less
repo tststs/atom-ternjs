@@ -48,6 +48,8 @@ atom-ternjs-type {
     color: @text-color;
     border-radius: @component-border-radius;
     padding: 5px;
+    top: calc(-(@component-line-height * 2 + 5));
+    position: relative;
 
     span {
 
@@ -92,15 +94,9 @@ atom-ternjs-documentation {
         bottom: calc(@component-padding + 26);
     }
 
-    h1, h2 {
-
+    h2 {
+        
         margin: 0;
-        display: inline-block;
-    }
-
-    h1.seperator {
-
-        margin: 0 10px;
     }
 
     p {

@@ -1,25 +1,16 @@
 class DocumentationView extends HTMLElement
 
   @elTitle = null
-  @elSub = null
   @elContent = null
 
   createdCallback: ->
     @classList.add('atom-ternjs-documentation')
     container = document.createElement('div')
 
-    @elTitle = document.createElement('h1')
-
-    seperator = document.createElement('h1')
-    seperator.classList.add('seperator')
-    seperator.innerHTML = '-'
-
-    @elSub = document.createElement('h2')
+    @elTitle = document.createElement('h2')
     @elContent = document.createElement('div')
 
     container.appendChild(@elTitle)
-    container.appendChild(seperator)
-    container.appendChild(@elSub)
     container.appendChild(@elContent)
 
     @appendChild(container)
@@ -27,10 +18,13 @@ class DocumentationView extends HTMLElement
   initialize: (state) ->
     this
 
-  setTitle: (name, params) ->
-    return unless name
-    @elTitle.innerHTML = name
-    @elSub.innerHTML = params
+  setTitle: (word, label) ->
+    return unless word
+    label = label.replace('<', '&lt;').replace('>', '&gt;')
+    if label.startsWith('fn')
+      @elTitle.innerHTML = label.replace('fn', word)
+    else
+      @elTitle.innerHTML = "#{word} : #{label}"
 
   setContent: (data) ->
     @elContent.innerHTML = ''
