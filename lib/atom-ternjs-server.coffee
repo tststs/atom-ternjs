@@ -1,5 +1,5 @@
 module.exports =
-class AtomTernjsServer
+class Server
 
   process = null
 

@@ -3,7 +3,7 @@ $.ajaxSetup({ cache: false })
 Helper = require './atom-ternjs-helper'
 
 module.exports =
-class AtomTernjsClient
+class Client
 
   port: null
   helper: null

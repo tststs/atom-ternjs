@@ -5,7 +5,7 @@ class TypeView extends HTMLElement
   createdCallback: ->
     @classList.add('atom-ternjs-type')
     @container = document.createElement('span')
-
+    
     @appendChild(@container)
 
   initialize: (state) ->

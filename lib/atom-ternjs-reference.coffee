@@ -5,12 +5,12 @@ class Reference
 
   reference: null
   disposables: []
-  client: null
+  manager: null
 
-  constructor: (client, state = {}) ->
+  constructor: (manager, state = {}) ->
     state.attached ?= true
 
-    @client = client
+    @manager = manager
 
     @reference = new ReferenceView()
     @reference.initialize(state)
@@ -41,15 +41,15 @@ class Reference
     return unless editor
     cursor = editor.getLastCursor()
     position = cursor.getBufferPosition()
-    @client.refs(editor.getURI(), {line: position.row, ch: position.column}).then (data) =>
-      @referencePanel?.show()
+    @manager.client.refs(editor.getURI(), {line: position.row, ch: position.column}).then (data) =>
+      @referencePanel.show()
       @reference.buildItems(data)
 
   hide: ->
-    @referencePanel?.hide()
+    @referencePanel.hide()
 
   show: ->
-    @referencePanel?.show()
+    @referencePanel.show()
 
   destroy: ->
     for disposable in @disposables

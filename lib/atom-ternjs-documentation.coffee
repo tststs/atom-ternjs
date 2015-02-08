@@ -38,9 +38,7 @@ class Reference
     if editorHeight - cursorTop <= 180
       @documentation.classList.remove('bottom')
       @documentation.classList.add('top')
-      return
-
-    if editorHeight - cursorTop > 180
+    else
       @documentation.classList.remove('top')
       @documentation.classList.add('bottom')
 

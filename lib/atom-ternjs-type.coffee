@@ -5,13 +5,11 @@ module.exports =
 class Type
 
   view: null
-  disposables: []
-  client: null
+  manager: null
   overlayDecoration: null
-  marker: null
 
-  constructor: (client, state = {}) ->
-    @client = client
+  constructor: (manager, state = {}) ->
+    @manager = manager
 
     @view = new TypeView()
     @view.initialize(state)
@@ -20,8 +18,9 @@ class Type
 
   setPosition: ->
     editor = atom.workspace.getActiveTextEditor()
-    @marker = editor.getLastCursor()?.getMarker()
-    @overlayDecoration = editor.decorateMarker(@marker, {type: 'overlay', item: @view, class: 'atom-ternjs-type', position: 'tale', invalidate: 'touch'})
+    marker = editor.getLastCursor?().getMarker()
+    return unless marker
+    @overlayDecoration = editor.decorateMarker(marker, {type: 'overlay', item: @view, class: 'atom-ternjs-type', position: 'tale', invalidate: 'touch'})
 
   destroyOverlay: ->
     @overlayDecoration?.destroy()
@@ -43,7 +42,7 @@ class Type
 
     positionAtParentheses = new Point(positionInLine.row, idxBefore)
 
-    @client.type(editor, positionAtParentheses).then (data) =>
+    @manager.client.type(editor, positionAtParentheses).then (data) =>
       return unless data and data.exprName
       @view.setData({
         word: data.exprName,
@@ -63,5 +62,6 @@ class Type
     @view.classList.add('active')
 
   destroy: ->
+    @destroyOverlay()
     @view?.destroy()
     @view = null

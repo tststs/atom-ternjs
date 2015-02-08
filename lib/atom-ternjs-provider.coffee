@@ -2,14 +2,13 @@ apd = require 'atom-package-dependencies'
 {Function} = require 'loophole'
 
 module.exports =
-class AtomTernjsAutocomplete
+class Provider
 
     exclusive: true
-    client: null
-    suggestionsArr = null
-    currentSuggestionIndex: null
-    disposables: null
-    documentation = null
+    manager: null
+    suggestionsArr = []
+    currentSuggestionIndex: 0
+    disposables: []
     maxItems = null
     force = false
     # automcomplete-plus
@@ -18,16 +17,12 @@ class AtomTernjsAutocomplete
     selector: '.source.js'
     blacklist: '.source.js .comment'
 
-    init: (client, documentation) ->
+    init: (manager) ->
+        @manager = manager
         atom.packages.activatePackage('autocomplete-plus')
           .then (pkg) =>
             @autocompletePlus = apd.require('autocomplete-plus')
             @registerEvents()
-        @disposables = []
-        @suggestionsArr = []
-        @currentSuggestionIndex = 0
-        @client = client
-        @documentation = documentation
 
     isValidPrefix: (prefix) ->
         return true if prefix[prefix.length - 1] is '\.'
@@ -51,11 +46,11 @@ class AtomTernjsAutocomplete
 
         # .. crashes the server
         if prefix.indexOf('..') != -1
-            @documentation.hide()
+            @manager.documentation.hide()
             return []
 
         if !@isValidPrefix(prefix) and !@force
-            @documentation.hide()
+            @manager.documentation.hide()
             return []
 
         prefix = @fixPrefix(prefix)
@@ -63,16 +58,16 @@ class AtomTernjsAutocomplete
         that = this
 
         return new Promise (resolve) ->
-            that.client.update(options.editor.getURI(), options.editor.getText()).then =>
-                that.client.completions(options.editor.getURI(), {line: options.position.row, ch: options.position.column}).then (data) =>
+            that.manager.client.update(options.editor.getURI(), options.editor.getText()).then =>
+                that.manager.client.completions(options.editor.getURI(), {line: options.position.row, ch: options.position.column}).then (data) =>
                     that.clearSuggestions()
                     if !data.completions.length
                         resolve([])
-                        that.documentation.hide()
+                        that.manager.documentation.hide()
                         return
                     if data.completions.length is 1 and data.completions[0].name.replace('$', '') is prefix
                         resolve([])
-                        that.documentation.hide()
+                        that.manager.documentation.hide()
                         return
                     for obj, index in data.completions
                         if index == maxItems
@@ -104,7 +99,7 @@ class AtomTernjsAutocomplete
                                     this.word = this.prefix + this.word
                             onDidConfirm: ->
                                 that.clearSuggestions()
-                                that.documentation.hide()
+                                that.manager.documentation.hide()
                         }
                     resolve(that.suggestionsArr)
                     that.setDocumentationContent()
@@ -114,15 +109,15 @@ class AtomTernjsAutocomplete
     setDocumentationContent: (length) ->
         return unless @suggestionsArr.length
         if @currentSuggestionIndex >= @suggestionsArr.length
-            @hideDocumentation()
+            @manager.documentation.hide()
             return
 
         currentSuggestion = @suggestionsArr[@currentSuggestionIndex]
         if !currentSuggestion._ternDocs and !currentSuggestion._ternUrl and !currentSuggestion._ternOrigin
-            @documentation.hide()
+            @manager.documentation.hide()
             return
 
-        @documentation.set({
+        @manager.documentation.set({
             word: currentSuggestion.word,
             label: currentSuggestion.label,
             docs: {
@@ -142,7 +137,7 @@ class AtomTernjsAutocomplete
     clearSuggestionsAndHide: ->
         @suggestionsArr = []
         @currentSuggestionIndex = 0
-        @documentation?.hide()
+        @manager.documentation.hide()
 
     clearSuggestions: ->
         @suggestionsArr = []
@@ -152,11 +147,7 @@ class AtomTernjsAutocomplete
         @autocompletePlus.autocompleteManager.hideSuggestionList()
         @clearSuggestions()
 
-    hideDocumentation: ->
-        @documentation.hide()
-
     getMaxIndex: (length) ->
-        #Math.min(maxItems, @suggestionsArr.length)
         Math.min(maxItems, length)
 
     addSelector: (selector) ->
@@ -169,7 +160,7 @@ class AtomTernjsAutocomplete
         @disposables.push atom.config.observe('autocomplete-plus.maxSuggestions', => maxItems = atom.config.get('autocomplete-plus.maxSuggestions'))
         @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-cancel', =>
             @clearSuggestions()
-            @documentation.hide()
+            @manager.documentation.hide()
         @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-select-next', =>
             length = @autocompletePlus.autocompleteManager.suggestionList.items.length
             if ++@currentSuggestionIndex >= @getMaxIndex(length)
@@ -186,6 +177,5 @@ class AtomTernjsAutocomplete
             disposable.dispose()
         @disposables = []
 
-    cleanup: ->
-        @documentation.hide()
+    destroy: ->
         @unregisterEvents()

@@ -1,11 +1,8 @@
 class DocumentationView extends HTMLElement
 
   @elTitle = null
-  @elUrl = null
-  @elOrigin = null
   @elSub = null
   @elContent = null
-  @active = false
 
   createdCallback: ->
     @classList.add('atom-ternjs-documentation')

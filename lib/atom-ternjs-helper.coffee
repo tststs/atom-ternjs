@@ -2,7 +2,7 @@ fs = require 'fs'
 path = require 'path'
 
 module.exports =
-class AtomTernjsHelper
+class Helper
 
   projectRoot: null
   ternProjectFileContent: '{\n
