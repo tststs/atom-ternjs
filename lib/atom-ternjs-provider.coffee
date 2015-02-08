@@ -72,14 +72,7 @@ class Provider
                     for obj, index in data.completions
                         if index == maxItems
                             break
-                        if obj.type == 'string'
-                            # remove leading and trailing double quotes since
-                            # they are already typed and won't be replaced by
-                            # the suggestion and who would use double quotes
-                            # anyway duh
-                            obj.name = obj.name.replace /(^"|"$)/g, ''
-
-                        obj.type = obj.type.replace('->', ':')
+                        obj = that.fixCompletion(obj)
 
                         that.suggestionsArr.push {
                             word: obj.name,
@@ -107,6 +100,17 @@ class Provider
                     that.setDocumentationContent()
                 , (err) ->
                     console.log err
+
+    fixCompletion: (obj) ->
+        if obj.type == 'string'
+            # remove leading and trailing double quotes since
+            # they are already typed and won't be replaced by
+            # the suggestion and who would use double quotes
+            # anyway duh
+            obj.name = obj.name.replace /(^"|"$)/g, ''
+
+        obj.type = obj.type.replace('->', ':')
+        obj
 
     setDocumentationContent: (length) ->
         return unless @suggestionsArr.length

@@ -32,6 +32,9 @@ class Type
     cursor = editor.getLastCursor()
 
     lineText = cursor.getCurrentBufferLine()
+
+    return if lineText.indexOf('..') != -1
+
     positionInLine = cursor.getBufferPosition()
     before = lineText.substring(0, positionInLine.column)
     after = lineText.substring(positionInLine.column, lineText.length)
@@ -42,19 +45,20 @@ class Type
 
     positionAtParentheses = new Point(positionInLine.row, idxBefore)
 
-    @manager.client.type(editor, positionAtParentheses).then (data) =>
-      return unless data and data.exprName
-      data.type = data.type.replace('fn', data.exprName).replace('->', ':')
-      @view.setData({
-        word: data.exprName,
-        label: data.type,
-        docs: {
-          doc: data.doc,
-          url: data.url,
-          origin: data.origin,
-        }
-      })
-      @setPosition()
+    @manager.client.update(editor.getURI(), editor.getText()).then =>
+      @manager.client.type(editor, positionAtParentheses).then (data) =>
+        return unless data and data.exprName
+        data.type = data.type.replace('fn', data.exprName).replace('->', ':')
+        @view.setData({
+          word: data.exprName,
+          label: data.type,
+          docs: {
+            doc: data.doc,
+            url: data.url,
+            origin: data.origin,
+          }
+        })
+        @setPosition()
 
   hide: ->
     @view.classList.remove('active')

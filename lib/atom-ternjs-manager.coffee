@@ -71,11 +71,7 @@ class Manager
       @disposables.push editor.onDidChangeCursorPosition (event) =>
         return unless @isValidEditor(editor)
         if atom.config.get('atom-ternjs.inlineFnCompletion')
-          if event.textChanged
-            @client.update(editor.getURI(), editor.getText()).then =>
-              @type.queryType()
-          else
-            @type.queryType()
+          @type.queryType()
         return if event.textChanged
         @documentation.hide()
       @disposables.push editor.getBuffer().onDidChangeModified (modified) =>
