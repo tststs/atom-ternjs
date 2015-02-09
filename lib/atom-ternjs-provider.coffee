@@ -103,13 +103,9 @@ class Provider
 
     fixCompletion: (obj) ->
         if obj.type == 'string'
-            # remove leading and trailing double quotes since
-            # they are already typed and won't be replaced by
-            # the suggestion and who would use double quotes
-            # anyway duh
             obj.name = obj.name.replace /(^"|"$)/g, ''
 
-        obj.type = obj.type.replace('->', ':')
+        obj.type = obj.type?.replace('->', ':')
         obj
 
     setDocumentationContent: (length) ->

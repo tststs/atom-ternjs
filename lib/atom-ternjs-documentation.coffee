@@ -49,7 +49,7 @@ class Reference
     @disposables.push atom.config.observe('atom-ternjs.docsPosition', => @removeClasses())
 
   set: (data) ->
-    return unless data.word
+    return unless data.word and data.label
     data.label = data.label.replace('<', '&lt;').replace('>', '&gt;')
     if data.label.startsWith('fn')
       content = data.label.replace('fn', data.word)
