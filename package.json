@@ -11,13 +11,13 @@
     "atom": ">0.176.0"
   },
   "dependencies": {
-    "jquery": "*",
-    "loophole": "*",
-    "tern": "git://github.com/marijnh/tern.git",
-    "atom-package-dependencies": "*"
+    "jquery": "latest",
+    "loophole": "latest",
+    "tern": "latest",
+    "atom-package-dependencies": "latest"
   },
   "package-dependencies": {
-    "autocomplete-plus": "*"
+    "autocomplete-plus": "latest"
   },
   "providedServices": {
     "autocomplete.provider": {
