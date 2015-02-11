@@ -26,11 +26,10 @@ class Type
     @overlayDecoration?.destroy()
     @overlayDecoration = null
 
-  queryType: ->
+  queryType: (editor) ->
     @destroyOverlay()
-    editor = atom.workspace.getActiveTextEditor()
-    cursor = editor.getLastCursor()
 
+    cursor = editor.getLastCursor()
     lineText = cursor.getCurrentBufferLine()
 
     return if lineText.indexOf('..') != -1
