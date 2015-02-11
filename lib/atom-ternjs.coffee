@@ -63,7 +63,7 @@ module.exports =
       order: 7
     coffeeScript:
       title: 'CoffeeScript'
-      description: 'Completions for CoffeeScript.'
+      description: 'Completions for CoffeeScript. Please restart atom after activating/deactivating this option (highly experimental)'
       type: 'boolean'
       default: false
       order: 8

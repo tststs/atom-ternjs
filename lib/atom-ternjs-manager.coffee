@@ -18,6 +18,7 @@ class Manager
 
   constructor: (provider) ->
     @provider = provider
+    @checkGrammarSettings()
     @startServer()
     @helper = new Helper()
     @registerHelperCommands()
@@ -84,12 +85,15 @@ class Manager
     @disposables.push atom.config.observe 'atom-ternjs.inlineFnCompletion', =>
       @type?.destroyOverlay()
     @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
-      if atom.config.get('atom-ternjs.coffeeScript')
-        @addGrammar('CoffeeScript')
-        @provider.addSelector('.source.coffee')
-      else
-        @removeGrammar('CoffeeScript')
-        @provider.removeSelector('.source.coffee')
+      @checkGrammarSettings()
+
+  checkGrammarSettings: ->
+    if atom.config.get('atom-ternjs.coffeeScript')
+      @addGrammar('CoffeeScript')
+      @provider.addSelector('.source.coffee')
+    else
+      @removeGrammar('CoffeeScript')
+      @provider.removeSelector('.source.coffee')
 
   addGrammar: (grammar) ->
     return unless @grammars.indexOf(grammar) is -1
