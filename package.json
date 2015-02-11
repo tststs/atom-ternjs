@@ -11,13 +11,13 @@
     "atom": ">0.176.0"
   },
   "dependencies": {
-    "jquery": "latest",
-    "loophole": "latest",
-    "tern": "latest",
-    "atom-package-dependencies": "latest"
+    "jquery": "*",
+    "loophole": "*",
+    "tern": "*",
+    "atom-package-dependencies": "*"
   },
   "package-dependencies": {
-    "autocomplete-plus": "latest"
+    "autocomplete-plus": "*"
   },
   "providedServices": {
     "autocomplete.provider": {
