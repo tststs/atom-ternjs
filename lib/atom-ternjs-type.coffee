@@ -30,6 +30,8 @@ class Type
     @destroyOverlay()
 
     cursor = editor.getLastCursor()
+    return unless cursor
+
     lineText = cursor.getCurrentBufferLine()
 
     return if lineText.indexOf('..') != -1
