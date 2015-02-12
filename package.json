@@ -13,7 +13,7 @@
   "dependencies": {
     "jquery": "*",
     "loophole": "*",
-    "tern": "git://github.com/marijnh/tern#master",
+    "tern": "*",
     "atom-package-dependencies": "*"
   },
   "package-dependencies": {
