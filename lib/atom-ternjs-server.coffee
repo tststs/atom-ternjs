@@ -6,7 +6,7 @@ class Server
   start: (callback) ->
     path = require 'path'
     command = path.resolve __dirname, '../node_modules/.bin/tern'
-    args = ['--persistent', '--no-port-file']
+    args = ['--persistent', '--no-port-file', '--verbose']
     options =
       cwd: atom.project.getDirectories()[0].path
     stdout = (output) ->
