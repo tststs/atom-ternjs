@@ -48,13 +48,19 @@ atom-ternjs-type {
     color: @text-color;
     border-radius: @component-border-radius;
     padding: 5px;
-    top: calc(-(@component-line-height * 2 + 5));
+    //top: calc(-(@component-line-height * 2 + 5));
     position: relative;
 
     span {
 
         display: inline-block;
         padding: 10px 0 0 0;
+    }
+
+    .current-param {
+
+        font-weight: 500;
+        color: @text-color-highlight;
     }
 }
 

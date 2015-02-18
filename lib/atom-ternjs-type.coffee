@@ -32,27 +32,56 @@ class Type
     cursor = editor.getLastCursor()
     return unless cursor
 
-    lineText = cursor.getCurrentBufferLine()
+    tolerance = 10
+    rowStart = 0
+    position = cursor.getBufferPosition()
+    lineCount = editor.getLineCount()
 
-    return if lineText.indexOf('..') != -1
+    if (position.row - tolerance < 0)
+      rowStart = 0
+    else
+      rowStart = position.row - tolerance
 
-    positionInLine = cursor.getBufferPosition()
-    before = lineText.substring(0, positionInLine.column)
-    after = lineText.substring(positionInLine.column, lineText.length)
+    buffer = editor.getBuffer()
+    rangeBefore = false
+    tmp = false
+    skipCounter = 0
+    paramPosition = 0
 
-    idxBefore = before.lastIndexOf('(')
-    idxAfter = after.lastIndexOf(')')
-    return unless idxBefore > -1 and idxAfter > -1
+    buffer.backwardsScanInRange(/\(|\)|\,/g, [[rowStart, 0], [position.row, position.column]], (obj) =>
 
-    positionAtParentheses = new Point(positionInLine.row, idxBefore)
+      if obj.matchText is ',' and not skipCounter
+        paramPosition++
+        return
+
+      if obj.matchText is ')' and tmp is false
+        skipCounter++
+        return
+
+      if obj.matchText is '(' and skipCounter
+        skipCounter--
+        return
+
+      if obj.matchText is '(' and tmp is false
+        rangeBefore = obj.range
+        obj.stop()
+        return
+
+      tmp = obj.matchText
+    )
+
+    return unless rangeBefore
 
     @manager.client.update(editor.getURI(), editor.getText()).then =>
-      @manager.client.type(editor, positionAtParentheses).then (data) =>
+      @manager.client.type(editor, rangeBefore.start).then (data) =>
         return unless data and data.exprName
-        data.type = data.type.replace('fn', data.exprName).replace('->', ':')
+        data.type = @manager.helper.formatType(data)
+        matches = data.type.match(/(\w{1,}\?{0,}: (\w|\?){1,})/g)
+        if matches?[paramPosition]
+          data.type = data.type.replace(matches[paramPosition], '<span class=\"current-param\">' + matches[paramPosition] + '</span>')
         @view.setData({
           word: data.exprName,
-          label: data.type,
+          label: data.type
           docs: {
             doc: data.doc,
             url: data.url,

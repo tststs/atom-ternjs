@@ -14,6 +14,7 @@
     "jquery": "*",
     "loophole": "*",
     "tern": "*",
+    "esprima": "*",
     "atom-package-dependencies": "*"
   },
   "package-dependencies": {

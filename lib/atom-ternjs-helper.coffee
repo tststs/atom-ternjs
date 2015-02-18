@@ -62,3 +62,6 @@ class Helper
       buffer = textEditor.getBuffer()
       cursor = textEditor.getLastCursor()
       cursor.setBufferPosition(buffer.positionForCharacterIndex(start))
+
+  formatType: (data) ->
+    str = data.type.replace('fn', data.exprName).replace(/->/g, ':').replace('<top>', 'window')
