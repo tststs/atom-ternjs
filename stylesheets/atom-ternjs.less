@@ -48,7 +48,6 @@ atom-ternjs-type {
     color: @text-color;
     border-radius: @component-border-radius;
     padding: 5px;
-    //top: calc(-(@component-line-height * 2 + 5));
     position: relative;
 
     span {
@@ -126,6 +125,25 @@ atom-ternjs-documentation {
         &:hover {
 
             text-decoration: underline;
+        }
+    }
+}
+
+atom-text-editor::shadow .atom-ternjs-definition-marker {
+
+    div {
+        
+        transition: opacity 0.75s ease;
+        opacity: 0;
+        background: @background-color-selected;
+        border-bottom: 4px solid @background-color-warning;
+    }
+
+    &.active {
+
+        div {
+
+            opacity: 1;
         }
     }
 }

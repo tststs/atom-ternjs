@@ -56,12 +56,24 @@ class Helper
       cursor = editor.getLastCursor()
       buffer = editor.getBuffer()
       cursor.setBufferPosition(buffer.positionForCharacterIndex(start))
+      @markDefinitionBufferRange(cursor, editor)
       return
     # else open the file and set cursor position to definition
+    that = this
     atom.workspace.open(file).then (textEditor) ->
       buffer = textEditor.getBuffer()
       cursor = textEditor.getLastCursor()
       cursor.setBufferPosition(buffer.positionForCharacterIndex(start))
+      that.markDefinitionBufferRange(cursor, textEditor)
 
   formatType: (data) ->
     str = data.type.replace('fn', data.exprName).replace(/->/g, ':').replace('<top>', 'window')
+
+  markDefinitionBufferRange: (cursor, editor) ->
+    range = cursor.getCurrentWordBufferRange()
+    marker = editor.markBufferRange(range, {invalidate: 'touch'})
+
+    decoration = editor.decorateMarker(marker, type: 'highlight', class: 'atom-ternjs-definition-marker', invalidate: 'touch')
+    setTimeout (-> decoration?.setProperties(type: 'highlight', class: 'atom-ternjs-definition-marker active', invalidate: 'touch')), 1
+    setTimeout (-> decoration?.setProperties(type: 'highlight', class: 'atom-ternjs-definition-marker', invalidate: 'touch')), 1501
+    setTimeout (-> marker.destroy()), 2500
