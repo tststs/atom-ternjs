@@ -73,7 +73,7 @@ class Client
       if data?.start
         @helper.openFileAndGoTo(data.start, data.file, editor)
     , (err) ->
-      console.error 'error', err
+      console.log err
 
   post: (data) ->
     $.post("http://localhost:#{@port}", data).then (data) ->

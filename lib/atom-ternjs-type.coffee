@@ -45,10 +45,24 @@ class Type
     buffer = editor.getBuffer()
     rangeBefore = false
     tmp = false
+    may = false
     skipCounter = 0
     paramPosition = 0
+    cancel = false
 
-    buffer.backwardsScanInRange(/\(|\)|\,/g, [[rowStart, 0], [position.row, position.column]], (obj) =>
+    buffer.backwardsScanInRange(/\(|\)|\,|\{|\}/g, [[rowStart, 0], [position.row, position.column]], (obj) =>
+
+      if obj.matchText is '}'
+        may = true
+        return
+
+      if obj.matchText is '{'
+        if !may
+          rangeBefore = false
+          obj.stop()
+          return
+        may = false
+        return
 
       if obj.matchText is ',' and not skipCounter
         paramPosition++
@@ -72,11 +86,17 @@ class Type
 
     return unless rangeBefore
 
+    text = buffer.getTextInRange([[rangeBefore.start.row, 0], [rangeBefore.start.row, rangeBefore.start.column]])
+
+    return if !text.replace(/\s/g, '').length
+    return if text.match(/\bif\b/)
+
     @manager.client.update(editor.getURI(), editor.getText()).then =>
       @manager.client.type(editor, rangeBefore.start).then (data) =>
+        return if data.type is '?'
         return unless data and data.exprName
         data.type = @manager.helper.formatType(data)
-        matches = data.type.match(/(\w{1,}\?{0,}: (\w|\?){1,})/g)
+        matches = data.type.match(/(\w{1,}\?{0,}: (\w|\?|\[\?\]){1,})/g)
         if matches?[paramPosition]
           data.type = data.type.replace(matches[paramPosition], '<span class=\"current-param\">' + matches[paramPosition] + '</span>')
         @view.setData({
