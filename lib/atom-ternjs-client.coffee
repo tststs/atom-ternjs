@@ -7,25 +7,56 @@ class Client
 
   port: null
   helper: null
+  disposables: []
+  config:
+    sort: false
+    guess: false
+    docs: false
+    urls: false
+    origins: false
+    caseInsensitive: false
+    documentation: false
+
 
   constructor: ->
+    @registerEvents()
     @helper = new Helper()
 
+  registerEvents: ->
+    @disposables.push atom.config.observe 'atom-ternjs.docs', =>
+      @config.docs = atom.config.get('atom-ternjs.docs')
+    @disposables.push atom.config.observe 'atom-ternjs.sort', =>
+      @config.sort = atom.config.get('atom-ternjs.sort')
+    @disposables.push atom.config.observe 'atom-ternjs.guess', =>
+      @config.guess = atom.config.get('atom-ternjs.guess')
+    @disposables.push atom.config.observe 'atom-ternjs.urls', =>
+      @config.urls = atom.config.get('atom-ternjs.urls')
+    @disposables.push atom.config.observe 'atom-ternjs.origins', =>
+      @config.origins = atom.config.get('atom-ternjs.origins')
+    @disposables.push atom.config.observe 'atom-ternjs.caseInsensitive', =>
+      @config.caseInsensitive = atom.config.get('atom-ternjs.caseInsensitive')
+    @disposables.push atom.config.observe 'atom-ternjs.documentation', =>
+      @config.documentation = atom.config.get('atom-ternjs.documentation')
+
+  unregisterEvents: ->
+    for disposable in @disposables
+      disposable.dispose()
+    @disposables = []
+
   completions: (file, end) ->
-    docs = atom.config.get('atom-ternjs.docs')
     @post(JSON.stringify
       query:
         type: 'completions'
         file: file
         end: end
         types: true
-        sort: atom.config.get('atom-ternjs.sort')
-        guess: atom.config.get('atom-ternjs.guess')
-        docs: docs and atom.config.get('atom-ternjs.documentation')
-        urls: docs and atom.config.get('atom-ternjs.urls')
-        origins: docs and atom.config.get('atom-ternjs.origins')
+        sort: @config.sort
+        guess: @config.guess
+        docs: @config.docs and @config.documentation
+        urls: @config.docs and @config.urls
+        origins: @config.docs and @config.origins
         lineCharPositions: true
-        caseInsensitive: atom.config.get('atom-ternjs.caseInsensitive')
+        caseInsensitive: @config.caseInsensitive
     )
 
   refs: (file, end) ->
