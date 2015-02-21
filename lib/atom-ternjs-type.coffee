@@ -18,7 +18,6 @@ class Type
     atom.views.getView(atom.workspace).appendChild(@view)
 
   setPosition: ->
-    console.log @marker
     if !@marker
       editor = atom.workspace.getActiveTextEditor()
       @marker = editor.getLastCursor?().getMarker()
@@ -28,7 +27,6 @@ class Type
       @marker.setProperties({type: 'overlay', item: @view, class: 'atom-ternjs-type', position: 'tale', invalidate: 'touch'})
 
   destroyOverlay: ->
-    console.log 'destroy'
     @overlayDecoration?.destroy()
     @overlayDecoration = null
     @marker = null
