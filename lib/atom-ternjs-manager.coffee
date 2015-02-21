@@ -15,6 +15,7 @@ class Manager
   helper: null
   provider: null
   initialised: false
+  inlineFnCompletion: false
 
   constructor: (provider) ->
     @provider = provider
@@ -71,7 +72,7 @@ class Manager
     @disposables.push atom.workspace.observeTextEditors (editor) =>
       @disposables.push editor.onDidChangeCursorPosition (event) =>
         return unless @isValidEditor(editor)
-        if atom.config.get('atom-ternjs.inlineFnCompletion')
+        if @inlineFnCompletion
           @type.queryType(editor)
         return if event.textChanged
         @documentation.hide()
@@ -83,6 +84,7 @@ class Manager
       if !@isValidEditor(item)
         @reference.hide()
     @disposables.push atom.config.observe 'atom-ternjs.inlineFnCompletion', =>
+      @inlineFnCompletion = atom.config.get('atom-ternjs.inlineFnCompletion')
       @type?.destroyOverlay()
     @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
       @checkGrammarSettings()
