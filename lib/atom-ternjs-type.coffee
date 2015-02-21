@@ -7,6 +7,7 @@ class Type
   view: null
   manager: null
   overlayDecoration: null
+  marker: null
 
   constructor: (manager, state = {}) ->
     @manager = manager
@@ -17,14 +18,20 @@ class Type
     atom.views.getView(atom.workspace).appendChild(@view)
 
   setPosition: ->
-    editor = atom.workspace.getActiveTextEditor()
-    marker = editor.getLastCursor?().getMarker()
-    return unless marker
-    @overlayDecoration = editor.decorateMarker(marker, {type: 'overlay', item: @view, class: 'atom-ternjs-type', position: 'tale', invalidate: 'touch'})
+    console.log @marker
+    if !@marker
+      editor = atom.workspace.getActiveTextEditor()
+      @marker = editor.getLastCursor?().getMarker()
+      return unless @marker
+      @overlayDecoration = editor.decorateMarker(@marker, {type: 'overlay', item: @view, class: 'atom-ternjs-type', position: 'tale', invalidate: 'touch'})
+    else
+      @marker.setProperties({type: 'overlay', item: @view, class: 'atom-ternjs-type', position: 'tale', invalidate: 'touch'})
 
   destroyOverlay: ->
+    console.log 'destroy'
     @overlayDecoration?.destroy()
     @overlayDecoration = null
+    @marker = null
 
   queryType: (editor) ->
     cursor = editor.getLastCursor()
