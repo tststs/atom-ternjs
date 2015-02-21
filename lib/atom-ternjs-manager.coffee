@@ -70,8 +70,8 @@ class Manager
 
   registerEvents: ->
     @disposables.push atom.workspace.observeTextEditors (editor) =>
+      return unless @isValidEditor(editor)
       @disposables.push editor.onDidChangeCursorPosition (event) =>
-        return unless @isValidEditor(editor)
         if @inlineFnCompletion
           @type.queryType(editor)
         return if event.textChanged
