@@ -27,8 +27,6 @@ class Type
     @overlayDecoration = null
 
   queryType: (editor) ->
-    @destroyOverlay()
-
     cursor = editor.getLastCursor()
     return unless cursor
 
@@ -84,20 +82,22 @@ class Type
       tmp = obj.matchText
     )
 
-    return unless rangeBefore
+    if !rangeBefore
+      @destroyOverlay()
+      return
 
     text = buffer.getTextInRange([[rangeBefore.start.row, 0], [rangeBefore.start.row, rangeBefore.start.column]])
 
-    return if !text.replace(/\s/g, '').length
-    return if text.match(/\bif\b/)
+    if !text.replace(/\s/g, '').length or text.match(/\bif\b/)
+      @destroyOverlay()
+      return
 
     @manager.client.update(editor.getURI(), editor.getText()).then =>
       @manager.client.type(editor, rangeBefore.start).then (data) =>
-        console.log data
-        return if data.type is '?'
-        return unless data and data.exprName
+        if !data or data.type is '?' or !data.exprName
+          @destroyOverlay()
+          return
         data.type = @manager.helper.formatType(data)
-        #matches = data.type.match(/(\w{1,}\?{0,}: (\w|\?|\[\?\]){1,})/g)
         matches = data.type.match(/(\w{1,}\?{0,}: (\w|\?|\[\?\]){1,}(\(\))?)/g)
         if matches?[paramPosition]
           data.type = data.type.replace(matches[paramPosition], '<span class=\"current-param\">' + matches[paramPosition] + '</span>')
