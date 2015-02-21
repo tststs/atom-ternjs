@@ -103,7 +103,7 @@ class Type
           @destroyOverlay()
           return
         data.type = @manager.helper.formatType(data)
-        matches = data.type.match(/(\w{1,}\?{0,}: (\w|\?|\[\?\]){1,}(\(\))?)/g)
+        matches = data.type.match(/(\w{1,}\?{0,}: (\w|\?|\[\?\]){1,}(\(\w{0,}\.?\w{0,}\))?)/g)
         if matches?[paramPosition]
           data.type = data.type.replace(matches[paramPosition], '<span class=\"current-param\">' + matches[paramPosition] + '</span>')
         @view.setData({
