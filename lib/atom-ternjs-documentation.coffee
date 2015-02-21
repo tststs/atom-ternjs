@@ -6,6 +6,7 @@ class Reference
   documentation: null
   disposables: []
   orientation: null
+  position: null
 
   constructor: (state = {}) ->
     @documentation = new DocumentationView()
@@ -15,18 +16,15 @@ class Reference
     @registerEvents()
 
   setPosition: ->
-
-    position = atom.config.get('atom-ternjs.docsPosition')
-
-    if position is 'force top'
+    if @position is 'force top'
       @documentation.classList.add('top')
       return
 
-    if position is 'force bottom'
+    if @position is 'force bottom'
       @documentation.classList.add('bottom')
       return
 
-    if position is 'force middle'
+    if @position is 'force middle'
       @documentation.classList.add('middle')
       return
 
@@ -46,7 +44,10 @@ class Reference
     @documentation.classList.remove('bottom', 'top', 'middle')
 
   registerEvents: ->
-    @disposables.push atom.config.observe('atom-ternjs.docsPosition', => @removeClasses())
+    @disposables.push atom.config.observe('atom-ternjs.docsPosition', =>
+      @position = atom.config.get('atom-ternjs.docsPosition')
+      @removeClasses()
+    )
 
   set: (data) ->
     return unless data.word and data.label
