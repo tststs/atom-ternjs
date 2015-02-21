@@ -17,7 +17,6 @@ class Client
     caseInsensitive: false
     documentation: false
 
-
   constructor: ->
     @registerEvents()
     @helper = new Helper()
