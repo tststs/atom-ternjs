@@ -7,8 +7,11 @@ class Reference
   disposables: []
   orientation: null
   position: null
+  manager: null
 
-  constructor: (state = {}) ->
+  constructor: (manager, state = {}) ->
+    @manager = manager
+
     @documentation = new DocumentationView()
     @documentation.initialize(state)
 
@@ -51,11 +54,7 @@ class Reference
 
   set: (data) ->
     return unless data.word and data.label
-    data.label = data.label.replace('<', '&lt;').replace('>', '&gt;')
-    if data.label.startsWith('fn')
-      content = data.label.replace('fn', data.word)
-    else
-      content = "(#{data.label}) #{data.word}"
+    @manager.helper.formatTypeDocumentation(data)
     @documentation.setTitle(data.word, data.label)
     @documentation.setContent(data.docs)
     @setPosition()

@@ -69,6 +69,13 @@ class Helper
   formatType: (data) ->
     str = data.type.replace('fn', data.exprName).replace(/->/g, ':').replace('<top>', 'window')
 
+  formatTypeDocumentation: (data) ->
+    if data.label.startsWith('fn')
+      data.label = data.label.replace('fn', data.word)
+      data.word = false
+    data.label = data.label.replace(/->/g, ':').replace('<top>', 'window')
+    data
+
   markDefinitionBufferRange: (cursor, editor) ->
     range = cursor.getCurrentWordBufferRange()
     marker = editor.markBufferRange(range, {invalidate: 'touch'})

@@ -23,7 +23,7 @@ class Manager
     @startServer()
     @helper = new Helper()
     @registerHelperCommands()
-    @documentation = new Documentation()
+    @documentation = new Documentation(this)
     @type = new Type(this)
     @reference = new Reference(this)
     @disposables.push atom.workspace.onDidOpen (e) =>
