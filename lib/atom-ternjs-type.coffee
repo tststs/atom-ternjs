@@ -34,6 +34,10 @@ class Type
   queryType: (editor) ->
     cursor = editor.getLastCursor()
     return unless cursor
+    scopeDescriptor = cursor.getScopeDescriptor()
+    if scopeDescriptor.scopes.join().match(/comment/)
+      @destroyOverlay()
+      return
 
     tolerance = 10
     rowStart = 0
