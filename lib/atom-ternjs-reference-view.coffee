@@ -44,7 +44,7 @@ class ReferenceView extends HTMLElement
     return unless editor
     idx = e.target.dataset.idx
     ref = @data.refs[idx]
-    @helper.openFileAndGoTo(ref.start, ref.file, editor)
+    @helper.openFileAndGoTo(ref.start, ref.file)
 
   destroy: ->
     @remove()

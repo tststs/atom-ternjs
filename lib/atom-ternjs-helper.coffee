@@ -50,15 +50,7 @@ class Helper
       content = 'Could not create .tern-project file. Use the README to manually create a .tern-project file.'
       atom.notifications.addInfo(content, dismissable: true)
 
-  openFileAndGoTo: (start, file, editor) ->
-    # check if definition is in active TextEditor
-    if editor.getPath().indexOf(file) > -1
-      cursor = editor.getLastCursor()
-      buffer = editor.getBuffer()
-      cursor.setBufferPosition(buffer.positionForCharacterIndex(start))
-      @markDefinitionBufferRange(cursor, editor)
-      return
-    # else open the file and set cursor position to definition
+  openFileAndGoTo: (start, file) ->
     that = this
     atom.workspace.open(file).then (textEditor) ->
       buffer = textEditor.getBuffer()

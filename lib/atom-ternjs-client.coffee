@@ -110,7 +110,7 @@ class Client
         end: end
     ).then (data) =>
       if data?.start
-        @helper.openFileAndGoTo(data.start, data.file, editor)
+        @helper.openFileAndGoTo(data.start, data.file)
     , (err) ->
       console.log err
 
