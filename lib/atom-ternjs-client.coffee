@@ -75,6 +75,15 @@ class Client
       ]
     )
 
+  rename: (file, end, newName) ->
+    @post(JSON.stringify
+      query:
+        type: 'rename'
+        file: file
+        end: end
+        newName: newName
+    )
+
   type: (editor, position) ->
     file = editor.getURI()
     end = {line: position.row, ch: position.column}

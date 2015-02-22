@@ -4,6 +4,7 @@ Documentation = require './atom-ternjs-documentation'
 Type = require './atom-ternjs-type'
 Reference = require './atom-ternjs-reference'
 Helper = require './atom-ternjs-helper'
+ViewManager = require './atom-ternjs-view-manager'
 
 module.exports =
 class Manager
@@ -11,6 +12,7 @@ class Manager
   disposables: []
   grammars: ['JavaScript']
   client: null
+  viewManager: null
   server: null
   helper: null
   provider: null
@@ -26,6 +28,7 @@ class Manager
     @documentation = new Documentation(this)
     @type = new Type(this)
     @reference = new Reference(this)
+    @viewManager = new ViewManager(this)
     @disposables.push atom.workspace.onDidOpen (e) =>
       @startServer()
 
@@ -112,6 +115,8 @@ class Manager
       @helper.createTernProjectFile()
 
   registerCommands: ->
+    @disposables.push atom.commands.add 'atom-text-editor', 'tern:rename': (event) =>
+      @viewManager?.showRename()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
       @client?.definition()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:restart': (event) =>

@@ -1,7 +1,7 @@
 DocumentationView = require './atom-ternjs-documentation-view'
 
 module.exports =
-class Reference
+class Documentation
 
   documentation: null
   disposables: []

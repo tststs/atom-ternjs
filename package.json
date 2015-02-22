@@ -11,10 +11,12 @@
     "atom": ">0.176.0"
   },
   "dependencies": {
+    "elmer": "*",
     "jquery": "*",
     "loophole": "*",
     "tern": "git://github.com/marijnh/tern.git",
-    "atom-package-dependencies": "*"
+    "atom-package-dependencies": "*",
+    "underscore-plus": "*"
   },
   "package-dependencies": {
     "autocomplete-plus": "*"

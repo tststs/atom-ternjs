@@ -4,9 +4,10 @@
 // for a full listing of what's available.
 @import "ui-variables";
 @atom-ternjs-padding: 20px;
+@atom-ternjs-margin: 20px;
 @atom-ternjs-height: 180px;
 
-atom-ternjs-documentation > div, atom-ternjs-reference > div > div {
+atom-ternjs-documentation > div, atom-ternjs-reference > div > div, atom-ternjs-rename > div > div {
 
     max-height: @atom-ternjs-height;
     overflow-y: auto;
@@ -17,7 +18,20 @@ atom-ternjs-documentation > div {
     padding: @atom-ternjs-padding;
 }
 
-atom-ternjs-reference {
+atom-ternjs-rename {
+
+    atom-text-editor {
+
+        max-width: 30%;
+    }
+
+    .mt {
+
+        margin-top: 10px;
+    }
+}
+
+atom-ternjs-reference, atom-ternjs-rename {
 
     > div {
 
@@ -28,6 +42,9 @@ atom-ternjs-reference {
             padding: 0 0 @atom-ternjs-padding @atom-ternjs-padding;
         }
     }
+}
+
+atom-ternjs-reference {
 
     li {
 
@@ -132,7 +149,7 @@ atom-ternjs-documentation {
 atom-text-editor::shadow .atom-ternjs-definition-marker {
 
     div {
-        
+
         transition: opacity 0.75s ease;
         opacity: 0;
         background: @background-color-selected;
@@ -148,7 +165,7 @@ atom-text-editor::shadow .atom-ternjs-definition-marker {
     }
 }
 
-.atom-ternjs-reference-close {
+.atom-ternjs-reference-close, .atom-ternjs-rename-close {
 
     margin: @atom-ternjs-padding;
     position: absolute;
