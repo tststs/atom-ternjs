@@ -78,6 +78,7 @@ class Manager
       @disposables.push editor.onDidChangeCursorPosition (event) =>
         if @inlineFnCompletion
           @type.queryType(editor)
+        @viewManager?.hideRename()
         return if event.textChanged
         @documentation.hide()
       @disposables.push editor.getBuffer().onDidChangeModified (modified) =>
@@ -85,6 +86,7 @@ class Manager
         @reference.hide()
     @disposables.push atom.workspace.onDidChangeActivePaneItem (item) =>
       @provider?.clearSuggestionsAndHide()
+      @viewManager?.hideRename()
       if !@isValidEditor(item)
         @reference.hide()
     @disposables.push atom.config.observe 'atom-ternjs.inlineFnCompletion', =>
