@@ -9,7 +9,7 @@ class Provider
     suggestionsArr = []
     currentSuggestionIndex: 0
     disposables: []
-    maxItems = null
+    maxItems = 1000
     force = false
     # automcomplete-plus
     autocompletePlus = null
@@ -115,6 +115,7 @@ class Provider
             return
 
         currentSuggestion = @suggestionsArr[@currentSuggestionIndex]
+        return unless currentSuggestion
         if !currentSuggestion._ternDocs and !currentSuggestion._ternUrl and !currentSuggestion._ternOrigin
             @manager.documentation.hide()
             return
@@ -159,7 +160,6 @@ class Provider
         @selector = @selector.replace(',' + selector, '')
 
     registerEvents: ->
-        @disposables.push atom.config.observe('autocomplete-plus.maxSuggestions', => maxItems = atom.config.get('autocomplete-plus.maxSuggestions'))
         @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-cancel', =>
             @clearSuggestions()
             @manager.documentation.hide()
