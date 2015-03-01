@@ -63,6 +63,7 @@ class Manager
     @server.start (port) =>
       @client = new Client(this) if !@client
       @client.port = port
+      return if @initialised
       @init()
 
   isValidEditor: (editor) ->
