@@ -67,7 +67,6 @@ class Helper
       editor: editor
 
   openFileAndGoToPosition: (position, file) ->
-    that = this
     atom.workspace.open(file).then (textEditor) ->
       buffer = textEditor.getBuffer()
       cursor = textEditor.getLastCursor()
