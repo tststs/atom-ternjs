@@ -22,8 +22,8 @@ class Manager
   constructor: (provider) ->
     @provider = provider
     @checkGrammarSettings()
-    @startServer()
     @helper = new Helper()
+    @startServer()
     @registerHelperCommands()
     @documentation = new Documentation(this)
     @type = new Type(this)
@@ -61,7 +61,7 @@ class Manager
     return unless !@server?.process and atom.project.getDirectories()[0]
     @server = new Server()
     @server.start (port) =>
-      @client = new Client() if !@client
+      @client = new Client(this) if !@client
       @client.port = port
       @init()
 
@@ -119,6 +119,8 @@ class Manager
   registerCommands: ->
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:rename': (event) =>
       @viewManager?.showRename()
+    @disposables.push atom.commands.add 'atom-text-editor', 'tern:markerCheckpointBack': (event) =>
+      @helper?.markerCheckpointBack()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
       @client?.definition()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:restart': (event) =>

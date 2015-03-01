@@ -10,6 +10,7 @@
 'atom-workspace':
   'ctrl-alt-d': 'tern:definition'
   'ctrl-alt-r': 'tern:references'
+  'ctrl-alt-z': 'tern:markerCheckpointBack'
   'ctrl-alt-space': 'tern:startCompletion'
 '.autocomplete-plus input':
   'escape': 'tern:cancel'

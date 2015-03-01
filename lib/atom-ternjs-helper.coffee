@@ -5,6 +5,7 @@ module.exports =
 class Helper
 
   projectRoot: null
+  definition: null
   ternProjectFileContent: '{\n
     \ "libs": [\n
     \ \ \ "browser",\n
@@ -49,6 +50,28 @@ class Helper
       return unless err
       content = 'Could not create .tern-project file. Use the README to manually create a .tern-project file.'
       atom.notifications.addInfo(content, dismissable: true)
+
+  markerCheckpointBack: ->
+    return unless @checkPointDefinition
+    @openFileAndGoToPosition(@checkPointDefinition.marker.range.start, @checkPointDefinition.editor.getURI())
+
+  setMarkerCheckpoint: ->
+    editor = atom.workspace.getActiveEditor()
+    buffer = editor.getBuffer()
+    cursor = editor.getLastCursor()
+    return unless cursor
+    @checkPointDefinition?.marker.destroy()
+    marker = buffer.markPosition(cursor.getBufferPosition(), {})
+    @checkPointDefinition =
+      marker: marker
+      editor: editor
+
+  openFileAndGoToPosition: (position, file) ->
+    that = this
+    atom.workspace.open(file).then (textEditor) ->
+      buffer = textEditor.getBuffer()
+      cursor = textEditor.getLastCursor()
+      cursor.setBufferPosition(position)
 
   openFileAndGoTo: (start, file) ->
     that = this

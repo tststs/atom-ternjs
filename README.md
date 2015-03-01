@@ -60,4 +60,5 @@ Example .tern-project file:
 ![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-2.png)
 
 * Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition" or use the shortcut strg+alt+d)
+* Back from definition (strg+alt+z)
 * Documentation (displayed if a suggestion with a valid documentation is selected in the select-list)

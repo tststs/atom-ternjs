@@ -1,12 +1,11 @@
 $ = require('jquery')
 $.ajaxSetup({ cache: false })
-Helper = require './atom-ternjs-helper'
 
 module.exports =
 class Client
 
   port: null
-  helper: null
+  manager: null
   disposables: []
   config:
     sort: false
@@ -17,9 +16,9 @@ class Client
     caseInsensitive: false
     documentation: false
 
-  constructor: ->
+  constructor: (manager) ->
+    @manager = manager
     @registerEvents()
-    @helper = new Helper()
 
   registerEvents: ->
     @disposables.push atom.config.observe 'atom-ternjs.docs', =>
@@ -110,7 +109,8 @@ class Client
         end: end
     ).then (data) =>
       if data?.start
-        @helper.openFileAndGoTo(data.start, data.file)
+        @manager.helper.setMarkerCheckpoint()
+        @manager.helper.openFileAndGoTo(data.start, data.file)
     , (err) ->
       console.log err
 
