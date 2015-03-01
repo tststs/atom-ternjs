@@ -1,4 +1,5 @@
 ReferenceView = require './atom-ternjs-reference-view'
+_ = require 'underscore-plus'
 
 module.exports =
 class Reference
@@ -37,11 +38,19 @@ class Reference
     )
 
   findReference: ->
+    dir = atom.project.getDirectories()[0]
+    return unless dir
     editor = atom.workspace.getActiveTextEditor()
     return unless editor
     cursor = editor.getLastCursor()
     position = cursor.getBufferPosition()
     @manager.client.refs(editor.getURI(), {line: position.row, ch: position.column}).then (data) =>
+      for ref in data.refs
+        ref.file = ref.file.replace(/^.\//, '')
+        ref.file = dir.relativize(ref.file)
+      data.refs = _.uniq(data.refs, (item) =>
+        JSON.stringify item
+      )
       @referencePanel.show()
       @reference.buildItems(data)
 
