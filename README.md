@@ -11,11 +11,12 @@ In your project root create a file named .tern-project
 * Check path in loadEagerly
 * Restart the server via Packages -> Atom Ternjs -> Restart server
 
-Example .tern-project file:
+Example .tern-project file (customize to your own needs):
 ```
 {
   "libs": [
-    "browser",
+    "ecma5",
+    "ecma6",
     "jquery"
   ],
   "loadEagerly": [
@@ -23,25 +24,27 @@ Example .tern-project file:
   ],
   "plugins": {
     "complete_strings": {},
+    "node": {},
+    "angular": {},
+    "requirejs": {},
     "doc_comment": {
       "fullDocs": true
     }
   }
 }
 ```
-* Absolute path is recommended, but not necessary
-* loadEagerly: recommended, but not necessary. If no files are provided via 'loadEagerly', tern will register all files opened in the current workspace
+* loadEagerly: provide the path to your projects js. Absolute path is recommended, but not necessary.
 * complete_strings: When enabled, this plugin will gather (short) strings in your code, and completing when inside a string will try to complete to previously seen strings. Takes a single option, maxLength, which controls the maximum length of string values to gather, and defaults to 15. (optional)
 * doc_comment: tern will look for JSDoc-style type declarations. Returns the full comment text instead of the first sentence. (optional)
 * browser: completion for vanilla js (optional)
 * jquery: completion for jQuery (optional)
-
+* node: NodeJS (optional)
+* angular: AngularJS (optional)
+* requirejs: RequireJS (optional, understand RequireJS-style dependency management)
+* For a list of possible options goto http://ternjs.net/doc/manual.html#plugins
 
 # .tern-project created/modified
 * After the file was created or has been modified, restart the server via Packages -> Atom Ternjs -> Restart server
-
-# Max Suggestions
-* Use autocomplete-plus's settings to increase the max suggestions being displayed
 
 # Platform Windows
 * Make sure node is installed and the PATH variable is set
