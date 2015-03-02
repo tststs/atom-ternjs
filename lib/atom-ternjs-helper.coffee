@@ -5,7 +5,6 @@ module.exports =
 class Helper
 
   projectRoot: null
-  definition: null
   ternProjectFileContent: '{\n
     \ "libs": [\n
     \ \ \ "browser",\n
