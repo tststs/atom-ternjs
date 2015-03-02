@@ -15,6 +15,9 @@ class Manager
   viewManager: null
   server: null
   helper: null
+  documentation: null
+  type: null
+  reference: null
   provider: null
   initialised: false
   inlineFnCompletion: false
