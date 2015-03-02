@@ -44,6 +44,7 @@ class Manager
   destroy: ->
     @stopServer()
     @client.unregisterEvents()
+    @client = null
     @unregisterEventsAndCommands()
     @provider?.destroy()
     @provider = null
