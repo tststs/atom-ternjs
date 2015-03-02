@@ -25,19 +25,20 @@ class Manager
   constructor: (provider) ->
     @provider = provider
     @checkGrammarSettings()
-    @helper = new Helper()
-    @startServer()
     @registerHelperCommands()
+    @helper = new Helper()
+    @client = new Client(this)
     @documentation = new Documentation(this)
     @type = new Type(this)
     @reference = new Reference(this)
     @viewManager = new ViewManager(this)
+    @provider.init(this)
+    @startServer()
     @disposables.push atom.workspace.onDidOpen (e) =>
       @startServer()
 
   init: ->
     @initialised = true
-    @provider.init(this)
     @registerEvents()
     @registerCommands()
 
@@ -65,7 +66,6 @@ class Manager
     return unless !@server?.process and atom.project.getDirectories()[0]
     @server = new Server()
     @server.start (port) =>
-      @client = new Client(this) if !@client
       @client.port = port
       return if @initialised
       @init()
