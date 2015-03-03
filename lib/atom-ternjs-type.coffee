@@ -59,6 +59,8 @@ class Type
 
     buffer.backwardsScanInRange(/\(|\)|\,|\{|\}/g, [[rowStart, 0], [position.row, position.column]], (obj) =>
 
+      return if editor.scopeDescriptorForBufferPosition(obj.range.start).scopes.join().match(/string/)
+
       if obj.matchText is '}'
         may = true
         return
