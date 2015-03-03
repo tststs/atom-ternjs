@@ -108,7 +108,7 @@ class Provider
         obj.type = obj.type?.replace('->', ':')
         obj
 
-    setDocumentationContent: (length) ->
+    setDocumentationContent: ->
         return unless @suggestionsArr.length
         if @currentSuggestionIndex >= @suggestionsArr.length
             @manager.documentation.hide()
@@ -167,12 +167,12 @@ class Provider
             length = @autocompletePlus.autocompleteManager.suggestionList.items.length
             if ++@currentSuggestionIndex >= @getMaxIndex(length)
                 @currentSuggestionIndex = 0
-            @setDocumentationContent(length)
+            @setDocumentationContent()
         @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-select-previous', =>
             length = @autocompletePlus.autocompleteManager.suggestionList.items.length
             if --@currentSuggestionIndex < 0
                 @currentSuggestionIndex = @getMaxIndex(length) - 1
-            @setDocumentationContent(length)
+            @setDocumentationContent()
 
     unregisterEvents: ->
         for disposable in @disposables
