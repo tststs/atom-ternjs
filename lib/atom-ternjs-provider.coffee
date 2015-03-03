@@ -44,11 +44,6 @@ class Provider
         return [] unless options?.editor? and options?.buffer? and options?.cursor?
         prefix = options.prefix
 
-        # .. crashes the server
-        if prefix.indexOf('..') != -1
-            @manager.documentation.hide()
-            return []
-
         if !@isValidPrefix(prefix) and !@force
             @manager.documentation.hide()
             return []
