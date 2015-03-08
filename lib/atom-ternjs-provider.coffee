@@ -38,6 +38,8 @@ class Provider
             return ''
         if (!prefix.replace(/\s/g, '').length) or prefix.endsWith(';')
             return ''
+        if prefix.lastIndexOf('.') is prefix.length - 1
+            return ''
         prefix
 
     requestHandler: (options) ->
