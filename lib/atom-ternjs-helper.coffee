@@ -21,14 +21,6 @@ class Helper
     \ \ \ }\n
     \ }\n}'
 
-  constructor: ->
-    #@init()
-
-  init: ->
-    return unless @hasTernProjectFile() is false
-    content = 'No .tern-project file was found.<br />Create one via context-menu -> Atom Ternjs -> Create default .tern-project file.'
-    atom.notifications.addInfo(content, dismissable: false)
-
   hasTernProjectFile: ->
     @projectRoot = atom.project.getDirectories()[0]
     return undefined unless @projectRoot
