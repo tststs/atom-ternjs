@@ -5,6 +5,8 @@ Uses suggestion provider by [autocomplete-plus](https://github.com/atom-communit
 
 # Installation
 
+Install the package [autocomplete-plus](https://github.com/atom-community/autocomplete-plus).
+
 In your project root create a file named .tern-project
 
 * With default config via menu (Packages -> Atom Ternjs -> Create default .tern-project) or by adding it manually. See docs @ http://ternjs.net/doc/manual.html#configuration.
