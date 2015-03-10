@@ -35,7 +35,7 @@ class Provider
         return true
 
     fixPrefix: (prefix) ->
-        return '' if prefix.match(/(\s|;|\.)$/) or prefix.replace(/\s/g, '').length is 0
+        return '' if prefix.match(/(\s|;|\.|\"|\')$/) or prefix.replace(/\s/g, '').length is 0
         prefix
 
     onDidInsertSuggestion: ({editor, triggerPosition, suggestion}) ->
@@ -83,7 +83,7 @@ class Provider
                     console.log err
 
     fixCompletion: (obj) ->
-        if obj.type == 'string'
+        if obj.type is 'string'
             obj.name = obj.name.replace /(^"|"$)/g, ''
 
         obj.type = obj.type?.replace('->', ':')
