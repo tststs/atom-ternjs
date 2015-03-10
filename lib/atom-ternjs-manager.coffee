@@ -55,6 +55,8 @@ class Manager
     @documentation = null
     @type?.destroy()
     @type = null
+    @helper.destroy()
+    @helper = null
     @initialised = false
 
   unregisterEventsAndCommands: ->

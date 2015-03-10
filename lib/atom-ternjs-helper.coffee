@@ -5,6 +5,7 @@ module.exports =
 class Helper
 
   projectRoot: null
+  checkpointsDefinition: []
   ternProjectFileContent: '{\n
     \ "libs": [\n
     \ \ \ "browser",\n
@@ -51,17 +52,17 @@ class Helper
       atom.notifications.addInfo(content, dismissable: true)
 
   markerCheckpointBack: ->
-    return unless @checkPointDefinition
-    @openFileAndGoToPosition(@checkPointDefinition.marker.range.start, @checkPointDefinition.editor.getURI())
+    return unless @checkpointsDefinition.length
+    checkpoint = @checkpointsDefinition.pop()
+    @openFileAndGoToPosition(checkpoint.marker.range.start, checkpoint.editor.getURI())
 
   setMarkerCheckpoint: ->
     editor = atom.workspace.getActiveEditor()
     buffer = editor.getBuffer()
     cursor = editor.getLastCursor()
     return unless cursor
-    @checkPointDefinition?.marker.destroy()
     marker = buffer.markPosition(cursor.getBufferPosition(), {})
-    @checkPointDefinition =
+    @checkpointsDefinition.push
       marker: marker
       editor: editor
 
@@ -97,3 +98,7 @@ class Helper
     setTimeout (-> decoration?.setProperties(type: 'highlight', class: 'atom-ternjs-definition-marker active', invalidate: 'touch')), 1
     setTimeout (-> decoration?.setProperties(type: 'highlight', class: 'atom-ternjs-definition-marker', invalidate: 'touch')), 1501
     setTimeout (-> marker.destroy()), 2500
+
+  destroy: ->
+    for checkpoint in @checkpointsDefinition
+      checkpoint.marker?.destroy()
