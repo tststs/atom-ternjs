@@ -82,6 +82,12 @@ class Helper
     data.label = data.label.replace(/->/g, ':').replace('<top>', 'window')
     data
 
+  formatTypeCompletion: (obj) ->
+    if obj.type is 'string'
+      obj.name = obj.name.replace /(^"|"$)/g, ''
+    obj.type = obj.type?.replace(/->/g, ':').replace('<top>', 'window')
+    obj
+
   markDefinitionBufferRange: (cursor, editor) ->
     range = cursor.getCurrentWordBufferRange()
     marker = editor.markBufferRange(range, {invalidate: 'touch'})

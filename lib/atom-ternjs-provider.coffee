@@ -64,7 +64,7 @@ class Provider
           for obj, index in data.completions
             if index == that.maxItems
               break
-            obj = that.fixCompletion(obj)
+            obj = that.manager.helper.formatTypeCompletion(obj)
 
             that.suggestionsArr.push {
               text: obj.name,
@@ -79,13 +79,6 @@ class Provider
           that.setDocumentationContent()
         , (err) ->
           console.log err
-
-  fixCompletion: (obj) ->
-    if obj.type is 'string'
-      obj.name = obj.name.replace /(^"|"$)/g, ''
-
-    obj.type = obj.type?.replace('->', ':')
-    obj
 
   setDocumentationContent: ->
     return unless @suggestionsArr.length
