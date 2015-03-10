@@ -13,9 +13,10 @@ class Provider
     force = false
     # automcomplete-plus
     autocompletePlus = null
-    id: 'atom-ternjs-provider'
     selector: '.source.js'
-    blacklist: '.source.js .comment'
+    disableForSelector: '.source.js .comment'
+    inclusionPriority: 1
+    excludeLowerPriority: true
 
     init: (manager) ->
         @manager = manager
@@ -37,10 +38,11 @@ class Provider
         return '' if prefix.match(/(\s|;|\.)$/) or prefix.replace(/\s/g, '').length is 0
         prefix
 
-    requestHandler: (options) ->
-        return [] unless options?.editor? and options?.buffer? and options?.cursor?
-        prefix = options.prefix
+    onDidInsertSuggestion: ({editor, triggerPosition, suggestion}) ->
+        @clearSuggestions()
+        @manager.documentation.hide()
 
+    getSuggestions: ({editor, bufferPosition, scopeDescriptor, prefix}) ->
         if !@isValidPrefix(prefix) and !@force
             @manager.documentation.hide()
             return []
@@ -49,9 +51,9 @@ class Provider
 
         that = this
 
-        return new Promise (resolve) ->
-            that.manager.client.update(options.editor.getURI(), options.editor.getText()).then =>
-                that.manager.client.completions(options.editor.getURI(), {line: options.position.row, ch: options.position.column}).then (data) =>
+        new Promise (resolve) ->
+            that.manager.client.update(editor.getURI(), editor.getText()).then =>
+                that.manager.client.completions(editor.getURI(), {line: bufferPosition.row, ch: bufferPosition.column}).then (data) =>
                     that.clearSuggestions()
                     if !data.completions.length
                         resolve([])
@@ -67,26 +69,13 @@ class Provider
                         obj = that.fixCompletion(obj)
 
                         that.suggestionsArr.push {
-                            word: obj.name,
-                            prefix: prefix,
-                            label: obj.type,
-                            renderLabelAsHtml: false,
+                            text: obj.name,
+                            replacementPrefix: prefix,
                             className: null,
+                            rightLabel: obj.type
                             _ternDocs: obj.doc,
                             _ternUrl: obj.url,
                             _ternOrigin: obj.origin,
-                            onWillConfirm: ->
-                                if this.word[0] is '$'
-                                    begin = options.cursor.getBeginningOfCurrentWordBufferPosition()
-                                    char = options.editor.getTextInRange([[begin.row, begin.column - 1], [begin.row, begin.column]])
-                                    if char is '$'
-                                        idx = this.word.lastIndexOf('$')
-                                        this.word = this.word.substring(idx + 1)
-                                if /^[.\"\']$/i.test(prefix[prefix.length - 1])
-                                    this.word = this.prefix + this.word
-                            onDidConfirm: ->
-                                that.clearSuggestions()
-                                that.manager.documentation.hide()
                         }
                     resolve(that.suggestionsArr)
                     that.setDocumentationContent()
@@ -113,8 +102,8 @@ class Provider
             return
 
         @manager.documentation.set({
-            word: currentSuggestion.word,
-            label: currentSuggestion.label,
+            word: currentSuggestion.text,
+            label: currentSuggestion.rightLabel,
             docs: {
                 doc: currentSuggestion._ternDocs,
                 url: currentSuggestion._ternUrl,

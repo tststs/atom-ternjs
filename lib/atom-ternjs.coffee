@@ -76,4 +76,4 @@ module.exports =
     @manager.destroy()
 
   provide: ->
-    return {providers: [@provider]}
+    @provider
