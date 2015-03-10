@@ -34,12 +34,7 @@ class Provider
         return true
 
     fixPrefix: (prefix) ->
-        if prefix.lastIndexOf(' ') is prefix.length - 1
-            return ''
-        if (!prefix.replace(/\s/g, '').length) or prefix.endsWith(';')
-            return ''
-        if prefix.lastIndexOf('.') is prefix.length - 1
-            return ''
+        return '' if prefix.match(/(\s|;|\.)$/) or prefix.replace(/\s/g, '').length is 0
         prefix
 
     requestHandler: (options) ->
