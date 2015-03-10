@@ -9,14 +9,14 @@ class Provider
     suggestionsArr = []
     currentSuggestionIndex: 0
     disposables: []
-    maxItems = 1000
-    force = false
+    maxItems: 1000
+    force: false
     # automcomplete-plus
-    autocompletePlus = null
+    autocompletePlus: null
     selector: '.source.js'
     disableForSelector: '.source.js .comment'
     inclusionPriority: 1
-    excludeLowerPriority: true
+    excludeLowerPriority: false
 
     init: (manager) ->
         @manager = manager
@@ -34,7 +34,7 @@ class Provider
         catch e then return false
         return true
 
-    fixPrefix: (prefix) ->
+    checkPrefix: (prefix) ->
         return '' if prefix.match(/(\s|;|\.|\"|\')$/) or prefix.replace(/\s/g, '').length is 0
         prefix
 
@@ -46,12 +46,11 @@ class Provider
         if !@isValidPrefix(prefix) and !@force
             @manager.documentation.hide()
             return []
-
-        prefix = @fixPrefix(prefix)
+        prefix = @checkPrefix(prefix)
 
         that = this
 
-        new Promise (resolve) ->
+        return new Promise (resolve) ->
             that.manager.client.update(editor.getURI(), editor.getText()).then =>
                 that.manager.client.completions(editor.getURI(), {line: bufferPosition.row, ch: bufferPosition.column}).then (data) =>
                     that.clearSuggestions()
@@ -64,7 +63,7 @@ class Provider
                         that.manager.documentation.hide()
                         return
                     for obj, index in data.completions
-                        if index == maxItems
+                        if index == that.maxItems
                             break
                         obj = that.fixCompletion(obj)
 
@@ -132,7 +131,7 @@ class Provider
         @clearSuggestions()
 
     getMaxIndex: (length) ->
-        Math.min(maxItems, length)
+        Math.min(@maxItems, length)
 
     addSelector: (selector) ->
         @selector = @selector + ',' + selector
