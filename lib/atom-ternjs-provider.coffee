@@ -57,10 +57,6 @@ class Provider
             resolve([])
             that.manager.documentation.hide()
             return
-          if data.completions.length is 1 and data.completions[0].name.replace('$', '') is prefix
-            resolve([])
-            that.manager.documentation.hide()
-            return
           for obj, index in data.completions
             if index == that.maxItems
               break
