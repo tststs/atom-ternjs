@@ -24,6 +24,9 @@ Example .tern-project file (customize to your own needs):
   "loadEagerly": [
     "absolute/or/relative/path/to/your/js/**/*.js"
   ],
+  "dontLoad": [
+    "absolute/or/relative/path/to/your/js/**/*.js"
+  ],
   "plugins": {
     "complete_strings": {},
     "node": {},
@@ -35,15 +38,23 @@ Example .tern-project file (customize to your own needs):
   }
 }
 ```
-* loadEagerly: provide the path to your projects js. Absolute path is recommended, but not necessary.
+##### libs
+* browser: completion for vanilla js (optional)
+* ecma5: es5 (optional)
+* ecma6: es6 (optional)
+* jquery: completion for jQuery (optional)
+
+##### options
+* loadEagerly: provide the path to your projects js. Absolute path is recommended, but not necessary. (For relative path do not use './' as a prefix. This sometimes leads to an unexpected behaviour)
+* dontLoad: can be used to prevent Tern from loading certain files. It also takes an array of file names or glob patterns.
+
+##### plugins
 * complete_strings: When enabled, this plugin will gather (short) strings in your code, and completing when inside a string will try to complete to previously seen strings. Takes a single option, maxLength, which controls the maximum length of string values to gather, and defaults to 15. (optional)
 * doc_comment: tern will look for JSDoc-style type declarations. Returns the full comment text instead of the first sentence. (optional)
-* browser: completion for vanilla js (optional)
-* jquery: completion for jQuery (optional)
 * node: NodeJS (optional)
 * angular: AngularJS (optional)
 * requirejs: RequireJS (optional, understand RequireJS-style dependency management)
-* For a list of possible options goto http://ternjs.net/doc/manual.html#plugins
+* For a list of possible plugins goto http://ternjs.net/doc/manual.html#plugins
 
 # .tern-project created/modified
 * After the file was created or has been modified, restart the server via Packages -> Atom Ternjs -> Restart server
