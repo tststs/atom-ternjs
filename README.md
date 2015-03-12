@@ -72,9 +72,9 @@ Example .tern-project file (customize to your own needs):
 
 ![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-inline-2.png)
 * Find references (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find references" or use the shortcut strg+alt+r) Click any item in the generated reference-list and navigate directly to file and position
+* Documentation (displayed if a suggestion with a valid documentation is selected in the select-list)
+* Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition" or use the shortcut strg+alt+d)
 
 ![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-6.png)
-
-* Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition" or use the shortcut strg+alt+d)
 * Back from definition (strg+alt+z)
-* Documentation (displayed if a suggestion with a valid documentation is selected in the select-list)
+* Rename variable (set your cursor position to a variable -> open context-menu and trigger "Rename" or use the shortcut strg+alt+c)
