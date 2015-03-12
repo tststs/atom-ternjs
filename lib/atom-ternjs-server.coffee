@@ -1,7 +1,7 @@
 module.exports =
 class Server
 
-  process = null
+  process: null
 
   start: (callback) ->
     path = require 'path'

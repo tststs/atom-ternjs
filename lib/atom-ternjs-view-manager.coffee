@@ -4,9 +4,9 @@ RenameView = require './atom-ternjs-rename-view'
 module.exports =
 class ViewManager
 
-    renamePanel = null
-    renameModel = null
-    manager = null
+    renamePanel: null
+    renameModel: null
+    manager: null
 
     constructor: (manager) ->
         @manager = manager

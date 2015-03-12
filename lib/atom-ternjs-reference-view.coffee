@@ -2,10 +2,10 @@ Helper = require './atom-ternjs-helper'
 
 class ReferenceView extends HTMLElement
 
-  @content: null
-  @close: null
-  @data: null
-  @helper = null
+  content: null
+  close: null
+  data: null
+  helper: null
 
   createdCallback: ->
     @classList.add('atom-ternjs-reference')
