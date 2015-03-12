@@ -6,7 +6,7 @@ class Provider
 
   exclusive: true
   manager: null
-  suggestionsArr = []
+  suggestionsArr: []
   currentSuggestionIndex: 0
   disposables: []
   maxItems: 1000
@@ -77,7 +77,6 @@ class Provider
           console.log err
 
   setDocumentationContent: ->
-    return unless @suggestionsArr.length
     if @currentSuggestionIndex >= @suggestionsArr.length
       @manager.documentation.hide()
       return
@@ -132,11 +131,13 @@ class Provider
       @clearSuggestions()
       @manager.documentation.hide()
     @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-select-next', =>
+      return unless @suggestionsArr?.length
       length = @autocompletePlus.autocompleteManager.suggestionList.items.length
       if ++@currentSuggestionIndex >= @getMaxIndex(length)
         @currentSuggestionIndex = 0
       @setDocumentationContent()
     @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-select-previous', =>
+      return unless @suggestionsArr?.length
       length = @autocompletePlus.autocompleteManager.suggestionList.items.length
       if --@currentSuggestionIndex < 0
         @currentSuggestionIndex = @getMaxIndex(length) - 1
