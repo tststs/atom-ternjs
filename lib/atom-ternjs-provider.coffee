@@ -9,7 +9,7 @@ class Provider
   suggestionsArr: []
   currentSuggestionIndex: 0
   disposables: []
-  maxItems: 1000
+  maxItems: 200
   force: false
   # automcomplete-plus
   autocompletePlus: null
