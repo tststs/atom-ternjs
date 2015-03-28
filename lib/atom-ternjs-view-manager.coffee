@@ -25,7 +25,8 @@ class ViewManager
         @renamePanel = atom.workspace.addBottomPanel item: @renameModel
 
     hideRename: ->
-        @renamePanel?.hide()
+        return unless @renamePanel?.isVisible()
+        @renamePanel.hide()
         @focusEditor()
 
     focusEditor: ->
