@@ -14,7 +14,7 @@
     "elmer": "*",
     "jquery": "*",
     "loophole": "*",
-    "tern": "git://github.com/marijnh/tern.git",
+    "tern": "git+https://github.com/marijnh/tern.git",
     "atom-package-dependencies": "*",
     "underscore-plus": "*"
   },
