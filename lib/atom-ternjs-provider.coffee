@@ -33,6 +33,11 @@ class Provider
     catch e then return false
     return true
 
+  excludeTest: (editor, bufferPosition) ->
+    line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
+    return false if line[line.length - 1].match(/;|\s/)
+    return true
+
   checkPrefix: (prefix) ->
     return '' if prefix.match(/(\s|;|\.|\"|\')$/) or prefix.replace(/\s/g, '').length is 0
     prefix
@@ -42,7 +47,7 @@ class Provider
     @manager.documentation.hide()
 
   getSuggestions: ({editor, bufferPosition, scopeDescriptor, prefix}) ->
-    if !@isValidPrefix(prefix) and !@force
+    if (!@excludeTest(editor, bufferPosition) and !@force) or (!@isValidPrefix(prefix) and !@force)
       @manager.documentation.hide()
       return []
     prefix = @checkPrefix(prefix)
