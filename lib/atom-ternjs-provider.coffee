@@ -26,28 +26,29 @@ class Provider
 
   isValidPrefix: (prefix) ->
     return true if prefix[prefix.length - 1] is '\.'
-    return true if prefix.replace(/\s/g, '').length is 0
+    return false if prefix[prefix.length - 1]?.match(/;|\s/)
     if prefix.length > 1
       prefix = '_' + prefix
     try (new Function("var " + prefix))()
     catch e then return false
     return true
 
-  excludeTest: (editor, bufferPosition) ->
-    line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
-    return false if line[line.length - 1].match(/;|\s/)
-    return true
-
   checkPrefix: (prefix) ->
     return '' if prefix.match(/(\s|;|\.|\"|\')$/) or prefix.replace(/\s/g, '').length is 0
     prefix
+
+  getPrefix: (editor, bufferPosition) ->
+    regexp = /(([\$\w]+[\w-]*)|([.:;'"[{( ]+))$/g
+    line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
+    line.match(regexp)?[0]
 
   onDidInsertSuggestion: ({editor, triggerPosition, suggestion}) ->
     @clearSuggestions()
     @manager.documentation.hide()
 
   getSuggestions: ({editor, bufferPosition, scopeDescriptor, prefix}) ->
-    if (!@excludeTest(editor, bufferPosition) and !@force) or (!@isValidPrefix(prefix) and !@force)
+    prefix = @getPrefix(editor, bufferPosition) or prefix;
+    if !@isValidPrefix(prefix) and !@force
       @manager.documentation.hide()
       return []
     prefix = @checkPrefix(prefix)
