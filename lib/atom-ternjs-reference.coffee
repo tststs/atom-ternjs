@@ -7,6 +7,7 @@ class Reference
   reference: null
   disposables: []
   manager: null
+  references: []
 
   constructor: (manager, state = {}) ->
     state.attached ?= true
@@ -14,7 +15,7 @@ class Reference
     @manager = manager
 
     @reference = new ReferenceView()
-    @reference.initialize(state)
+    @reference.initialize(this)
     @referencePanel = atom.workspace.addBottomPanel(item: @reference, priority: 0)
     @referencePanel.hide()
 
@@ -37,6 +38,13 @@ class Reference
       view?.focus?()
     )
 
+  goToReference: (e) ->
+    editor = atom.workspace.getActiveTextEditor()
+    return unless editor
+    idx = e.target.dataset.idx
+    ref = @references.refs[idx]
+    @manager.helper.openFileAndGoTo(ref.start, ref.file)
+
   findReference: ->
     dir = atom.project.getDirectories()[0]
     return unless dir
@@ -45,6 +53,7 @@ class Reference
     cursor = editor.getLastCursor()
     position = cursor.getBufferPosition()
     @manager.client.refs(editor.getURI(), {line: position.row, ch: position.column}).then (data) =>
+      @references = data
       for ref in data.refs
         ref.file = ref.file.replace(/^.\//, '')
         ref.file = dir.relativize(ref.file)
