@@ -84,7 +84,7 @@ class Helper
 
   formatTypeCompletion: (obj) ->
     return obj if !obj.type
-    
+
     if obj.type is 'string'
       obj.name = obj.name.replace /(^"|"$)/g, ''
 
@@ -113,6 +113,12 @@ class Helper
     setTimeout (-> decoration?.setProperties(type: 'highlight', class: 'atom-ternjs-definition-marker active', invalidate: 'touch')), 1
     setTimeout (-> decoration?.setProperties(type: 'highlight', class: 'atom-ternjs-definition-marker', invalidate: 'touch')), 1501
     setTimeout (-> marker.destroy()), 2500
+
+  focusEditor: ->
+    editor = atom.workspace.getActiveTextEditor()
+    return unless editor
+    view = atom.views.getView(editor)
+    view?.focus?()
 
   destroy: ->
     for checkpoint in @checkpointsDefinition

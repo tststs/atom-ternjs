@@ -2,9 +2,9 @@ Server = require './atom-ternjs-server'
 Client = require './atom-ternjs-client'
 Documentation = require './atom-ternjs-documentation'
 Type = require './atom-ternjs-type'
+Rename = require './atom-ternjs-rename'
 Reference = require './atom-ternjs-reference'
 Helper = require './atom-ternjs-helper'
-ViewManager = require './atom-ternjs-view-manager'
 
 module.exports =
 class Manager
@@ -12,9 +12,9 @@ class Manager
   disposables: []
   grammars: ['JavaScript']
   client: null
-  viewManager: null
   server: null
   helper: null
+  rename: null
   documentation: null
   type: null
   reference: null
@@ -29,9 +29,9 @@ class Manager
     @helper = new Helper()
     @client = new Client(this)
     @documentation = new Documentation(this)
+    @rename = new Rename(this)
     @type = new Type(this)
     @reference = new Reference(this)
-    @viewManager = new ViewManager(this)
     @provider.init(this)
     @startServer()
     @disposables.push atom.workspace.onDidOpen (e) =>
@@ -51,6 +51,8 @@ class Manager
     @provider = null
     @reference?.destroy()
     @reference = null
+    @rename?.destroy()
+    @rename = null
     @documentation?.destroy()
     @documentation = null
     @type?.destroy()
@@ -85,7 +87,7 @@ class Manager
       @disposables.push editor.onDidChangeCursorPosition (event) =>
         if @inlineFnCompletion
           @type.queryType(editor)
-        @viewManager?.hideRename()
+        @rename?.hide()
         return if event.textChanged
         @documentation.hide()
       @disposables.push editor.getBuffer().onDidChangeModified (modified) =>
@@ -95,7 +97,7 @@ class Manager
         @client?.update(editor.getURI(), editor.getText())
     @disposables.push atom.workspace.onDidChangeActivePaneItem (item) =>
       @provider?.clearSuggestionsAndHide()
-      @viewManager?.hideRename()
+      @rename?.hide()
       if !@isValidEditor(item)
         @reference.hide()
     @disposables.push atom.config.observe 'atom-ternjs.inlineFnCompletion', =>
@@ -127,7 +129,7 @@ class Manager
 
   registerCommands: ->
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:rename': (event) =>
-      @viewManager?.showRename()
+      @rename?.show()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:markerCheckpointBack': (event) =>
       @helper?.markerCheckpointBack()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>

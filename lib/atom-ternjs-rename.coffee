@@ -1,21 +1,33 @@
+RenameView = require './atom-ternjs-rename-view'
 {Point, Range} = require 'atom'
 _ = require 'underscore-plus'
 
 module.exports =
 class Rename
 
-  rename: null
+  renameView: null
   disposables: []
   manager: null
-  title: 'Rename'
-  sub: 'Rename a variable in a scope-aware way. (experimental)'
 
   constructor: (manager, state = {}) ->
     state.attached ?= true
+
     @manager = manager
 
+    @renameView = new RenameView()
+    @renameView.initialize(this)
+    @renamePanel = atom.workspace.addBottomPanel(item: @renameView, priority: 0)
+    @renamePanel.hide()
+
+    atom.views.getView(@renamePanel).classList.add('atom-ternjs-rename-panel', 'panel-bottom')
+
   hide: ->
-    @manager.viewManager.hideRename()
+    return unless @renamePanel?.isVisible()
+    @renamePanel.hide()
+    @manager.helper.focusEditor()
+
+  show: ->
+    @renamePanel.show()
 
   updateAllAndRename: (newName) ->
     idx = 0
@@ -83,3 +95,14 @@ class Rename
     buffer.setTextInRange(range, change.text)
     return unless moveCursor
     textEditor.getLastCursor()?.setBufferPosition(start)
+
+  destroy: ->
+    for disposable in @disposables
+      disposable.dispose()
+    @disposables = []
+
+    @renameView?.destroy()
+    @renameView = null
+
+    @renamePanel?.destroy()
+    @renamePanel = null
