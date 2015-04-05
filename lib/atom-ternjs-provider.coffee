@@ -74,6 +74,7 @@ class Provider
               className: null,
               rightLabel: obj.rightLabel
               leftLabel: obj.leftLabel
+              _ternType: obj.type
               _ternDocs: obj.doc
               _ternUrl: obj.url
               _ternOrigin: obj.origin
@@ -96,7 +97,7 @@ class Provider
 
     @manager.documentation.set({
       word: currentSuggestion.text,
-      label: currentSuggestion.rightLabel,
+      label: currentSuggestion._ternType,
       docs: {
         doc: currentSuggestion._ternDocs,
         url: currentSuggestion._ternUrl,
