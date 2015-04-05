@@ -13,7 +13,7 @@ class Documentation
     @manager = manager
 
     @documentation = new DocumentationView()
-    @documentation.initialize(state)
+    @documentation.initialize(this)
 
     atom.views.getView(atom.workspace).appendChild(@documentation)
     @registerEvents()
@@ -42,6 +42,10 @@ class Documentation
     else
       @documentation.classList.remove('top')
       @documentation.classList.add('bottom')
+
+  goToOrigin: (e) ->
+    file = e.target.dataset.origin
+    atom.workspace.open(file)
 
   removeClasses: ->
     @documentation.classList.remove('bottom', 'top', 'middle')

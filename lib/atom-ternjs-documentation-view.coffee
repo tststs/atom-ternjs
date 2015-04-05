@@ -1,8 +1,5 @@
 class DocumentationView extends HTMLElement
 
-  @elTitle = null
-  @elContent = null
-
   createdCallback: ->
     @classList.add('atom-ternjs-documentation')
     container = document.createElement('div')
@@ -15,7 +12,8 @@ class DocumentationView extends HTMLElement
 
     @appendChild(container)
 
-  initialize: (state) ->
+  initialize: (model) ->
+    @setModel(model)
     this
 
   setTitle: (word, label) ->
@@ -49,16 +47,18 @@ class DocumentationView extends HTMLElement
         elOrigin.classList.add('link')
         elOrigin.dataset.origin = data.origin;
         elOrigin.addEventListener('click', (e) =>
-          @goToOrigin(e)
+          @model.goToOrigin(e)
         )
 
       elOriginWrapper.appendChild(elOrigin)
       elDoc.appendChild(elOriginWrapper)
     @elContent.appendChild(elDoc)
 
-  goToOrigin: (e) ->
-    file = e.target.dataset.origin
-    atom.workspace.open(file)
+  getModel: ->
+    @model
+
+  setModel: (model) ->
+    @model = model
 
   destroy: ->
     @remove()
