@@ -83,6 +83,8 @@ class Helper
     data
 
   formatTypeCompletion: (obj) ->
+    return obj if !obj.type
+    
     if obj.type is 'string'
       obj.name = obj.name.replace /(^"|"$)/g, ''
 
