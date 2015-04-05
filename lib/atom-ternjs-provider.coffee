@@ -72,10 +72,11 @@ class Provider
               text: obj.name,
               replacementPrefix: prefix,
               className: null,
-              rightLabel: obj.type
-              _ternDocs: obj.doc,
-              _ternUrl: obj.url,
-              _ternOrigin: obj.origin,
+              rightLabel: obj.rightLabel
+              leftLabel: obj.leftLabel
+              _ternDocs: obj.doc
+              _ternUrl: obj.url
+              _ternOrigin: obj.origin
             }
           resolve(that.suggestionsArr)
           that.setDocumentationContent()

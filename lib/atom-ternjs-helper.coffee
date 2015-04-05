@@ -85,7 +85,22 @@ class Helper
   formatTypeCompletion: (obj) ->
     if obj.type is 'string'
       obj.name = obj.name.replace /(^"|"$)/g, ''
+
     obj.type = obj.type?.replace(/->/g, ':').replace('<top>', 'window')
+
+    if obj.type.replace(/fn\(.+\)/, '').length is 0
+      obj.leftLabel = ''
+    else
+      if obj.type.indexOf('fn') is -1
+        obj.leftLabel = obj.type
+      else
+        obj.leftLabel = obj.type.replace(/fn\(.{0,}\)/, '').replace(' : ', '')
+
+    obj.rightLabel = obj.type.replace(/( : .+)/, '')
+
+    if obj.leftLabel is obj.rightLabel
+      obj.rightLabel = ''
+
     obj
 
   markDefinitionBufferRange: (cursor, editor) ->
