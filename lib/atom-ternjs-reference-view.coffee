@@ -15,6 +15,9 @@ class ReferenceView extends HTMLElement
     @setModel(model)
     this
 
+  clickHandle: (i) ->
+    @model.goToReference(i)
+
   buildItems: (data) ->
     @content.innerHTML = ''
     headline = document.createElement('h2')
@@ -23,11 +26,8 @@ class ReferenceView extends HTMLElement
     list = document.createElement('ul')
     for item, i in data.refs
       li = document.createElement('li')
-      li.dataset.idx = i;
-      li.innerHTML = item.file + ':' + item.start
-      li.addEventListener('click', (e) =>
-        @model.goToReference(e)
-      )
+      li.innerHTML = "<h3><span><span class=\"darken\">(#{item.position.row + 1}:#{item.position.column}):</span> <span>#{item.lineText}</span></span> <span class=\"darken\">(#{item.file})</span><div class=\"clear\"></div></h3>"
+      li.addEventListener('click', @clickHandle.bind(this, i), false)
       list.appendChild(li)
     @content.appendChild(list)
 

@@ -1,5 +1,8 @@
 ReferenceView = require './atom-ternjs-reference-view'
 _ = require 'underscore-plus'
+fs = require 'fs'
+path = require 'path'
+{TextBuffer} = require 'atom'
 
 module.exports =
 class Reference
@@ -38,10 +41,9 @@ class Reference
       view?.focus?()
     )
 
-  goToReference: (e) ->
+  goToReference: (idx) ->
     editor = atom.workspace.getActiveTextEditor()
     return unless editor
-    idx = e.target.dataset.idx
     ref = @references.refs[idx]
     @manager.helper.openFileAndGoTo(ref.start, ref.file)
 
@@ -60,8 +62,21 @@ class Reference
       data.refs = _.uniq(data.refs, (item) =>
         JSON.stringify item
       )
+
+      data = @gatherMeta(data)
       @referencePanel.show()
       @reference.buildItems(data)
+
+  gatherMeta: (data) ->
+    for item, i in data.refs
+      projectRoot = atom.project.getDirectories()[0]
+      file = path.resolve(__dirname, projectRoot.path + '/' + item.file)
+      content = fs.readFileSync(file, 'utf8')
+      buffer = new TextBuffer({ text: content })
+      item.position = buffer.positionForCharacterIndex(item.start)
+      item.lineText = buffer.lineForRow(item.position.row)
+      item.lineText = item.lineText.replace(data.name, "<strong>#{data.name}</strong>")
+    data
 
   hide: ->
     @referencePanel.hide()

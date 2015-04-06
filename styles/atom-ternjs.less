@@ -20,6 +20,11 @@ atom-ternjs-documentation > div {
 
 atom-ternjs-rename {
 
+    > div {
+
+        padding: 0 0 @atom-ternjs-padding @atom-ternjs-padding;
+    }
+
     atom-text-editor {
 
         max-width: 30%;
@@ -36,25 +41,71 @@ atom-ternjs-reference, atom-ternjs-rename {
     > div {
 
         position: relative;
-
-        > div {
-
-            padding: 0 0 @atom-ternjs-padding @atom-ternjs-padding;
-        }
     }
 }
 
 atom-ternjs-reference {
 
+    > div {
+
+        > div {
+
+            padding: 0 @atom-ternjs-padding @atom-ternjs-padding @atom-ternjs-padding;
+        }
+    }
+
+    ul {
+
+        list-style: none;
+        padding-left: 0;
+    }
+
     li {
 
         cursor: pointer;
+        padding: 6px 0;
 
         &:hover {
 
-            text-decoration: underline;
-            color: @text-color-highlight;
+            background: rgba(100, 100, 100, 0.3);
         }
+    }
+
+    h3 {
+
+        margin: 0;
+
+        > span {
+
+            display: block;
+            float: left;
+
+            &:first-child {
+
+                width: 70%;
+            }
+
+            &:nth-child(2) {
+
+                width: 30%;
+                text-align: right;
+            }
+        }
+    }
+
+    .clear {
+
+        clear: left;
+    }
+
+    strong {
+
+        color: @text-color-info;
+    }
+
+    .darken {
+
+        color: darken(@text-color, 20%);
     }
 }
 
