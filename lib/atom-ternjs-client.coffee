@@ -48,6 +48,7 @@ class Client
         file: file
         end: end
         types: true
+        includeKeywords: true
         sort: @config.sort
         guess: @config.guess
         docs: @config.docs and @config.documentation
