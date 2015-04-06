@@ -7,11 +7,8 @@ class Documentation
   disposables: []
   orientation: null
   position: null
-  manager: null
 
-  constructor: (manager, state = {}) ->
-    @manager = manager
-
+  constructor: (state = {}) ->
     @documentation = new DocumentationView()
     @documentation.initialize(this)
 
@@ -56,11 +53,9 @@ class Documentation
       @removeClasses()
     )
 
-  set: (data) ->
-    return unless data.word and data.label
-    @manager.helper.formatTypeDocumentation(data)
-    @documentation.setTitle(data.word, data.label)
-    @documentation.setContent(data.docs)
+  set: (suggestion) ->
+    @documentation.setTitle(suggestion.leftLabel, suggestion._rightLabelDoc or suggestion.text)
+    @documentation.setContent(suggestion._ternDocs, suggestion._ternUrl, suggestion._ternOrigin)
     @setPosition()
     @show()
 

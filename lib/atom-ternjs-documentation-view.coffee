@@ -16,36 +16,36 @@ class DocumentationView extends HTMLElement
     @setModel(model)
     this
 
-  setTitle: (word, label) ->
-    if word
-      @elTitle.innerHTML = "#{word} : #{label}"
-    else
-      @elTitle.innerHTML = label
+  setTitle: (returnValue, fn) ->
+    if returnValue
+      @elTitle.innerHTML = "#{returnValue} : #{fn}"
+      return
+    @elTitle.innerHTML = fn
 
-  setContent: (data) ->
+  setContent: (docs, url, origin) ->
     @elContent.innerHTML = ''
     elDoc = document.createElement('p')
-    return if !data.doc and !data.url and !data.origin
-    if data.doc
-      data.doc = data.doc.replace(/(?:\r\n|\r|\n)/g, '<br />')
-      elDoc.innerHTML = data.doc
-    if data.url
+    return if !docs and !url and !origin
+    if docs
+      docs = docs.replace(/(?:\r\n|\r|\n)/g, '<br />')
+      elDoc.innerHTML = docs
+    if url
       elUrlWrapper = document.createElement('span')
       elUrlWrapper.innerHTML = 'URL: '
       elUrl = document.createElement('a')
-      elUrl.innerHTML = data.url
-      elUrl.href = data.url
+      elUrl.innerHTML = url
+      elUrl.href = url
       elUrlWrapper.appendChild(elUrl)
       elDoc.appendChild(elUrlWrapper)
-    if data.origin
+    if origin
       elOriginWrapper = document.createElement('span')
       elOriginWrapper.innerHTML = 'Origin: '
       elOrigin = document.createElement('span')
-      elOrigin.innerHTML = data.origin
+      elOrigin.innerHTML = origin
 
-      if data.origin.endsWith('.js') or data.origin.endsWith('.coffee')
+      if origin.endsWith('.js') or origin.endsWith('.coffee')
         elOrigin.classList.add('link')
-        elOrigin.dataset.origin = data.origin;
+        elOrigin.dataset.origin = origin;
         elOrigin.addEventListener('click', (e) =>
           @model.goToOrigin(e)
         )

@@ -75,18 +75,11 @@ class Helper
   formatType: (data) ->
     str = data.type.replace('fn', data.exprName).replace(/->/g, ':').replace('<top>', 'window')
 
-  formatTypeDocumentation: (data) ->
-    if data.label.startsWith('fn')
-      data.label = data.label.replace('fn', data.word)
-      data.word = false
-    data.label = data.label.replace(/->/g, ':').replace('<top>', 'window')
-    data
-
   formatTypeCompletion: (obj) ->
     return obj if !obj.type
 
     if obj.type is 'string'
-      obj.name = obj.name.replace /(^"|"$)/g, ''
+      obj.name = obj.name?.replace /(^"|"$)/g, ''
 
     obj.type = obj.type?.replace(/->/g, ':').replace('<top>', 'window')
 
@@ -98,10 +91,13 @@ class Helper
       else
         obj.leftLabel = obj.type.replace(/fn\(.{0,}\)/, '').replace(' : ', '')
 
-    obj.rightLabel = obj.type.replace(/( : .+)/, '')
+    obj.rightLabel = obj.rightLabelDoc = obj.type.replace(/( : .+)/, '')
+
+    if obj.name
+      obj.rightLabelDoc = obj.rightLabel.replace(/^fn/, obj.name)
 
     if obj.leftLabel is obj.rightLabel
-      obj.rightLabel = ''
+      obj.rightLabel = null
 
     obj
 

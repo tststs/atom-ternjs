@@ -28,7 +28,7 @@ class Manager
     @registerHelperCommands()
     @helper = new Helper()
     @client = new Client(this)
-    @documentation = new Documentation(this)
+    @documentation = new Documentation()
     @rename = new Rename(this)
     @type = new Type(this)
     @reference = new Reference(this)

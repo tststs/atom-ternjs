@@ -74,6 +74,7 @@ class Provider
               className: null,
               rightLabel: obj.rightLabel
               leftLabel: obj.leftLabel
+              _rightLabelDoc: obj.rightLabelDoc
               _ternType: obj.type
               _ternDocs: obj.doc
               _ternUrl: obj.url
@@ -91,19 +92,8 @@ class Provider
 
     currentSuggestion = @suggestionsArr[@currentSuggestionIndex]
     return unless currentSuggestion
-    if !currentSuggestion._ternDocs and !currentSuggestion._ternUrl and !currentSuggestion._ternOrigin
-      @manager.documentation.hide()
-      return
 
-    @manager.documentation.set({
-      word: currentSuggestion.text,
-      label: currentSuggestion._ternType,
-      docs: {
-        doc: currentSuggestion._ternDocs,
-        url: currentSuggestion._ternUrl,
-        origin: currentSuggestion._ternOrigin,
-      }
-    })
+    @manager.documentation.set(currentSuggestion)
 
   forceCompletion: ->
     @force = true
