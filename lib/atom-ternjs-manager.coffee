@@ -96,6 +96,7 @@ class Manager
       @disposables.push editor.getBuffer().onDidSave (event) =>
         @client?.update(editor.getURI(), editor.getText())
     @disposables.push atom.workspace.onDidChangeActivePaneItem (item) =>
+      @type?.destroyOverlay()
       @provider?.clearSuggestionsAndHide()
       @rename?.hide()
       if !@isValidEditor(item)
