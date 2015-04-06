@@ -97,6 +97,7 @@ class Helper
       obj.rightLabelDoc = obj.rightLabel.replace(/^fn/, obj.name)
 
     if obj.leftLabel is obj.rightLabel
+      obj.rightLabelDoc = null
       obj.rightLabel = null
 
     obj
