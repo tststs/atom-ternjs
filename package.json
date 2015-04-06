@@ -26,5 +26,11 @@
         "2.0.0": "provide"
       }
     }
-  }
+  },
+  "keywords": [
+    "javascript",
+    "autocomplete-plus",
+    "autocomplete",
+    "tern"
+  ]
 }
