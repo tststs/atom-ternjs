@@ -76,7 +76,13 @@ class Helper
     str = data.type.replace('fn', data.exprName).replace(/->/g, ':').replace('<top>', 'window')
 
   formatTypeCompletion: (obj) ->
+    if obj.isKeyword
+      obj._typeSelf = 'keyword'
+
     return obj if !obj.type
+
+    if !obj.type.startsWith('fn')
+      obj._typeSelf = 'variable'
 
     if obj.type is 'string'
       obj.name = obj.name?.replace /(^"|"$)/g, ''
@@ -93,8 +99,14 @@ class Helper
 
     obj.rightLabel = obj.rightLabelDoc = obj.type.replace(/( : .+)/, '')
 
+    if obj.rightLabel.startsWith('fn')
+      obj._typeSelf = 'function'
+
     if obj.name
       obj.rightLabelDoc = obj.rightLabel.replace(/^fn/, obj.name)
+      if obj.leftLabel is obj.name
+        obj.leftLabel = null
+        obj.rightLabel = null
 
     if obj.leftLabel is obj.rightLabel
       obj.rightLabelDoc = null

@@ -47,11 +47,11 @@ class Provider
     @manager.documentation.hide()
 
   getSuggestions: ({editor, bufferPosition, scopeDescriptor, prefix}) ->
-    prefix = @getPrefix(editor, bufferPosition) or prefix;
-    if !@isValidPrefix(prefix) and !@force
+    tempPrefix = @getPrefix(editor, bufferPosition) or prefix;
+    if !@isValidPrefix(tempPrefix) and !@force
       @manager.documentation.hide()
       return []
-    prefix = @checkPrefix(prefix)
+    prefix = @checkPrefix(tempPrefix)
 
     that = this
 
@@ -69,9 +69,10 @@ class Provider
             obj = that.manager.helper.formatTypeCompletion(obj)
 
             that.suggestionsArr.push {
-              text: obj.name,
-              replacementPrefix: prefix,
-              className: null,
+              text: obj.name
+              replacementPrefix: prefix
+              className: null
+              type: obj._typeSelf
               rightLabel: obj.rightLabel
               leftLabel: obj.leftLabel
               _rightLabelDoc: obj.rightLabelDoc
@@ -91,7 +92,10 @@ class Provider
       return
 
     currentSuggestion = @suggestionsArr[@currentSuggestionIndex]
-    return unless currentSuggestion
+
+    if !currentSuggestion or currentSuggestion.type is 'keyword'
+      @manager.documentation.hide()
+      return
 
     @manager.documentation.set(currentSuggestion)
 
