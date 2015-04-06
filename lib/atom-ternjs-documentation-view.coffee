@@ -18,7 +18,7 @@ class DocumentationView extends HTMLElement
 
   setTitle: (returnValue, fn) ->
     if returnValue
-      @elTitle.innerHTML = "#{returnValue} : #{fn}"
+      @elTitle.innerHTML = "<span class=\"return-value\">#{returnValue} :</span> #{fn}"
       return
     @elTitle.innerHTML = fn
 
