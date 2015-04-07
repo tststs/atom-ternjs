@@ -101,6 +101,7 @@ class Helper
     obj.rightLabel = obj.rightLabelDoc = obj.type.replace(/( : .+)/, '')
 
     if obj.rightLabel.startsWith('fn')
+      obj._snippet = @extractParams(obj.rightLabel.replace(/^fn\(/, '').replace(/\)$/, ''), obj.name)
       obj._typeSelf = 'function'
 
     if obj.name
@@ -114,6 +115,14 @@ class Helper
       obj.rightLabel = null
 
     obj
+
+  extractParams: (type, name) ->
+    params = type.match(/(([\w:\.\$\?\[\]{} ]+)(\(.+\))?)/ig)
+    suggestionParams = []
+    return unless params
+    for param, i in params
+      suggestionParams.push "${#{i + 1}:#{param}}"
+    "#{name}(#{suggestionParams.join(',')})"
 
   markDefinitionBufferRange: (cursor, editor) ->
     range = cursor.getCurrentWordBufferRange()
