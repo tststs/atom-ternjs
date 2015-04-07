@@ -8,6 +8,7 @@ class Helper
   checkpointsDefinition: []
   ternProjectFileContent: '{\n
     \ "libs": [\n
+    \ \ \ "browser",\n
     \ \ \ "ecma5",\n
     \ \ \ "ecma6",\n
     \ \ \ "jquery"\n
