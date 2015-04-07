@@ -31,9 +31,8 @@ class Type
     @overlayDecoration = null
     @marker = null
 
-  queryType: (editor) ->
-    cursor = editor.getLastCursor()
-    return unless cursor
+  queryType: (editor, cursor) ->
+    return if cursor.destroyed
     scopeDescriptor = cursor.getScopeDescriptor()
     if scopeDescriptor.scopes.join().match(/comment/)
       @destroyOverlay()

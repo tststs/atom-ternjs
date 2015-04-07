@@ -86,7 +86,7 @@ class Manager
       return unless @isValidEditor(editor)
       @disposables.push editor.onDidChangeCursorPosition (event) =>
         if @inlineFnCompletion
-          @type.queryType(editor)
+          @type.queryType(editor, event.cursor)
         @rename?.hide()
         return if event.textChanged
         @documentation.hide()
