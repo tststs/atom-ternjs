@@ -17,6 +17,7 @@ Example .tern-project file (customize to your own needs):
 ```
 {
   "libs": [
+    "browser",
     "ecma5",
     "ecma6",
     "jquery"
