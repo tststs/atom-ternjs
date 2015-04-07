@@ -68,7 +68,7 @@ Example .tern-project file (customize to your own needs):
 # Features
 * Completion (autocompletion triggers automatically or can be forced with strg+alt+space)
 
-![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-7.png)
+![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-8.png)
 
 ![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-inline-2.png)
 * Find references (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find references" or use the shortcut strg+alt+r) Click any item in the generated reference-list and navigate directly to file and position
