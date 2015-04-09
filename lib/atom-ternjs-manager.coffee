@@ -1,9 +1,3 @@
-Server = require './atom-ternjs-server'
-Client = require './atom-ternjs-client'
-Documentation = require './atom-ternjs-documentation'
-Type = require './atom-ternjs-type'
-Rename = require './atom-ternjs-rename'
-Reference = require './atom-ternjs-reference'
 Helper = require './atom-ternjs-helper'
 
 module.exports =
@@ -25,13 +19,8 @@ class Manager
   constructor: (provider) ->
     @provider = provider
     @checkGrammarSettings()
-    @registerHelperCommands()
     @helper = new Helper()
-    @client = new Client(this)
-    @documentation = new Documentation()
-    @rename = new Rename(this)
-    @type = new Type(this)
-    @reference = new Reference(this)
+    @registerHelperCommands()
     @provider.init(this)
     @startServer()
     @disposables.push atom.workspace.onDidOpen (e) =>
@@ -44,7 +33,7 @@ class Manager
 
   destroy: ->
     @stopServer()
-    @client.unregisterEvents()
+    @client?.unregisterEvents()
     @client = null
     @unregisterEventsAndCommands()
     @provider?.destroy()
@@ -57,7 +46,7 @@ class Manager
     @documentation = null
     @type?.destroy()
     @type = null
-    @helper.destroy()
+    @helper?.destroy()
     @helper = null
     @initialised = false
 
@@ -68,8 +57,12 @@ class Manager
 
   startServer: ->
     return unless !@server?.process and atom.project.getDirectories()[0]
+    Server = require './atom-ternjs-server'
     @server = new Server()
     @server.start (port) =>
+      if !@client
+        Client = require './atom-ternjs-client'
+        @client = new Client(this)
       @client.port = port
       return if @initialised
       @init()
@@ -82,17 +75,25 @@ class Manager
     return true
 
   registerEvents: ->
+    @disposables.push atom.commands.add 'atom-text-editor', 'tern:references': (event) =>
+      if !@reference
+        Reference = require './atom-ternjs-reference'
+        @reference = new Reference(this)
+      @reference.findReference()
     @disposables.push atom.workspace.observeTextEditors (editor) =>
       return unless @isValidEditor(editor)
       @disposables.push editor.onDidChangeCursorPosition (event) =>
         if @inlineFnCompletion
+          if !@type
+            Type = require './atom-ternjs-type'
+            @type = new Type(this)
           @type.queryType(editor, event.cursor)
         @rename?.hide()
         return if event.textChanged
-        @documentation.hide()
+        @documentation?.hide()
       @disposables.push editor.getBuffer().onDidChangeModified (modified) =>
         return unless modified
-        @reference.hide()
+        @reference?.hide()
       @disposables.push editor.getBuffer().onDidSave (event) =>
         @client?.update(editor.getURI(), editor.getText())
     @disposables.push atom.workspace.onDidChangeActivePaneItem (item) =>
@@ -100,7 +101,7 @@ class Manager
       @provider?.clearSuggestionsAndHide()
       @rename?.hide()
       if !@isValidEditor(item)
-        @reference.hide()
+        @reference?.hide()
     @disposables.push atom.config.observe 'atom-ternjs.inlineFnCompletion', =>
       @inlineFnCompletion = atom.config.get('atom-ternjs.inlineFnCompletion')
       @type?.destroyOverlay()
@@ -130,7 +131,10 @@ class Manager
 
   registerCommands: ->
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:rename': (event) =>
-      @rename?.show()
+      if !@rename
+        Rename = require './atom-ternjs-rename'
+        @rename = new Rename(this)
+      @rename.show()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:markerCheckpointBack': (event) =>
       @helper?.markerCheckpointBack()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
@@ -141,7 +145,7 @@ class Manager
       @provider?.forceCompletion()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:cancel': (event) =>
       @provider?.forceCancel()
-      @documentation.hide()
+      @documentation?.hide()
 
   stopServer: ->
     @server?.stop()

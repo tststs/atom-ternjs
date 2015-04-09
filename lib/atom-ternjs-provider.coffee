@@ -44,12 +44,12 @@ class Provider
 
   onDidInsertSuggestion: ({editor, triggerPosition, suggestion}) ->
     @clearSuggestions()
-    @manager.documentation.hide()
+    @manager.documentation?.hide()
 
   getSuggestions: ({editor, bufferPosition, scopeDescriptor, prefix}) ->
     tempPrefix = @getPrefix(editor, bufferPosition) or prefix;
     if !@isValidPrefix(tempPrefix) and !@force
-      @manager.documentation.hide()
+      @manager.documentation?.hide()
       return []
     prefix = @checkPrefix(tempPrefix)
 
@@ -61,7 +61,7 @@ class Provider
           that.clearSuggestions()
           if !data.completions.length
             resolve([])
-            that.manager.documentation.hide()
+            that.manager.documentation?.hide()
             return
           for obj, index in data.completions
             if index == that.maxItems
@@ -90,14 +90,18 @@ class Provider
 
   setDocumentationContent: ->
     if @currentSuggestionIndex >= @suggestionsArr.length
-      @manager.documentation.hide()
+      @manager.documentation?.hide()
       return
 
     currentSuggestion = @suggestionsArr[@currentSuggestionIndex]
 
     if !currentSuggestion or currentSuggestion.type is 'keyword'
-      @manager.documentation.hide()
+      @manager.documentation?.hide()
       return
+
+    if !@manager.documentation
+      Documentation = require './atom-ternjs-documentation'
+      @manager.documentation = new Documentation()
 
     @manager.documentation.set(currentSuggestion)
 
@@ -111,7 +115,7 @@ class Provider
   clearSuggestionsAndHide: ->
     @suggestionsArr = []
     @currentSuggestionIndex = 0
-    @manager.documentation.hide()
+    @manager.documentation?.hide()
 
   clearSuggestions: ->
     @suggestionsArr = []
@@ -133,7 +137,7 @@ class Provider
   registerEvents: ->
     @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-cancel', =>
       @clearSuggestions()
-      @manager.documentation.hide()
+      @manager.documentation?.hide()
     @disposables.push @autocompletePlus.autocompleteManager.suggestionList.emitter.on 'did-select-next', =>
       return unless @suggestionsArr?.length
       length = @autocompletePlus.autocompleteManager.suggestionList.items.length

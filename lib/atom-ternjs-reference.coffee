@@ -8,7 +8,6 @@ module.exports =
 class Reference
 
   reference: null
-  disposables: []
   manager: null
   references: []
 
@@ -26,10 +25,6 @@ class Reference
 
     @registerEvents()
     @registerCommands()
-
-  registerCommands: ->
-    @disposables.push atom.commands.add 'atom-text-editor', 'tern:references': (event) =>
-      @findReference()
 
   registerEvents: ->
     close = @reference.getClose()
@@ -85,10 +80,6 @@ class Reference
     @referencePanel.show()
 
   destroy: ->
-    for disposable in @disposables
-      disposable.dispose()
-    @disposables = []
-
     @reference?.destroy()
     @reference = null
 
