@@ -73,7 +73,6 @@ class Provider
               replacementPrefix: prefix
               className: null
               type: obj._typeSelf
-              #rightLabel: obj.rightLabel
               rightLabel: " "
               leftLabel: obj.leftLabel
               snippet: obj._snippet
