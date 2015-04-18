@@ -69,13 +69,14 @@ Example .tern-project file (customize to your own needs):
 # Features
 * Completion (autocompletion triggers automatically or can be forced with ctrl+alt+space)
 
-![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-8.png)
+![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-9.png)
 
 ![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-inline-2.png)
 * Find references (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find references" or use the shortcut ctrl+alt+r) Click any item in the generated reference-list and navigate directly to file and position
-* Documentation (displayed if a suggestion with a valid documentation is selected in the select-list)
-* Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition" or use the shortcut ctrl+alt+d)
 
 ![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-reference.png)
+
+* Documentation (displayed if a suggestion with a valid documentation is selected in the select-list)
+* Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition" or use the shortcut ctrl+alt+d)
 * Back from definition (ctrl+alt+z)
 * Rename variable (set your cursor position to a variable -> open context-menu and trigger "Rename" or use the shortcut ctrl+alt+c)
