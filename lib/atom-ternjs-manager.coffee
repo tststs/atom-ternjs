@@ -9,7 +9,6 @@ class Manager
   server: null
   helper: null
   rename: null
-  documentation: null
   type: null
   reference: null
   provider: null
@@ -47,8 +46,6 @@ class Manager
     @reference = null
     @rename?.destroy()
     @rename = null
-    @documentation?.destroy()
-    @documentation = null
     @type?.destroy()
     @type = null
     @helper?.destroy()
@@ -95,7 +92,6 @@ class Manager
           @type.queryType(editor, event.cursor)
         @rename?.hide()
         return if event.textChanged
-        @documentation?.hide()
       @disposables.push editor.getBuffer().onDidChangeModified (modified) =>
         return unless modified
         @reference?.hide()
@@ -103,7 +99,6 @@ class Manager
         @client?.update(editor.getURI(), editor.getText())
     @disposables.push atom.workspace.onDidChangeActivePaneItem (item) =>
       @type?.destroyOverlay()
-      @provider?.clearSuggestionsAndHide()
       @rename?.hide()
       if !@isValidEditor(item)
         @reference?.hide()
@@ -142,15 +137,12 @@ class Manager
       @rename.show()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:markerCheckpointBack': (event) =>
       @helper?.markerCheckpointBack()
+    @disposables.push atom.commands.add 'atom-text-editor', 'tern:startCompletion': (event) =>
+      @provider?.forceCompletion()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
       @client?.definition()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:restart': (event) =>
       @restartServer()
-    @disposables.push atom.commands.add 'atom-text-editor', 'tern:startCompletion': (event) =>
-      @provider?.forceCompletion()
-    @disposables.push atom.commands.add 'atom-text-editor', 'tern:cancel': (event) =>
-      @provider?.forceCancel()
-      @documentation?.hide()
 
   stopServer: ->
     @server?.stop()

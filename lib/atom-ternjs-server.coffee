@@ -12,7 +12,7 @@ class Server
     stdout = (output) ->
       output = output.split(' ')
       port = parseInt(output[output.length - 1])
-      return if isNaN(port)
+      return if isNaN(port) or port is 0
       callback port
 
     if @isPlatformWindows()

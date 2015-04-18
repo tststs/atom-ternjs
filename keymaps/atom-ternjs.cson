@@ -7,11 +7,9 @@
 
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
-'atom-workspace':
+'atom-text-editor':
   'ctrl-alt-d': 'tern:definition'
   'ctrl-alt-c': 'tern:rename'
   'ctrl-alt-r': 'tern:references'
   'ctrl-alt-z': 'tern:markerCheckpointBack'
   'ctrl-alt-space': 'tern:startCompletion'
-'.autocomplete-plus input':
-  'escape': 'tern:cancel'

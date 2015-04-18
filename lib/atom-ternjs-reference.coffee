@@ -24,7 +24,6 @@ class Reference
     atom.views.getView(@referencePanel).classList.add("atom-ternjs-reference-panel", "panel-bottom")
 
     @registerEvents()
-    @registerCommands()
 
   registerEvents: ->
     close = @reference.getClose()
