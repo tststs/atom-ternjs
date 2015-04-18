@@ -7,15 +7,10 @@
 @atom-ternjs-margin: 20px;
 @atom-ternjs-height: 180px;
 
-atom-ternjs-documentation > div, atom-ternjs-reference > div > div, atom-ternjs-rename > div > div {
+atom-ternjs-reference > div > div, atom-ternjs-rename > div > div {
 
     max-height: @atom-ternjs-height;
     overflow-y: auto;
-}
-
-atom-ternjs-documentation > div {
-
-    padding: @atom-ternjs-padding;
 }
 
 atom-ternjs-rename {
@@ -128,77 +123,6 @@ atom-ternjs-type {
 
         font-weight: 500;
         color: @text-color-highlight;
-    }
-}
-
-atom-ternjs-documentation {
-
-    position: absolute;
-    right: calc(@component-padding + 10);
-    background: fade(@overlay-background-color, 90%);
-    border: 1px solid fade(@base-border-color, 20%);
-    color: @text-color;
-    border-radius: @component-border-radius;
-    width: 40%;
-    min-height: @atom-ternjs-height;
-    max-width: 640px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .2s ease;
-
-    &.active {
-
-        opacity: 1;
-        pointer-events: auto;
-    }
-
-    &.top {
-
-        top: calc(@component-padding + 36);
-    }
-
-    &.middle {
-
-        top: calc(~'50% - '(@atom-ternjs-height / 2));
-    }
-
-    &.bottom {
-
-        bottom: calc(@component-padding + 26);
-    }
-
-    h2 {
-
-        margin: 0;
-        line-height: 1.4em;
-        margin-top: -0.2em;
-    }
-
-    .return-value {
-
-        color: darken(@text-color, 20%);
-    }
-
-    p {
-
-        margin-top: 10px;
-
-        > span {
-
-            display: block;
-            padding-top: 4px;
-        }
-    }
-
-    .link {
-
-        cursor: pointer;
-        color: @text-color-highlight;
-
-        &:hover {
-
-            text-decoration: underline;
-        }
     }
 }
 
