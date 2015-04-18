@@ -8,6 +8,7 @@ class Type
   manager: null
   overlayDecoration: null
   marker: null
+  offsetFix: ''
 
   constructor: (manager, state = {}) ->
     @manager = manager
@@ -111,7 +112,11 @@ class Type
         type = data.type.substring(data.type.indexOf('(') + 1, data.type.lastIndexOf(')'))
         matches = type.match(@manager.regExp.params)
         if matches?[paramPosition]
-          data.type = data.type.replace(matches[paramPosition], '<span class=\"current-param\">' + matches[paramPosition] + '</span>')
+          if paramPosition > 0
+            offsetFix = ' '
+          else
+            offsetFix = ''
+          data.type = data.type.replace(matches[paramPosition], offsetFix + '<span class=\"current-param\">' + matches[paramPosition] + '</span>')
         @view.setData({
           word: data.exprName,
           label: data.type
