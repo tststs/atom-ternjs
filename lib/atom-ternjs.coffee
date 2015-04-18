@@ -26,47 +26,36 @@ module.exports =
       type: 'boolean'
       default: true
       order: 2
-    docs:
-      title: 'Show Documentation'
-      description: 'Display the documentation view'
-      type: 'boolean'
-      default: true
-      order: 3
     inlineFnCompletion:
       title: 'Display inline suggestions for function params'
       description: 'Displays a inline suggestion located right next to the current cursor'
       type: 'boolean'
       default: true
-      order: 4
+      order: 3
     documentation:
       title: 'Documentation'
       description: 'Whether to include documentation string (if found) in the result data.'
       type: 'boolean'
       default: true
-      order: 5
-    docsPosition:
-      title: 'Force the documentation view to be positioned top/bottom/middle'
-      type: 'string'
-      default: 'auto'
-      enum: ['auto', 'force top', 'force bottom', 'force middle']
+      order: 4
     urls:
       title: 'Url'
       description: 'Whether to include documentation urls (if found) in the result data.'
       type: 'boolean'
       default: true
-      order: 6
+      order: 5
     origins:
       title: 'Origin'
       description: 'Whether to include origins (if found) in the result data.'
       type: 'boolean'
       default: true
-      order: 7
+      order: 6
     coffeeScript:
       title: 'CoffeeScript'
       description: 'Completions for CoffeeScript. Please restart atom after activating/deactivating this option (highly experimental)'
       type: 'boolean'
       default: false
-      order: 8
+      order: 7
 
   activate: (state) ->
     @provider = new Provider()
