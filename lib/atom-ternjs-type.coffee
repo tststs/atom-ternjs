@@ -109,7 +109,7 @@ class Type
           return
         data.type = @manager.helper.formatType(data)
         type = data.type.substring(data.type.indexOf('(') + 1, data.type.lastIndexOf(')'))
-        matches = type.match(/(\w+:? ?(\{.+\})?\B ?\??(\w+(\(\))?\.?\|?(\([^,\n]+\))?\??:? ?(\??\w*))?)/g)
+        matches = type.match(@manager.regExp.params)
         if matches?[paramPosition]
           data.type = data.type.replace(matches[paramPosition], '<span class=\"current-param\">' + matches[paramPosition] + '</span>')
         @view.setData({

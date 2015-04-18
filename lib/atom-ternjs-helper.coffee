@@ -5,6 +5,7 @@ module.exports =
 class Helper
 
   projectRoot: null
+  manager: null
   checkpointsDefinition: []
   ternProjectFileContent: '{\n
     \ "libs": [\n
@@ -22,6 +23,9 @@ class Helper
     \ \ \ \ "fullDocs": true\n
     \ \ \ }\n
     \ }\n}'
+
+  constructor: (manager) ->
+    @manager = manager
 
   hasTernProjectFile: ->
     @projectRoot = atom.project.getDirectories()[0]
@@ -118,7 +122,7 @@ class Helper
     obj
 
   extractParams: (type, name) ->
-    params = type.match(/(([\w:\.\$\?\[\]{} ]+)(\(.+\))?)/ig)
+    params = type.match(@manager.regExp.params)
     suggestionParams = []
     return unless params
     for param, i in params

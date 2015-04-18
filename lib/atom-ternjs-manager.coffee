@@ -16,10 +16,15 @@ class Manager
   initialised: false
   inlineFnCompletion: false
 
+  # regexp
+  regExp:
+    #params: /(\w+:? ?(\{.+\})?\B ?\??(\w+(\(\))?\.?\|?(\([^,\n]+\))?\??:? ?(\??\w*))?)/g
+    params: /(([\w:\.\$\?\[\]{} ]+)(\(.+\))?)/ig
+
   constructor: (provider) ->
     @provider = provider
     @checkGrammarSettings()
-    @helper = new Helper()
+    @helper = new Helper(this)
     @registerHelperCommands()
     @provider.init(this)
     @startServer()
