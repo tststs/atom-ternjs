@@ -16,7 +16,7 @@ class Provider
   selector: '.source.js'
   disableForSelector: '.source.js .comment'
   inclusionPriority: 1
-  excludeLowerPriority: false
+  excludeLowerPriority: true
 
   init: (manager) ->
     @manager = manager
