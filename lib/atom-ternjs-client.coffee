@@ -10,7 +10,6 @@ class Client
   config:
     sort: false
     guess: false
-    docs: false
     urls: false
     origins: false
     caseInsensitive: false
@@ -21,8 +20,6 @@ class Client
     @registerEvents()
 
   registerEvents: ->
-    @disposables.push atom.config.observe 'atom-ternjs.docs', =>
-      @config.docs = atom.config.get('atom-ternjs.docs')
     @disposables.push atom.config.observe 'atom-ternjs.sort', =>
       @config.sort = atom.config.get('atom-ternjs.sort')
     @disposables.push atom.config.observe 'atom-ternjs.guess', =>
@@ -51,9 +48,9 @@ class Client
         includeKeywords: true
         sort: @config.sort
         guess: @config.guess
-        docs: @config.docs and @config.documentation
-        urls: @config.docs and @config.urls
-        origins: @config.docs and @config.origins
+        docs: @config.documentation
+        urls: @config.urls
+        origins: @config.origins
         lineCharPositions: true
         caseInsensitive: @config.caseInsensitive
     )
