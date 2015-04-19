@@ -21,7 +21,7 @@ class Reference
     @referencePanel = atom.workspace.addBottomPanel(item: @reference, priority: 0)
     @referencePanel.hide()
 
-    atom.views.getView(@referencePanel).classList.add("atom-ternjs-reference-panel", "panel-bottom")
+    atom.views.getView(@referencePanel).classList.add('atom-ternjs-reference-panel', 'panel-bottom')
 
     @registerEvents()
 
