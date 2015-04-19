@@ -6,12 +6,9 @@ module.exports =
 class Rename
 
   renameView: null
-  disposables: []
   manager: null
 
   constructor: (manager, state = {}) ->
-    state.attached ?= true
-
     @manager = manager
 
     @renameView = new RenameView()
@@ -97,10 +94,6 @@ class Rename
     textEditor.getLastCursor()?.setBufferPosition(start)
 
   destroy: ->
-    for disposable in @disposables
-      disposable.dispose()
-    @disposables = []
-
     @renameView?.destroy()
     @renameView = null
 

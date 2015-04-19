@@ -12,8 +12,6 @@ class Reference
   references: []
 
   constructor: (manager, state = {}) ->
-    state.attached ?= true
-
     @manager = manager
 
     @reference = new ReferenceView()
