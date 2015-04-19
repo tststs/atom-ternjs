@@ -9,6 +9,7 @@ class Manager
   server: null
   helper: null
   rename: null
+  config: null
   type: null
   reference: null
   provider: null
@@ -42,6 +43,8 @@ class Manager
     @unregisterEventsAndCommands()
     @provider?.destroy()
     @provider = null
+    @config?.destroy()
+    @config = null
     @reference?.destroy()
     @reference = null
     @rename?.destroy()

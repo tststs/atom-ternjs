@@ -34,8 +34,12 @@ class Helper
     return false
 
   createTernProjectFile: ->
-    return unless @hasTernProjectFile() is false
-    @writeFile(path.resolve(__dirname, @projectRoot.path + '/.tern-project'))
+    if !@manager.config
+      Config = require './atom-ternjs-config'
+      @manager.config = new Config(@manager)
+    @manager.config.show()
+    #return unless @hasTernProjectFile() is false
+    #@writeFile(path.resolve(__dirname, @projectRoot.path + '/.tern-project'))
 
   fileExists: (path) ->
     try fs.accessSync path, fs.F_OK, (err) =>
