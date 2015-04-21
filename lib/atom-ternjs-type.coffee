@@ -128,8 +128,10 @@ class Type
           @destroyOverlay()
           return
         data.type = @manager.helper.formatType(data)
-        type = data.type.substring(data.type.indexOf('(') + 1, data.type.lastIndexOf(')'))
+        type = data.type.substring(data.type.indexOf('(') + 1, data.type.length)
         matches = type.match(@manager.regExp.params)
+        if (matches[matches.length - 1]).startsWith(' :')
+          matches.splice(matches.length - 1)
         if matches?[paramPosition]
           offsetFix = if paramPosition > 0 then ' ' else ''
           data.type = data.type.replace(matches[paramPosition], offsetFix + "<span class=\"current-param\">#{matches[paramPosition]}</span>")
