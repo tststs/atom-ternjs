@@ -51,16 +51,24 @@ class Type
     rangeBefore = false
     tmp = false
     may = false
+    may2 = false
     skipCounter = 0
+    skipCounter2 = 0
     paramPosition = 0
     cancel = false
 
-    buffer.backwardsScanInRange(/\(|\)|\,|\{|\}/g, [[rowStart, 0], [position.row, position.column]], (obj) =>
+    buffer.backwardsScanInRange(/\]|\[|\(|\)|\,|\{|\}/g, [[rowStart, 0], [position.row, position.column]], (obj) =>
 
       return if editor.scopeDescriptorForBufferPosition(obj.range.start).scopes.join().match(/string/)
 
       if obj.matchText is '}'
         may = true
+        return
+
+      if obj.matchText is ']'
+        if tmp is false
+          skipCounter2++
+        may2 = true
         return
 
       if obj.matchText is '{'
@@ -71,16 +79,29 @@ class Type
         may = false
         return
 
-      if obj.matchText is ',' and not skipCounter
-        paramPosition++
+      if obj.matchText is '['
+        if skipCounter2
+          skipCounter2--
+        if !may2
+          rangeBefore = false
+          obj.stop()
+          return
+        may2 = false
         return
 
       if obj.matchText is ')' and tmp is false
         skipCounter++
         return
 
+      if obj.matchText is ',' and not skipCounter and not skipCounter2
+        paramPosition++
+        return
+
       if obj.matchText is '(' and skipCounter
         skipCounter--
+        return
+
+      if skipCounter or skipCounter2
         return
 
       if obj.matchText is '(' and tmp is false
