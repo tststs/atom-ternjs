@@ -17,7 +17,7 @@ class Manager
 
   # regexp
   regExp:
-    params: /(([\w:\.\$\?\[\]{} ]+)(\([\w:\.\$\?\[\]{} ]*\))?)/ig
+    params: /(([\w:\.\$\?\[\]{} ]+)(\([\w:\.\$\?\[\]{}, ]*\))?)/ig
 
   constructor: (provider) ->
     @provider = provider
