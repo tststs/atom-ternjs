@@ -26,20 +26,21 @@ class Helper
 
   constructor: (manager) ->
     @manager = manager
+    @projectRoot = @getProjectRoot()
 
   hasTernProjectFile: ->
-    @projectRoot = atom.project.getDirectories()[0]
+    if not @projectRoot
+      @getProjectRoot()
     return undefined unless @projectRoot
     return true if @fileExists(path.resolve(__dirname, @projectRoot.path + '/.tern-project')) is undefined
     return false
 
+  getProjectRoot: ->
+    @projectRoot = atom.project.getDirectories()[0]
+
   createTernProjectFile: ->
-    if !@manager.config
-      Config = require './atom-ternjs-config'
-      @manager.config = new Config(@manager)
-    @manager.config.show()
-    #return unless @hasTernProjectFile() is false
-    #@writeFile(path.resolve(__dirname, @projectRoot.path + '/.tern-project'))
+    return unless @hasTernProjectFile() is false
+    @writeFile(path.resolve(__dirname, @projectRoot.path + '/.tern-project'))
 
   fileExists: (path) ->
     try fs.accessSync path, fs.F_OK, (err) =>
@@ -52,6 +53,25 @@ class Helper
       return unless err
       content = 'Could not create .tern-project file. Use the README to manually create a .tern-project file.'
       atom.notifications.addInfo(content, dismissable: true)
+
+  readFile: (path) ->
+    fs.readFileSync path, 'utf8'
+
+  getConfigJSONData: ->
+    if not @projectRoot
+      @getProjectRoot()
+    return false unless @projectRoot
+    pathToJSON = path.resolve(__dirname, '../tern-config.json')
+    return false unless @fileExists(pathToJSON) is undefined
+    @readFile(pathToJSON)
+
+  getConfig: ->
+    if not @projectRoot
+      @getProjectRoot()
+    return false unless @projectRoot
+    pathToTern = path.resolve(__dirname, @projectRoot.path + '/.tern-project')
+    return false unless @fileExists(pathToTern) is undefined
+    @readFile(pathToTern)
 
   markerCheckpointBack: ->
     return unless @checkpointsDefinition.length

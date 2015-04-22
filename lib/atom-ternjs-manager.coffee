@@ -128,8 +128,11 @@ class Manager
     @grammars.splice(idx, 1)
 
   registerHelperCommands: ->
-    @disposables.push atom.commands.add 'atom-text-editor', 'tern:createTernProjectFile': (event) =>
-      @helper.createTernProjectFile()
+    @disposables.push atom.commands.add 'atom-text-editor', 'tern:openConfig': (event) =>
+      if !@config
+        Config = require './atom-ternjs-config'
+        @config = new Config(this)
+      @config.show()
 
   registerCommands: ->
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:rename': (event) =>

@@ -1,11 +1,13 @@
 ConfigView = require './atom-ternjs-config-view'
+_ = require 'underscore-plus'
 
 module.exports =
 class Config
 
   configView: null
+  config: []
   manager: null
-  options: null
+  projectConfig: null
 
   constructor: (manager, state = {}) ->
     @manager = manager
@@ -19,6 +21,20 @@ class Config
     atom.views.getView(@configPanel).classList.add('atom-ternjs-config-panel', 'panel-bottom')
     @registerEvents()
 
+  buildJSON: ->
+    configStub = @manager.helper.getConfigJSONData()
+    return unless configStub
+    configStub = JSON.parse(configStub)
+    return unless configStub
+    configStub
+
+  getProjectConfig: ->
+    localConfig = @manager.helper.getConfig()
+    return unless localConfig
+    localConfig = JSON.parse(localConfig)
+    return unless localConfig
+    localConfig
+
   registerEvents: ->
     close = @configView.getClose()
     close.addEventListener('click', (e) =>
@@ -26,11 +42,20 @@ class Config
       @manager.helper.focusEditor()
     )
 
+  mergeConfigObjects: (configStub, localConfig) ->
+    _.deepExtend({}, configStub, localConfig)
+
   hide: ->
     @configPanel.hide()
 
   show: ->
-    @configPanel.show()
+    configStub = @buildJSON()
+    localConfig = @getProjectConfig()
+    if configStub and localConfig
+      @config = @mergeConfigObjects(configStub, localConfig)
+    else
+      @config = configStub
+    #@configPanel.show()
 
   destroy: ->
     @configView?.destroy()

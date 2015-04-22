@@ -17,9 +17,7 @@ class ConfigView extends HTMLElement
     this
 
   buildOptionsMarkup: ->
-    console.log @model.options.libs
-    for own lib of @model.options.libs
-      console.log lib
+    return
 
   getClose: ->
     @close
