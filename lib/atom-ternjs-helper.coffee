@@ -7,39 +7,15 @@ class Helper
   projectRoot: null
   manager: null
   checkpointsDefinition: []
-  ternProjectFileContent: '{\n
-    \ "libs": [\n
-    \ \ \ "browser",\n
-    \ \ \ "ecma5",\n
-    \ \ \ "ecma6",\n
-    \ \ \ "jquery"\n
-    \ ],\n
-    \ "loadEagerly": [\n
-    \ \ \ "js/**/*.js"\n
-    \ ],\n
-    \ "plugins": {\n
-    \ \ \ "complete_strings": {},\n
-    \ \ \ "doc_comment": {\n
-    \ \ \ \ "fullDocs": true\n
-    \ \ \ }\n
-    \ }\n}'
 
   constructor: (manager) ->
     @manager = manager
     @projectRoot = @getProjectRoot()
 
-  hasTernProjectFile: ->
-    if not @projectRoot
-      @getProjectRoot()
-    return undefined unless @projectRoot
-    return true if @fileExists(path.resolve(__dirname, @projectRoot.path + '/.tern-project')) is undefined
-    return false
-
   getProjectRoot: ->
     @projectRoot = atom.project.getDirectories()[0]
 
-  createTernProjectFile: ->
-    return unless @hasTernProjectFile() is false
+  updateTernFile: ->
     @writeFile(path.resolve(__dirname, @projectRoot.path + '/.tern-project'))
 
   fileExists: (path) ->
@@ -47,12 +23,12 @@ class Helper
       console.log err
     catch e then return false
 
-  writeFile: (path) ->
-    fs.writeFile path, @ternProjectFileContent, (err) =>
-      atom.workspace.open(path)
+  writeFile: (filePath, content) ->
+    fs.writeFile filePath, content, (err) =>
+      atom.workspace.open(filePath)
       return unless err
-      content = 'Could not create .tern-project file. Use the README to manually create a .tern-project file.'
-      atom.notifications.addInfo(content, dismissable: true)
+      message = 'Could not create/update .tern-project file. Use the README to manually create a .tern-project file.'
+      atom.notifications.addInfo(message, dismissable: true)
 
   readFile: (path) ->
     fs.readFileSync path, 'utf8'
