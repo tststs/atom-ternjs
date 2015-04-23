@@ -57,21 +57,15 @@ class Helper
   readFile: (path) ->
     fs.readFileSync path, 'utf8'
 
-  getConfigJSONData: ->
+  getFileContent: (filePath, projectRoot) ->
     if not @projectRoot
       @getProjectRoot()
     return false unless @projectRoot
-    pathToJSON = path.resolve(__dirname, '../tern-config.json')
-    return false unless @fileExists(pathToJSON) is undefined
-    @readFile(pathToJSON)
-
-  getConfig: ->
-    if not @projectRoot
-      @getProjectRoot()
-    return false unless @projectRoot
-    pathToTern = path.resolve(__dirname, @projectRoot.path + '/.tern-project')
-    return false unless @fileExists(pathToTern) is undefined
-    @readFile(pathToTern)
+    if projectRoot
+      filePath = @projectRoot.path + filePath
+    resolvedPath = path.resolve(__dirname, filePath)
+    return false unless @fileExists(resolvedPath) is undefined
+    @readFile(resolvedPath)
 
   markerCheckpointBack: ->
     return unless @checkpointsDefinition.length

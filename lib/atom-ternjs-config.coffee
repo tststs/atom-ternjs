@@ -21,19 +21,12 @@ class Config
     atom.views.getView(@configPanel).classList.add('atom-ternjs-config-panel', 'panel-bottom')
     @registerEvents()
 
-  buildJSON: ->
-    configStub = @manager.helper.getConfigJSONData()
-    return unless configStub
-    configStub = JSON.parse(configStub)
-    return unless configStub
-    configStub
-
-  getProjectConfig: ->
-    localConfig = @manager.helper.getConfig()
-    return unless localConfig
-    localConfig = JSON.parse(localConfig)
-    return unless localConfig
-    localConfig
+  getContent: (filePath, projectRoot) ->
+    content = @manager.helper.getFileContent(filePath, projectRoot)
+    return unless content
+    content = JSON.parse(content)
+    return unless content
+    content
 
   registerEvents: ->
     close = @configView.getClose()
@@ -49,9 +42,10 @@ class Config
     @configPanel.hide()
 
   show: ->
-    configStub = @buildJSON()
-    localConfig = @getProjectConfig()
-    if configStub and localConfig
+    configStub = @getContent('../tern-config.json', false)
+    return unless configStub
+    localConfig = @getContent('/.tern-project', true)
+    if localConfig
       @config = @mergeConfigObjects(configStub, localConfig)
     else
       @config = configStub
