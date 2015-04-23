@@ -14,7 +14,6 @@ class Config
 
     @configView = new ConfigView()
     @configView.initialize(this)
-    @configView.buildOptionsMarkup()
     @configPanel = atom.workspace.addBottomPanel(item: @configView, priority: 0)
     @configPanel.hide()
 
@@ -27,6 +26,20 @@ class Config
     content = JSON.parse(content)
     return unless content
     content
+
+  prepareLibs: (localConfig, configStub) ->
+    libs = []
+    for lib in Object.keys(configStub.libs)
+      if localConfig.libs.indexOf(lib) is -1
+        libs.push
+          name: lib
+          value: false
+      else
+        libs.push
+          name: lib
+          value: true
+    localConfig.libs = libs
+    localConfig
 
   registerEvents: ->
     close = @configView.getClose()
@@ -46,10 +59,12 @@ class Config
     return unless configStub
     localConfig = @getContent('/.tern-project', true)
     if localConfig
+      localConfig = @prepareLibs(localConfig, configStub)
       @config = @mergeConfigObjects(configStub, localConfig)
     else
       @config = configStub
-    #@configPanel.show()
+    @configPanel.show()
+    @configView.buildOptionsMarkup()
 
   destroy: ->
     @configView?.destroy()

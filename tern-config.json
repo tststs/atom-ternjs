@@ -1,10 +1,10 @@
 {
-  "libs": [
-    "browser",
-    "ecma5",
-    "ecma6",
-    "jquery"
-  ],
+  "libs": {
+    "browser": false,
+    "ecma5": false,
+    "ecma6": false,
+    "jquery": false
+  },
   "loadEagerly": [],
   "dontLoad": [],
   "plugins": {

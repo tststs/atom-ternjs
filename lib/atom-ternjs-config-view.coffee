@@ -17,7 +17,20 @@ class ConfigView extends HTMLElement
     this
 
   buildOptionsMarkup: ->
-    return
+    config = @getModel().config
+    for lib in config.libs
+      @content.appendChild(@buildBoolean(lib))
+
+  buildBoolean: (obj) ->
+    wrapper = document.createElement('div')
+    label = document.createElement('span')
+    label.innerHTML = obj.name
+    checkbox = document.createElement('input')
+    checkbox.type = 'checkbox'
+    checkbox.checked = obj.value
+    wrapper.appendChild(label)
+    wrapper.appendChild(checkbox)
+    wrapper
 
   getClose: ->
     @close
