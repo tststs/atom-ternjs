@@ -1,11 +1,15 @@
 Helper = require './atom-ternjs-helper'
+Server = null
+Client = null
 
 module.exports =
 class Manager
 
   disposables: []
   grammars: ['JavaScript']
+  clients: []
   client: null
+  servers: []
   server: null
   helper: null
   rename: null
@@ -25,21 +29,26 @@ class Manager
     @helper = new Helper(this)
     @registerHelperCommands()
     @provider.init(this)
-    @startServer()
-    @disposables.push atom.workspace.onDidOpen (e) =>
-      @startServer()
+    @initServers()
 
   init: ->
+    @setActiveServerAndClient()
     @initialised = true
     @registerEvents()
     @registerCommands()
 
   destroy: ->
-    @stopServer()
-    @client?.unregisterEvents()
+    for server in @servers
+      server.stop()
+      server = null
+    @servers = []
+    for client in @clients
+      client.unregisterEvents()
+      client = null
+    @clients = []
+    @server = null
     @client = null
     @unregisterEventsAndCommands()
-    @provider?.destroy()
     @provider = null
     @reference?.destroy()
     @reference = null
@@ -56,17 +65,71 @@ class Manager
       disposable.dispose()
     @disposables = []
 
-  startServer: ->
-    return unless !@server?.process and atom.project.getDirectories()[0]
-    Server = require './atom-ternjs-server'
-    @server = new Server()
-    @server.start (port) =>
-      if !@client
-        Client = require './atom-ternjs-client'
-        @client = new Client(this)
-      @client.port = port
-      return if @initialised
-      @init()
+  initServers: ->
+    dirs = atom.project.getDirectories()
+    for i in [0..dirs.length - 1]
+      dir = atom.project.relativizePath(dirs[i].path)[0]
+      @startServer(dir)
+
+  startServer: (dir) ->
+    Server = require './atom-ternjs-server' if !Server
+    if !@getServerForProject(dir)
+      idxServer = @servers.push(new Server(dir)) - 1
+      @servers[idxServer].start (port) =>
+        client = @getClientForProject(dir)
+        if !client
+          Client = require './atom-ternjs-client' if !Client
+          clientIdx = @clients.push(new Client(this, dir)) - 1
+          @clients[clientIdx].port = port
+        else
+          client.port = port
+        @init() if @servers.length is @clients.length
+
+  setActiveServerAndClient: (URI) ->
+    if !URI
+      activePane = atom.workspace.getActivePaneItem()
+      URI = if activePane then activePane.getURI() else false
+    if !URI
+      @server = false
+      @client = false
+      return
+    dir = atom.project.relativizePath(URI)[0]
+    server = @getServerForProject(dir)
+    client = @getClientForProject(dir)
+    if server and client
+      @server = server
+      @client = client
+    else
+      @server = false
+      @client = false
+
+  checkPaths: (paths) ->
+    serverIdx = null
+    for path in paths
+      dir = atom.project.relativizePath(path)[0]
+      @startServer(dir)
+    for i in [0..@servers.length - 1]
+      if paths.indexOf(@servers[i].rootPath) is -1
+        serverIdx = i
+    if serverIdx
+      server = @servers[serverIdx]
+      client = getClientForProject(server.rootPath)
+      client.unregisterEvents()
+      client = null
+      server.stop()
+      server = null
+      @servers.splice(serverIdx, 1)
+      @setActiveServerAndClient()
+
+  getServerForProject: (rootPath) ->
+    for server in @servers
+      return server if server.rootPath is rootPath
+    return
+
+  getClientForProject: (rootPath) ->
+    for client in @clients
+      return client if client.rootPath is rootPath
+    return
 
   isValidEditor: (editor) ->
     return false if !editor or editor.mini
@@ -76,6 +139,8 @@ class Manager
     return true
 
   registerEvents: ->
+    @disposables.push atom.project.onDidChangePaths (paths) =>
+      @checkPaths(paths)
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:references': (event) =>
       if !@reference
         Reference = require './atom-ternjs-reference'
@@ -101,6 +166,8 @@ class Manager
       @rename?.hide()
       if !@isValidEditor(item)
         @reference?.hide()
+      else
+        @setActiveServerAndClient(item.getURI())
     @disposables.push atom.config.observe 'atom-ternjs.inlineFnCompletion', =>
       @inlineFnCompletion = atom.config.get('atom-ternjs.inlineFnCompletion')
       @type?.destroyOverlay()
@@ -143,11 +210,8 @@ class Manager
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:restart': (event) =>
       @restartServer()
 
-  stopServer: ->
-    @server?.stop()
-    @server = null
-
   restartServer: ->
+    dir = @server.rootPath
     @server?.stop()
     @server = null
-    @startServer()
+    @startServer(dir)

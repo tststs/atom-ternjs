@@ -40,6 +40,7 @@ class Reference
     @manager.helper.openFileAndGoTo(ref.start, ref.file)
 
   findReference: ->
+    return unless @manager.client
     dir = atom.project.getDirectories()[0]
     return unless dir
     editor = atom.workspace.getActiveTextEditor()

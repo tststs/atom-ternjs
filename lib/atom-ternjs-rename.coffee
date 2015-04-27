@@ -27,6 +27,7 @@ class Rename
     @renamePanel.show()
 
   updateAllAndRename: (newName) ->
+    return unless @manager.client
     idx = 0
     editors = atom.workspace.getTextEditors()
     for editor in editors
@@ -39,7 +40,7 @@ class Rename
           cursor = editor.getLastCursor()
           return unless cursor
           position = cursor.getBufferPosition()
-          @manager.client?.rename(editor.getURI(), {line: position.row, ch: position.column}, newName).then (data) =>
+          @manager.client.rename(editor.getURI(), {line: position.row, ch: position.column}, newName).then (data) =>
             return unless data
             @rename(data)
           , (err) ->

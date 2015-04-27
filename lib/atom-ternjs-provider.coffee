@@ -37,6 +37,7 @@ class Provider
     line.match(regexp)?[0]
 
   getSuggestions: ({editor, bufferPosition, scopeDescriptor, prefix}) ->
+    return [] unless @manager.client
     tempPrefix = @getPrefix(editor, bufferPosition) or prefix
     if !@isValidPrefix(tempPrefix) and !@force
       return []

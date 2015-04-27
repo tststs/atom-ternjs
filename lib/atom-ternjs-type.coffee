@@ -32,6 +32,7 @@ class Type
 
   queryType: (editor, cursor) ->
     return if cursor.destroyed
+    return unless @manager.client
     scopeDescriptor = cursor.getScopeDescriptor()
     if scopeDescriptor.scopes.join().match(/comment/)
       @destroyOverlay()

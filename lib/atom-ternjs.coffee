@@ -63,6 +63,7 @@ module.exports =
 
   deactivate: ->
     @manager.destroy()
+    @manager = null
 
   provide: ->
     @provider

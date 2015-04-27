@@ -6,6 +6,7 @@ class Client
 
   port: null
   manager: null
+  rootPath: null
   disposables: []
   config:
     sort: false
@@ -15,8 +16,9 @@ class Client
     caseInsensitive: false
     documentation: false
 
-  constructor: (manager) ->
+  constructor: (manager, rootPath) ->
     @manager = manager
+    @rootPath = rootPath
     @registerEvents()
 
   registerEvents: ->

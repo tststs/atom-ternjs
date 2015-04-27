@@ -2,13 +2,17 @@ module.exports =
 class Server
 
   process: null
+  rootPath: null
+
+  constructor: (rootPath) ->
+    @rootPath = rootPath
 
   start: (callback) ->
     path = require 'path'
     command = path.resolve __dirname, '../node_modules/.bin/tern'
     args = ['--persistent', '--no-port-file', '--verbose']
     options =
-      cwd: atom.project.getDirectories()[0].path
+      cwd: @rootPath
     stdout = (output) ->
       output = output.split(' ')
       port = parseInt(output[output.length - 1])
