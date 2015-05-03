@@ -28,14 +28,15 @@ class Helper
     @manager = manager
 
   hasTernProjectFile: ->
-    @projectRoot = atom.project.getDirectories()[0]
+    return false if !@manager.server
+    @projectRoot = @manager.server.rootPath
     return undefined unless @projectRoot
-    return true if @fileExists(path.resolve(__dirname, @projectRoot.path + '/.tern-project')) is undefined
+    return true if @fileExists(path.resolve(__dirname, @projectRoot + '/.tern-project')) is undefined
     return false
 
   createTernProjectFile: ->
     return unless @hasTernProjectFile() is false
-    @writeFile(path.resolve(__dirname, @projectRoot.path + '/.tern-project'))
+    @writeFile(path.resolve(__dirname, @projectRoot + '/.tern-project'))
 
   fileExists: (path) ->
     try fs.accessSync path, fs.F_OK, (err) =>
