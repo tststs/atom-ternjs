@@ -41,7 +41,7 @@ class Reference
 
   findReference: ->
     return unless @manager.client
-    dir = atom.project.getDirectories()[0]
+    dir = @manager.server.rootPath
     return unless dir
     editor = atom.workspace.getActiveTextEditor()
     return unless editor
@@ -62,7 +62,7 @@ class Reference
 
   gatherMeta: (data) ->
     for item, i in data.refs
-      projectRoot = atom.project.getDirectories()[0]
+      projectRoot = @manager.server.rootPath
       file = path.resolve(__dirname, projectRoot.path + '/' + item.file)
       content = fs.readFileSync(file, 'utf8')
       buffer = new TextBuffer({ text: content })
