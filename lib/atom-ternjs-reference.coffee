@@ -51,7 +51,7 @@ class Reference
       @references = data
       for ref in data.refs
         ref.file = ref.file.replace(/^.\//, '')
-        ref.file = dir.relativize(ref.file)
+        ref.file = path.resolve(__dirname, ref.file)
       data.refs = _.uniq(data.refs, (item) =>
         JSON.stringify item
       )
@@ -62,9 +62,7 @@ class Reference
 
   gatherMeta: (data) ->
     for item, i in data.refs
-      projectRoot = @manager.server.rootPath
-      file = path.resolve(__dirname, projectRoot.path + '/' + item.file)
-      content = fs.readFileSync(file, 'utf8')
+      content = fs.readFileSync(item.file, 'utf8')
       buffer = new TextBuffer({ text: content })
       item.position = buffer.positionForCharacterIndex(item.start)
       item.lineText = buffer.lineForRow(item.position.row)
