@@ -30,9 +30,12 @@ class Manager
     @registerHelperCommands()
     @provider.init(this)
     @initServers()
+    @disposables.push atom.project.onDidChangePaths (paths) =>
+      @destroyServer(paths)
+      @checkPaths(paths)
+      @setActiveServerAndClient()
 
   init: ->
-    @setActiveServerAndClient()
     @initialised = true
     @registerEvents()
     @registerCommands()
@@ -74,17 +77,18 @@ class Manager
 
   startServer: (dir) ->
     Server = require './atom-ternjs-server' if !Server
-    if !@getServerForProject(dir)
-      idxServer = @servers.push(new Server(dir)) - 1
-      @servers[idxServer].start (port) =>
-        client = @getClientForProject(dir)
-        if !client
-          Client = require './atom-ternjs-client' if !Client
-          clientIdx = @clients.push(new Client(this, dir)) - 1
-          @clients[clientIdx].port = port
-        else
-          client.port = port
-        @init() if @servers.length is @clients.length
+    return if @getServerForProject(dir)
+    idxServer = @servers.push(new Server(dir)) - 1
+    @servers[idxServer].start (port) =>
+      client = @getClientForProject(dir)
+      if !client
+        Client = require './atom-ternjs-client' if !Client
+        clientIdx = @clients.push(new Client(this, dir)) - 1
+        @clients[clientIdx].port = port
+      else
+        client.port = port
+      @init() if @servers.length is @clients.length and !@initialised
+      @setActiveServerAndClient()
 
   setActiveServerAndClient: (URI) ->
     if !URI
@@ -105,22 +109,24 @@ class Manager
       @client = false
 
   checkPaths: (paths) ->
-    serverIdx = null
     for path in paths
       dir = atom.project.relativizePath(path)[0]
       @startServer(dir)
+
+  destroyServer: (paths) ->
+    return unless @servers.length
+    serverIdx = undefined
     for i in [0..@servers.length - 1]
       if paths.indexOf(@servers[i].rootPath) is -1
         serverIdx = i
-    if serverIdx
-      server = @servers[serverIdx]
-      client = getClientForProject(server.rootPath)
-      client.unregisterEvents()
-      client = null
-      server.stop()
-      server = null
-      @servers.splice(serverIdx, 1)
-      @setActiveServerAndClient()
+    return if serverIdx is undefined
+    server = @servers[serverIdx]
+    client = @getClientForProject(server.rootPath)
+    client.unregisterEvents()
+    client = null
+    server.stop()
+    server = null
+    @servers.splice(serverIdx, 1)
 
   getServerForProject: (rootPath) ->
     for server in @servers
@@ -140,8 +146,6 @@ class Manager
     return true
 
   registerEvents: ->
-    @disposables.push atom.project.onDidChangePaths (paths) =>
-      @checkPaths(paths)
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:references': (event) =>
       if !@reference
         Reference = require './atom-ternjs-reference'
