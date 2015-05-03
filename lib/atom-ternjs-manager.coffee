@@ -67,6 +67,7 @@ class Manager
 
   initServers: ->
     dirs = atom.project.getDirectories()
+    return unless dirs.length
     for i in [0..dirs.length - 1]
       dir = atom.project.relativizePath(dirs[i].path)[0]
       @startServer(dir)
