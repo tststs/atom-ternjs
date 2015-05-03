@@ -41,8 +41,6 @@ class Reference
 
   findReference: ->
     return unless @manager.client
-    dir = @manager.server.rootPath
-    return unless dir
     editor = atom.workspace.getActiveTextEditor()
     return unless editor
     cursor = editor.getLastCursor()
