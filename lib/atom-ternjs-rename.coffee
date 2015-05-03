@@ -48,7 +48,7 @@ class Rename
             atom.notifications.addError(content, dismissable: false)
 
   rename: (obj) ->
-    dir = atom.project.getDirectories()[0]
+    dir = @manager.server.rootPath
     return unless dir
 
     that = this
