@@ -1,3 +1,6 @@
+## 0.5.24
+* Add support for multiply projects
+
 ## 0.4.13
 * TypeView to display completions for fn-params
 
