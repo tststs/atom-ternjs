@@ -30,8 +30,12 @@ class Rename
     return unless @manager.client
     idx = 0
     editors = atom.workspace.getTextEditors()
+
     for editor in editors
       if !@manager.isValidEditor(editor)
+        idx++
+        continue
+      if atom.project.relativizePath(editor.getURI())[0] isnt @manager.client.rootPath
         idx++
         continue
       @manager.client.update(editor.getURI(), editor.getText()).then =>
