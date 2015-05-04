@@ -216,7 +216,13 @@ class Manager
       @restartServer()
 
   restartServer: ->
+    return unless @server
     dir = @server.rootPath
+    for i in [0..@servers.length - 1]
+      if dir is @servers[i].rootPath
+        serverIdx = i
+        break
     @server?.stop()
     @server = null
+    @servers.splice(serverIdx, 1)
     @startServer(dir)
