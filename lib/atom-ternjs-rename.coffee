@@ -51,8 +51,6 @@ class Rename
     dir = @manager.server.rootPath
     return unless dir
 
-    that = this
-
     translateColumnBy = obj.changes[0].text.length - obj.name.length
 
     for change in obj.changes
