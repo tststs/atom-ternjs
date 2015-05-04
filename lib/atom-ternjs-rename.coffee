@@ -57,7 +57,7 @@ class Rename
 
     for change in obj.changes
       change.file = change.file.replace(/^.\//, '')
-      change.file = dir.relativize(change.file)
+      change.file = path.resolve(atom.project.relativizePath(dir)[0], change.file)
     changes = _.uniq(obj.changes, (item) =>
       JSON.stringify item
     )
