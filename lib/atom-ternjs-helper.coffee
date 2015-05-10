@@ -56,7 +56,7 @@ class Helper
     @openFileAndGoToPosition(checkpoint.marker.range.start, checkpoint.editor.getURI())
 
   setMarkerCheckpoint: ->
-    editor = atom.workspace.getActiveEditor()
+    editor = atom.workspace.getActiveTextEditor()
     buffer = editor.getBuffer()
     cursor = editor.getLastCursor()
     return unless cursor

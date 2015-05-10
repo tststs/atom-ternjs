@@ -40,7 +40,7 @@ class Rename
         continue
       @manager.client.update(editor.getURI(), editor.getText()).then =>
         if ++idx is editors.length
-          editor = atom.workspace.getActiveEditor()
+          editor = atom.workspace.getActiveTextEditor()
           cursor = editor.getLastCursor()
           return unless cursor
           position = cursor.getBufferPosition()
