@@ -212,7 +212,7 @@ class Manager
       @provider?.forceCompletion()
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:definition': (event) =>
       @client?.definition()
-    @disposables.push atom.commands.add 'atom-text-editor', 'tern:restart': (event) =>
+    @disposables.push atom.commands.add 'atom-workspace', 'tern:restart': (event) =>
       @restartServer()
 
   restartServer: ->
