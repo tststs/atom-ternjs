@@ -150,12 +150,6 @@ class Type
         })
         @setPosition()
 
-  hide: ->
-    @view.classList.remove('active')
-
-  show: ->
-    @view.classList.add('active')
-
   destroy: ->
     @destroyOverlay()
     @view?.destroy()
