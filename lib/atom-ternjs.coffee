@@ -26,36 +26,42 @@ module.exports =
       type: 'boolean'
       default: true
       order: 2
+    useSnippets:
+      title: 'Use autocomplete-snippets'
+      description: 'Adds snippets to autocomplete+ suggestions'
+      type: 'boolean'
+      default: true
+      order: 3
     inlineFnCompletion:
       title: 'Display inline suggestions for function params'
       description: 'Displays a inline suggestion located right next to the current cursor'
       type: 'boolean'
       default: true
-      order: 3
+      order: 4
     documentation:
       title: 'Documentation'
       description: 'Whether to include documentation string (if found) in the result data.'
       type: 'boolean'
       default: true
-      order: 4
+      order: 5
     urls:
       title: 'Url'
       description: 'Whether to include documentation urls (if found) in the result data.'
       type: 'boolean'
       default: true
-      order: 5
+      order: 6
     origins:
       title: 'Origin'
       description: 'Whether to include origins (if found) in the result data.'
       type: 'boolean'
       default: true
-      order: 6
+      order: 7
     coffeeScript:
       title: 'CoffeeScript'
       description: 'Completions for CoffeeScript. Please restart atom after activating/deactivating this option (highly experimental)'
       type: 'boolean'
       default: false
-      order: 7
+      order: 8
 
   activate: (state) ->
     @provider = new Provider()

@@ -107,7 +107,10 @@ class Helper
     obj.rightLabel = obj.rightLabelDoc = obj.type.replace(/( : .+)/, '')
 
     if obj.rightLabel.startsWith('fn')
-      obj._snippet = @extractParams(obj.rightLabel.replace(/^fn\(/, '').replace(/\)$/, ''), obj.name)
+      if atom.config.get('atom-ternjs.useSnippets')
+        obj._snippet = @extractParams(obj.rightLabel.replace(/^fn\(/, '').replace(/\)$/, ''), obj.name)
+      else
+        obj._snippet = "#{obj.name}"
       obj._typeSelf = 'function'
 
     if obj.name
