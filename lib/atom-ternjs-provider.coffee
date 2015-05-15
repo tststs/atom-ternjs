@@ -54,7 +54,7 @@ class Provider
             obj = that.manager.helper.formatTypeCompletion(obj)
 
             description = if obj.doc then obj.doc else null
-            url = if obj.url then obj.doc else null
+            url = if obj.url then obj.url else null
 
             suggestionsArr.push {
               text: obj.name
