@@ -127,8 +127,8 @@ class Helper
 
   extractParams: (type, name) ->
     params = type.match(@manager.regExp.params)
+    return "#{name}()" if !params
     suggestionParams = []
-    return unless params
     for param, i in params
       suggestionParams.push "${#{i + 1}:#{param}}"
     "#{name}(#{suggestionParams.join(',')})"
