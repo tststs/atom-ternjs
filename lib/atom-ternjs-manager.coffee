@@ -19,10 +19,6 @@ class Manager
   initialised: false
   inlineFnCompletion: false
 
-  # regexp
-  regExp:
-    params: /(([\w:\.\$\?\[\]\| ]+)(\([\w:\.\$\?\[\]\|, ]*\))?({[\w:\.\$\?\[\]\|, ]*})?\|?([\w:\.\$\?\[\]\| ]*))/ig
-
   constructor: (provider) ->
     @provider = provider
     @checkGrammarSettings()

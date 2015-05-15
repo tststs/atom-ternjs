@@ -80,7 +80,16 @@ class Helper
       that.markDefinitionBufferRange(cursor, textEditor)
 
   formatType: (data) ->
-    str = data.type.replace('fn', data.exprName).replace(/->/g, ':').replace('<top>', 'window')
+    return unless data.type
+    data.type = data.type.replace(/->/g, ':').replace('<top>', 'window')
+    data.type = data.type.replace(/^fn/, data.exprName)
+
+  prepareType: (data) ->
+    return unless data.type
+    type = data.type.replace(/->/g, ':').replace('<top>', 'window')
+    if !type.endsWith(')') or type.match(/\(\)$/)
+      type = type.replace(/( : .+)/, '')
+    type = type.replace(/^fn\(/, '').replace(/\)$/, '')
 
   formatTypeCompletion: (obj) ->
     if obj.isKeyword
@@ -104,11 +113,15 @@ class Helper
       else
         obj.leftLabel = obj.type.replace(/fn\(.{0,}\)/, '').replace(' : ', '')
 
-    obj.rightLabel = obj.rightLabelDoc = obj.type.replace(/( : .+)/, '')
+    if !obj.type.endsWith(')') or obj.type.match(/\(\)$/)
+      obj.rightLabel = obj.rightLabelDoc = obj.type.replace(/( : .+)/, '')
+    else
+      obj.rightLabel = obj.rightLabelDoc = obj.type
 
     if obj.rightLabel.startsWith('fn')
       if atom.config.get('atom-ternjs.useSnippets')
-        obj._snippet = @extractParams(obj.rightLabel.replace(/^fn\(/, '').replace(/\)$/, ''), obj.name)
+        params = @extractParams(obj.rightLabel.replace(/^fn\(/, '').replace(/\)$/, ''))
+        obj._snippet = @buildSnippet(params, obj.name)
       else
         obj._snippet = "#{obj.name}"
       obj._typeSelf = 'function'
@@ -125,13 +138,43 @@ class Helper
 
     obj
 
-  extractParams: (type, name) ->
-    params = type.match(@manager.regExp.params)
-    return "#{name}()" if !params
+  buildSnippet: (params, name) ->
+    return "#{name}()" if params.length is 0
     suggestionParams = []
     for param, i in params
       suggestionParams.push "${#{i + 1}:#{param}}"
     "#{name}(#{suggestionParams.join(',')})"
+
+  extractParams: (type) ->
+    start = 0
+    params = []
+    inside = 0
+    for i in [0..type.length - 1]
+      if i is type.length - 1
+        params.push type.substring(start, i + 1)
+        break
+      if type[i] is ',' and inside is 0
+        params.push type.substring(start, i)
+        start = i + 1
+        continue
+      if type[i] is '['
+        inside++
+        continue
+      if type[i] is ']'
+        inside--
+        continue
+      if type[i] is '('
+        inside++
+        continue
+      if type[i] is ')'
+        inside--
+        continue
+      if type[i] is '{'
+        inside++
+        continue
+      if type[i] is '}'
+        inside--
+    params
 
   markDefinitionBufferRange: (cursor, editor) ->
     range = cursor.getCurrentWordBufferRange()

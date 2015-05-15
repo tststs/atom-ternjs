@@ -131,23 +131,13 @@ class Type
         if !data or data.type is '?' or !data.exprName
           @destroyOverlay()
           return
-        data.type = @manager.helper.formatType(data)
-        type = data.type.substring(data.type.indexOf('(') + 1, data.type.length)
-        matches = type.match(@manager.regExp.params)
-        if matches?[matches.length - 1].startsWith(' :')
-          matches.splice(matches.length - 1)
-        if matches?[paramPosition]
+        type = @manager.helper.prepareType(data)
+        params = @manager.helper.extractParams(type)
+        @manager.helper.formatType(data)
+        if params?[paramPosition]
           offsetFix = if paramPosition > 0 then ' ' else ''
-          data.type = data.type.replace(matches[paramPosition], offsetFix + "<span class=\"current-param\">#{matches[paramPosition]}</span>")
-        @view.setData({
-          word: data.exprName,
-          label: data.type
-          docs: {
-            doc: data.doc,
-            url: data.url,
-            origin: data.origin,
-          }
-        })
+          data.type = data.type.replace(params[paramPosition], offsetFix + "<span class=\"current-param\">#{params[paramPosition]}</span>")
+        @view.setData({label: data.type})
         @setPosition()
 
   destroy: ->
