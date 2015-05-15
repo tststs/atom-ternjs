@@ -93,7 +93,7 @@ class Manager
   setActiveServerAndClient: (URI) ->
     if !URI
       activePane = atom.workspace.getActivePaneItem()
-      URI = if activePane then activePane.getURI() else false
+      URI = if activePane then activePane.getURI?() else false
     if !URI
       @server = false
       @client = false
