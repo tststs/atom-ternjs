@@ -1,4 +1,3 @@
-apd = require 'atom-package-dependencies'
 {Function} = require 'loophole'
 
 module.exports =
@@ -7,7 +6,6 @@ class Provider
   manager: null
   force: false
   # automcomplete-plus
-  autocompletePlus: null
   selector: '.source.js'
   disableForSelector: '.source.js .comment'
   inclusionPriority: 1
@@ -15,8 +13,6 @@ class Provider
 
   init: (manager) ->
     @manager = manager
-    atom.packages.activatePackage('autocomplete-plus').then (pkg) =>
-      @autocompletePlus = apd.require('autocomplete-plus')
 
   isValidPrefix: (prefix) ->
     return true if prefix[prefix.length - 1] is '\.'
@@ -76,9 +72,7 @@ class Provider
 
   forceCompletion: ->
     @force = true
-    # need this for now. no plan, to hook this forever
-    @autocompletePlus.autocompleteManager.shouldDisplaySuggestions = true
-    @autocompletePlus.autocompleteManager.findSuggestions()
+    atom.commands.dispatch(atom.views.getView(atom.workspace.getActiveTextEditor()), 'autocomplete-plus:activate');
     @force = false
 
   addSelector: (selector) ->

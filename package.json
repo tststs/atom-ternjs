@@ -14,11 +14,7 @@
     "jquery": "*",
     "loophole": "*",
     "tern": "git+https://github.com/marijnh/tern.git",
-    "atom-package-dependencies": "*",
     "underscore-plus": "*"
-  },
-  "package-dependencies": {
-    "autocomplete-plus": "*"
   },
   "providedServices": {
     "autocomplete.provider": {
