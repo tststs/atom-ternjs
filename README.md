@@ -7,6 +7,8 @@ Uses suggestion provider by [autocomplete-plus](https://github.com/atom-communit
 
 Install the package [autocomplete-plus](https://github.com/atom-community/autocomplete-plus).
 
+Make sure <a href="https://nodejs.org">Node.js</a> and <a href="http://git-scm.com">GIT</a> is installed and the PATH variable for both is set
+
 In your project root create a file named .tern-project
 
 * With default config via menu (Packages -> Atom Ternjs -> Create default .tern-project) or by adding it manually. See docs @ http://ternjs.net/doc/manual.html#configuration.
@@ -59,12 +61,6 @@ Example .tern-project file (customize to your own needs):
 
 # .tern-project created/modified
 * After the file was created or has been modified, restart the server via Packages -> Atom Ternjs -> Restart server
-
-# Platform Windows
-* Make sure node is installed and the PATH variable is set
-
-# Notes
-* This package is a work in progress and may contain various bugs, misbehaviours and performance issues
 
 # Features
 * Completion (autocompletion triggers automatically or can be forced with ctrl+alt+space)
