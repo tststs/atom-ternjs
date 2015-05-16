@@ -114,9 +114,9 @@ class Helper
         obj.leftLabel = obj.type.replace(/fn\(.{0,}\)/, '').replace(' : ', '')
 
     if !obj.type.endsWith(')') or obj.type.match(/\(\)$/)
-      obj.rightLabel = obj.rightLabelDoc = obj.type.replace(/( : .+)/, '')
+      obj.rightLabel = obj.type.replace(/( : .+)/, '')
     else
-      obj.rightLabel = obj.rightLabelDoc = obj.type
+      obj.rightLabel = obj.type
 
     if obj.rightLabel.startsWith('fn')
       if atom.config.get('atom-ternjs.useSnippets')
@@ -127,13 +127,11 @@ class Helper
       obj._typeSelf = 'function'
 
     if obj.name
-      obj.rightLabelDoc = obj.rightLabel.replace(/^fn/, obj.name)
       if obj.leftLabel is obj.name
         obj.leftLabel = null
         obj.rightLabel = null
 
     if obj.leftLabel is obj.rightLabel
-      obj.rightLabelDoc = null
       obj.rightLabel = null
 
     obj
@@ -146,6 +144,7 @@ class Helper
     "#{name}(#{suggestionParams.join(',')})"
 
   extractParams: (type) ->
+    return [] unless type
     start = 0
     params = []
     inside = 0
