@@ -1,6 +1,7 @@
 RenameView = require './atom-ternjs-rename-view'
 {Point, Range} = require 'atom'
 _ = require 'underscore-plus'
+path = require 'path'
 
 module.exports =
 class Rename
