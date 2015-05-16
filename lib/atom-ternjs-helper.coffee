@@ -87,9 +87,6 @@ class Helper
   prepareType: (data) ->
     return unless data.type
     type = data.type.replace(/->/g, ':').replace('<top>', 'window')
-    if !type.endsWith(')') or type.match(/\(\)$/)
-      type = type.replace(/( : .+)/, '')
-    type = type.replace(/^fn\(/, '').replace(/\)$/, '')
 
   formatTypeCompletion: (obj) ->
     if obj.isKeyword
@@ -103,7 +100,7 @@ class Helper
     if obj.type is 'string'
       obj.name = obj.name?.replace /(^"|"$)/g, ''
 
-    obj.type = obj.type?.replace(/->/g, ':').replace('<top>', 'window')
+    obj.type = obj.rightLabel = @prepareType(obj)
 
     if obj.type.replace(/fn\(.+\)/, '').length is 0
       obj.leftLabel = ''
@@ -113,14 +110,9 @@ class Helper
       else
         obj.leftLabel = obj.type.replace(/fn\(.{0,}\)/, '').replace(' : ', '')
 
-    if !obj.type.endsWith(')') or obj.type.match(/\(\)$/)
-      obj.rightLabel = obj.type.replace(/( : .+)/, '')
-    else
-      obj.rightLabel = obj.type
-
     if obj.rightLabel.startsWith('fn')
       if atom.config.get('atom-ternjs.useSnippets')
-        params = @extractParams(obj.rightLabel.replace(/^fn\(/, '').replace(/\)$/, ''))
+        params = @extractParams(obj.rightLabel)
         obj._snippet = @buildSnippet(params, obj.name)
       else
         obj._snippet = "#{obj.name}"
@@ -145,12 +137,15 @@ class Helper
 
   extractParams: (type) ->
     return [] unless type
-    start = 0
+    start = type.indexOf('(') + 1
     params = []
     inside = 0
-    for i in [0..type.length - 1]
+    for i in [start..type.length - 1]
+      if type[i] is ':' and inside is -1
+        params.push type.substring(start, i - 2)
+        break
       if i is type.length - 1
-        params.push type.substring(start, i + 1)
+        params.push type.substring(start, i)
         break
       if type[i] is ',' and inside is 0
         params.push type.substring(start, i)
