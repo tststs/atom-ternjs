@@ -157,22 +157,10 @@ class Helper
         params.push type.substring(start, i)
         start = i + 1
         continue
-      if type[i] is '['
+      if type[i].match(/[{\[\(]/)
         inside++
         continue
-      if type[i] is ']'
-        inside--
-        continue
-      if type[i] is '('
-        inside++
-        continue
-      if type[i] is ')'
-        inside--
-        continue
-      if type[i] is '{'
-        inside++
-        continue
-      if type[i] is '}'
+      if type[i].match(/[}\]\)]/)
         inside--
     params
 
