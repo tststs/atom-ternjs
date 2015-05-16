@@ -110,11 +110,11 @@ class Helper
         obj.leftLabel = obj.type.replace(/fn\(.{0,}\)/, '').replace(' : ', '')
 
     if obj.rightLabel.startsWith('fn')
+      params = @extractParams(obj.rightLabel)
       if atom.config.get('atom-ternjs.useSnippets')
-        params = @extractParams(obj.rightLabel)
         obj._snippet = @buildSnippet(params, obj.name)
       else
-        obj._snippet = "#{obj.name}"
+        obj._snippet = if params.length then "#{obj.name}(${#{0}:#{}})" else "#{obj.name}()"
       obj._typeSelf = 'function'
 
     if obj.name
@@ -144,7 +144,8 @@ class Helper
         params.push type.substring(start, i - 2)
         break
       if i is type.length - 1
-        params.push type.substring(start, i)
+        param = type.substring(start, i)
+        params.push param if param.length
         break
       if type[i] is ',' and inside is 0
         params.push type.substring(start, i)
