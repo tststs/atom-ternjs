@@ -21,7 +21,6 @@ class Manager
 
   constructor: (provider) ->
     @provider = provider
-    @checkGrammarSettings()
     @helper = new Helper(this)
     @registerHelperCommands()
     @provider.init(this)
