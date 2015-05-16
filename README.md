@@ -5,9 +5,8 @@ Uses suggestion provider by [autocomplete-plus](https://github.com/atom-communit
 
 # Installation
 
-Install the package [autocomplete-plus](https://github.com/atom-community/autocomplete-plus).
-
-Make sure <a href="https://nodejs.org">Node.js</a> and <a href="http://git-scm.com">GIT</a> is installed and the PATH variable for both is set
+Make sure <a href="https://nodejs.org">Node.js</a> is installed and the PATH variable is set.
+Make sure <a href="http://git-scm.com">GIT</a> is installed and the PATH variable is set.
 
 In your project root create a file named .tern-project
 
