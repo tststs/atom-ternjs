@@ -72,12 +72,11 @@ class Helper
       cursor.setBufferPosition(position)
 
   openFileAndGoTo: (start, file) ->
-    that = this
-    atom.workspace.open(file).then (textEditor) ->
+    atom.workspace.open(file).then (textEditor) =>
       buffer = textEditor.getBuffer()
       cursor = textEditor.getLastCursor()
       cursor.setBufferPosition(buffer.positionForCharacterIndex(start))
-      that.markDefinitionBufferRange(cursor, textEditor)
+      @markDefinitionBufferRange(cursor, textEditor)
 
   formatType: (data) ->
     return unless data.type

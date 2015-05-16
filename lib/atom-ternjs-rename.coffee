@@ -77,12 +77,11 @@ class Rename
       @openFilesAndRename(arrObj, translateColumnBy)
 
   openFilesAndRename: (obj, translateColumnBy) ->
-    that = this
-    atom.workspace.open(obj[0].file).then (textEditor) ->
+    atom.workspace.open(obj[0].file).then (textEditor) =>
       currentColumnOffset = 0
       buffer = textEditor.getBuffer()
       for change, i in obj
-        that.setTextInRange(buffer, change, currentColumnOffset, (i is obj.length - 1), textEditor)
+        @setTextInRange(buffer, change, currentColumnOffset, (i is obj.length - 1), textEditor)
         currentColumnOffset += translateColumnBy
 
   setTextInRange: (buffer, change, offset, moveCursor, textEditor) ->

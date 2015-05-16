@@ -39,11 +39,9 @@ class Provider
       return []
     prefix = @checkPrefix(tempPrefix)
 
-    that = this
-
-    return new Promise (resolve) ->
-      that.manager.client.update(editor.getURI(), editor.getText()).then =>
-        that.manager.client.completions(editor.getURI(), {line: bufferPosition.row, ch: bufferPosition.column}).then (data) =>
+    return new Promise (resolve) =>
+      @manager.client.update(editor.getURI(), editor.getText()).then =>
+        @manager.client.completions(editor.getURI(), {line: bufferPosition.row, ch: bufferPosition.column}).then (data) =>
           if !data.completions.length
             resolve([])
             return
@@ -51,7 +49,7 @@ class Provider
           suggestionsArr = []
 
           for obj, index in data.completions
-            obj = that.manager.helper.formatTypeCompletion(obj)
+            obj = @manager.helper.formatTypeCompletion(obj)
 
             description = if obj.doc then obj.doc else null
             url = if obj.url then obj.url else null
