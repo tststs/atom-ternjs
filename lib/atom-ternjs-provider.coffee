@@ -1,4 +1,5 @@
 {Function} = require 'loophole'
+_ = require 'underscore-plus'
 
 module.exports =
 class Provider
@@ -50,11 +51,10 @@ class Provider
 
           for obj, index in data.completions
             obj = @manager.helper.formatTypeCompletion(obj)
-
             description = if obj.doc then obj.doc else null
             url = if obj.url then obj.url else null
 
-            suggestionsArr.push {
+            suggestion =
               text: obj.name
               replacementPrefix: prefix
               className: null
@@ -63,7 +63,16 @@ class Provider
               snippet: obj._snippet
               description: description
               descriptionMoreURL: url
-            }
+
+            if atom.config.get('atom-ternjs.useSnippetsAndFunction') and obj._hasParams
+              suggestionClone = _.clone(suggestion)
+              suggestionClone.type = 'snippet'
+              suggestion.snippet = if obj._hasParams then "#{obj.name}(${#{0}:#{}})" else "#{obj.name}()"
+              suggestionsArr.push suggestion
+              suggestionsArr.push suggestionClone
+            else
+              suggestionsArr.push suggestion
+
           resolve(suggestionsArr)
         , (err) ->
           console.log err

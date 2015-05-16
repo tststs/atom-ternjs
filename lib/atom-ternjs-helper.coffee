@@ -111,8 +111,9 @@ class Helper
 
     if obj.rightLabel.startsWith('fn')
       params = @extractParams(obj.rightLabel)
-      if atom.config.get('atom-ternjs.useSnippets')
+      if atom.config.get('atom-ternjs.useSnippets') || atom.config.get('atom-ternjs.useSnippetsAndFunction')
         obj._snippet = @buildSnippet(params, obj.name)
+        obj._hasParams = if params.length then true else false
       else
         obj._snippet = if params.length then "#{obj.name}(${#{0}:#{}})" else "#{obj.name}()"
       obj._typeSelf = 'function'
