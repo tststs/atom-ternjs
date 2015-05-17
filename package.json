@@ -14,6 +14,7 @@
     "jquery": "*",
     "loophole": "*",
     "tern": "git+https://github.com/marijnh/tern.git",
+    "tern": "git+https://github.com/angelozerr/tern-lint.git",
     "underscore-plus": "*"
   },
   "providedServices": {

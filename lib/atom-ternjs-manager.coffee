@@ -14,6 +14,7 @@ class Manager
   helper: null
   rename: null
   type: null
+  lint: null
   reference: null
   provider: null
   initialised: false
@@ -148,6 +149,15 @@ class Manager
       @reference.findReference()
     @disposables.push atom.workspace.observeTextEditors (editor) =>
       return unless @isValidEditor(editor)
+      @disposables.push editor.getBuffer().onDidStopChanging =>
+        if !@lint
+          Lint = require './atom-ternjs-lint'
+          @lint = new Lint(this)
+        text = editor.getText()
+        URI = editor.getURI()
+        @client?.update(URI, text).then =>
+          @client?.lint(URI, text).then =>
+            @lint.setMarker()
       @disposables.push editor.onDidChangeCursorPosition (event) =>
         if @inlineFnCompletion
           if !@type
