@@ -15,6 +15,7 @@ class Manager
   rename: null
   type: null
   lint: null
+  useLint: null
   reference: null
   provider: null
   initialised: false
@@ -152,6 +153,7 @@ class Manager
     @disposables.push atom.workspace.observeTextEditors (editor) =>
       return unless @isValidEditor(editor)
       @disposables.push editor.getBuffer().onDidStopChanging =>
+        return unless @useLint
         if !@lint
           Lint = require './atom-ternjs-lint'
           @lint = new Lint(this)
@@ -176,6 +178,7 @@ class Manager
     @disposables.push atom.workspace.onDidChangeActivePaneItem (item) =>
       @type?.destroyOverlay()
       @rename?.hide()
+      @lint?.destroyDecorations()
       if !@isValidEditor(item)
         @reference?.hide()
       else
@@ -185,6 +188,9 @@ class Manager
       @type?.destroyOverlay()
     @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
       @checkGrammarSettings()
+    @disposables.push atom.config.observe 'atom-ternjs.lint', =>
+      @useLint = atom.config.get('atom-ternjs.lint')
+      @lint?.destroyDecorations() if !@useLint
 
   checkGrammarSettings: ->
     if atom.config.get('atom-ternjs.coffeeScript')

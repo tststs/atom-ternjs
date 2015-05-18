@@ -44,30 +44,36 @@ module.exports =
       type: 'boolean'
       default: true
       order: 5
+    lint:
+      title: 'Use tern-lint'
+      description: 'Use tern-lint to validate JavaScript files to collect semantic errors'
+      type: 'boolean'
+      default: false
+      order: 6
     documentation:
       title: 'Documentation'
       description: 'Whether to include documentation string (if found) in the result data.'
       type: 'boolean'
       default: true
-      order: 6
+      order: 7
     urls:
       title: 'Url'
       description: 'Whether to include documentation urls (if found) in the result data.'
       type: 'boolean'
       default: true
-      order: 7
+      order: 8
     origins:
       title: 'Origin'
       description: 'Whether to include origins (if found) in the result data.'
       type: 'boolean'
       default: true
-      order: 8
+      order: 9
     coffeeScript:
       title: 'CoffeeScript'
       description: 'Completions for CoffeeScript. Please restart atom after activating/deactivating this option (highly experimental)'
       type: 'boolean'
       default: false
-      order: 9
+      order: 10
 
   activate: (state) ->
     @provider = new Provider()
