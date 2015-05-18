@@ -17,7 +17,8 @@ class Lint
       range = new Range(buffer.positionForCharacterIndex(message.from), buffer.positionForCharacterIndex(message.to))
       marker = editor.markBufferRange(range, invalidate: 'touch')
       return unless marker
-      @decorations.push(editor.decorateMarker(marker, {type: 'highlight', class: 'atom-ternjs-lint'}))
+      className = if message.severity is 'error' then 'atom-ternjs-lint-error' else 'atom-ternjs-lint-warning'
+      @decorations.push(editor.decorateMarker(marker, {type: 'highlight', class: className}))
 
   destroyDecorations: ->
     for decoration in @decorations

@@ -126,9 +126,14 @@ atom-ternjs-type {
     }
 }
 
-atom-text-editor::shadow .atom-ternjs-lint .region {
+atom-text-editor::shadow .atom-ternjs-lint-error .region {
 
-  background: rgba(255, 255, 255, 0.1);
+  background: @background-color-error;
+}
+
+atom-text-editor::shadow .atom-ternjs-lint-warning .region {
+
+  background: @background-color-warning;
 }
 
 atom-text-editor::shadow .atom-ternjs-definition-marker {
