@@ -7,123 +7,123 @@
 @atom-ternjs-margin: 20px;
 @atom-ternjs-height: 180px;
 
-atom-ternjs-reference > div > div, atom-ternjs-rename > div > div {
+atom-ternjs-reference > div > div,
+atom-ternjs-rename > div > div {
 
-    max-height: @atom-ternjs-height;
-    overflow-y: auto;
+  max-height: @atom-ternjs-height;
+  overflow-y: auto;
 }
 
 atom-ternjs-rename {
 
-    > div {
+  > div {
 
-        padding: 0 0 @atom-ternjs-padding @atom-ternjs-padding;
-    }
+    padding: 0 0 @atom-ternjs-padding @atom-ternjs-padding;
+  }
 
-    atom-text-editor {
+  atom-text-editor {
 
-        max-width: 30%;
-    }
+    max-width: 30%;
+  }
 
-    .mt {
+  .mt {
 
-        margin-top: 10px;
-    }
+    margin-top: 10px;
+  }
 }
 
-atom-ternjs-reference, atom-ternjs-rename {
+atom-ternjs-reference,
+atom-ternjs-rename {
 
-    > div {
+  > div {
 
-        position: relative;
-    }
+    position: relative;
+  }
 }
 
 atom-ternjs-reference {
 
+  > div {
+
     > div {
 
-        > div {
-
-            padding: 0 @atom-ternjs-padding @atom-ternjs-padding @atom-ternjs-padding;
-        }
+      padding: 0 @atom-ternjs-padding @atom-ternjs-padding;
     }
+  }
 
-    ul {
+  ul {
 
-        list-style: none;
-        padding-left: 0;
+    list-style: none;
+    padding-left: 0;
+  }
+
+  li {
+
+    cursor: pointer;
+    padding: 6px 0;
+
+    &:hover {
+
+      background: rgba(100, 100, 100, 0.3);
     }
+  }
 
-    li {
+  h3 {
 
-        cursor: pointer;
-        padding: 6px 0;
+    margin: 0;
 
-        &:hover {
+    > span {
 
-            background: rgba(100, 100, 100, 0.3);
-        }
+      display: block;
+      float: left;
+
+      &:first-child {
+
+        width: 70%;
+      }
+
+      &:nth-child(2) {
+
+        width: 30%;
+        text-align: right;
+      }
     }
+  }
 
-    h3 {
+  .clear {
 
-        margin: 0;
+    clear: left;
+  }
 
-        > span {
+  strong {
 
-            display: block;
-            float: left;
+    color: @text-color-info;
+  }
 
-            &:first-child {
+  .darken {
 
-                width: 70%;
-            }
-
-            &:nth-child(2) {
-
-                width: 30%;
-                text-align: right;
-            }
-        }
-    }
-
-    .clear {
-
-        clear: left;
-    }
-
-    strong {
-
-        color: @text-color-info;
-    }
-
-    .darken {
-
-        color: darken(@text-color, 20%);
-    }
+    color: darken(@text-color, 20%);
+  }
 }
 
 atom-ternjs-type {
 
-    background: fade(@overlay-background-color, 90%);
-    border: 1px solid fade(@base-border-color, 20%);
-    color: @text-color;
-    border-radius: @component-border-radius;
-    padding: 5px;
-    position: relative;
+  background: fade(@overlay-background-color, 90%);
+  border: 1px solid fade(@base-border-color, 20%);
+  color: @text-color;
+  border-radius: @component-border-radius;
+  padding: 5px;
+  position: relative;
+  span {
 
-    span {
+    display: inline-block;
+    padding: 10px 0 0;
+  }
+  .current-param {
 
-        display: inline-block;
-        padding: 10px 0 0 0;
-    }
-
-    .current-param {
-
-        font-weight: 500;
-        color: @text-color-highlight;
-    }
+    font-weight: 500;
+    color: @text-color-highlight;
+  }
 }
 
 atom-text-editor::shadow .atom-ternjs-lint-error .region {
@@ -138,27 +138,28 @@ atom-text-editor::shadow .atom-ternjs-lint-warning .region {
 
 atom-text-editor::shadow .atom-ternjs-definition-marker {
 
+  div {
+
+    transition: opacity 0.75s ease;
+    opacity: 0;
+    background: @background-color-selected;
+    border-bottom: 4px solid @background-color-warning;
+  }
+
+  &.active {
+
     div {
 
-        transition: opacity 0.75s ease;
-        opacity: 0;
-        background: @background-color-selected;
-        border-bottom: 4px solid @background-color-warning;
+      opacity: 1;
     }
-
-    &.active {
-
-        div {
-
-            opacity: 1;
-        }
-    }
+  }
 }
 
-.atom-ternjs-reference-close, .atom-ternjs-rename-close {
+.atom-ternjs-reference-close,
+.atom-ternjs-rename-close {
 
-    margin: @atom-ternjs-padding;
-    position: absolute;
-    right: 0;
-    top: 0;
+  margin: @atom-ternjs-padding;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
