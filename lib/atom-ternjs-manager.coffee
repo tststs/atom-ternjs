@@ -49,6 +49,8 @@ class Manager
     @client = null
     @unregisterEventsAndCommands()
     @provider = null
+    @lint?.destroy()
+    @lint = null
     @reference?.destroy()
     @reference = null
     @rename?.destroy()
@@ -156,8 +158,8 @@ class Manager
         text = editor.getText()
         URI = editor.getURI()
         @client?.update(URI, text).then =>
-          @client.lint(URI, text).then =>
-            @lint.setMarker()
+          @client.lint(URI, text).then (data) =>
+            @lint.setMarkers(data)
       @disposables.push editor.onDidChangeCursorPosition (event) =>
         if @inlineFnCompletion
           if !@type

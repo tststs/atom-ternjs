@@ -3,23 +3,25 @@ module.exports =
 class Lint
 
   manager: null
-  overlayDecoration: null
-  marker: null
+  decorations: null
 
   constructor: (manager, state = {}) ->
     @manager = manager
+    @decorations = []
 
-  setMarker: (data) ->
+  setMarkers: (data) ->
     editor = atom.workspace.getActiveTextEditor()
-    range = new Range([0, 0], [0, 0])
-    @marker = editor.markBufferRange(range, invalidate: 'touch')
-    return unless @marker
-    @overlayDecoration = editor.decorateMarker(@marker, {type: 'highlight', class: 'atom-ternjs-lint'})
+    buffer = editor.getBuffer()
+    @destroyDecorations()
+    for message in data.messages
+      range = new Range(buffer.positionForCharacterIndex(message.from), buffer.positionForCharacterIndex(message.to))
+      marker = editor.markBufferRange(range, invalidate: 'touch')
+      return unless marker
+      @decorations.push(editor.decorateMarker(marker, {type: 'highlight', class: 'atom-ternjs-lint'}))
 
-  destroyOverlay: ->
-    @overlayDecoration?.destroy()
-    @overlayDecoration = null
-    @marker = null
+  destroyDecorations: ->
+    for decoration in @decorations
+      decoration.destroy()
 
   destroy: ->
-    @destroyOverlay()
+    @destroyDecorations()
