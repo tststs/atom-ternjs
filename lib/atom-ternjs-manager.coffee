@@ -14,7 +14,6 @@ class Manager
   helper: null
   rename: null
   type: null
-  lint: null
   useLint: null
   reference: null
   provider: null
@@ -50,8 +49,6 @@ class Manager
     @client = null
     @unregisterEventsAndCommands()
     @provider = null
-    @lint?.destroy()
-    @lint = null
     @reference?.destroy()
     @reference = null
     @rename?.destroy()
@@ -152,16 +149,6 @@ class Manager
       @reference.findReference()
     @disposables.push atom.workspace.observeTextEditors (editor) =>
       return unless @isValidEditor(editor)
-      @disposables.push editor.getBuffer().onDidStopChanging =>
-        return unless @useLint
-        if !@lint
-          Lint = require './atom-ternjs-lint'
-          @lint = new Lint(this)
-        text = editor.getText()
-        URI = editor.getURI()
-        @client?.update(URI, text).then =>
-          @client.lint(URI, text).then (data) =>
-            @lint.setMarkers(data)
       @disposables.push editor.onDidChangeCursorPosition (event) =>
         if @inlineFnCompletion
           if !@type
@@ -178,7 +165,6 @@ class Manager
     @disposables.push atom.workspace.onDidChangeActivePaneItem (item) =>
       @type?.destroyOverlay()
       @rename?.hide()
-      @lint?.destroyDecorations()
       if !@isValidEditor(item)
         @reference?.hide()
       else
@@ -190,7 +176,6 @@ class Manager
       @checkGrammarSettings()
     @disposables.push atom.config.observe 'atom-ternjs.lint', =>
       @useLint = atom.config.get('atom-ternjs.lint')
-      @lint?.destroyDecorations() if !@useLint
 
   checkGrammarSettings: ->
     if atom.config.get('atom-ternjs.coffeeScript')
