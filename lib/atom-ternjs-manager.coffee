@@ -156,7 +156,7 @@ class Manager
         text = editor.getText()
         URI = editor.getURI()
         @client?.update(URI, text).then =>
-          @client?.lint(URI, text).then =>
+          @client.lint(URI, text).then =>
             @lint.setMarker()
       @disposables.push editor.onDidChangeCursorPosition (event) =>
         if @inlineFnCompletion
