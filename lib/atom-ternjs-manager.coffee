@@ -16,6 +16,7 @@ class Manager
   rename: null
   config: null
   type: null
+  useLint: null
   reference: null
   provider: null
   initialised: false
@@ -179,6 +180,8 @@ class Manager
       @type?.destroyOverlay()
     @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
       @checkGrammarSettings()
+    @disposables.push atom.config.observe 'atom-ternjs.lint', =>
+      @useLint = atom.config.get('atom-ternjs.lint')
 
   checkGrammarSettings: ->
     if atom.config.get('atom-ternjs.coffeeScript')

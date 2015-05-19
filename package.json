@@ -10,10 +10,13 @@
   "engines": {
     "atom": ">0.176.0"
   },
+  "linter-package": true,
+  "linter-implementation": "linter",
   "dependencies": {
     "jquery": "*",
     "loophole": "*",
     "tern": "git+https://github.com/marijnh/tern.git",
+    "tern-lint": "git+https://github.com/angelozerr/tern-lint.git",
     "underscore-plus": "*"
   },
   "providedServices": {
@@ -22,6 +25,9 @@
         "2.0.0": "provide"
       }
     }
+  },
+  "package-dependencies": {
+    "linter": ">=0.12.0"
   },
   "keywords": [
     "javascript",

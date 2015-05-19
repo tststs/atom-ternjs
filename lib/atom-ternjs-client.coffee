@@ -83,6 +83,18 @@ class Client
         newName: newName
     )
 
+  lint: (file, text) ->
+    @post(JSON.stringify
+      query:
+        type: 'lint'
+        file: file,
+        files: [
+          type: 'full'
+          name: file
+          text: text
+        ]
+    )
+
   type: (editor, position) ->
     file = editor.getURI()
     end = {line: position.row, ch: position.column}
