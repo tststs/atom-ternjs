@@ -17,6 +17,7 @@
       "modules": {}
     },
     "angular": {},
+    "lint": {},
     "requirejs": {
       "baseURL": "",
       "paths": "",
