@@ -1,4 +1,5 @@
 Helper = require './atom-ternjs-helper'
+Config = require './atom-ternjs-config'
 Server = null
 Client = null
 
@@ -13,6 +14,7 @@ class Manager
   server: null
   helper: null
   rename: null
+  config: null
   type: null
   reference: null
   provider: null
@@ -22,6 +24,7 @@ class Manager
   constructor: (provider) ->
     @provider = provider
     @helper = new Helper(this)
+    @config = new Config(this)
     @registerHelperCommands()
     @provider.init(this)
     @initServers()
@@ -48,6 +51,8 @@ class Manager
     @client = null
     @unregisterEventsAndCommands()
     @provider = null
+    @config?.destroy()
+    @config = null
     @reference?.destroy()
     @reference = null
     @rename?.destroy()
@@ -98,6 +103,7 @@ class Manager
     client = @getClientForProject(dir)
     if server and client
       @server = server
+      @config.gatherData()
       @client = client
     else
       @server = false
@@ -194,6 +200,11 @@ class Manager
   registerHelperCommands: ->
     @disposables.push atom.commands.add 'atom-workspace', 'tern:createTernProjectFile': (event) =>
       @helper.createTernProjectFile()
+    # @disposables.push atom.commands.add 'atom-text-editor', 'tern:openConfig': (event) =>
+    #   if !@config
+    #     Config = require './atom-ternjs-config'
+    #     @config = new Config(this)
+    #   @config.show()
 
   registerCommands: ->
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:rename': (event) =>

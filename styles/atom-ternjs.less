@@ -7,7 +7,9 @@
 @atom-ternjs-margin: 20px;
 @atom-ternjs-height: 180px;
 
-atom-ternjs-reference > div > div, atom-ternjs-rename > div > div {
+atom-ternjs-reference > div > div,
+atom-ternjs-rename > div > div,
+atom-ternjs-config > div > div {
 
     max-height: @atom-ternjs-height;
     overflow-y: auto;
@@ -31,7 +33,9 @@ atom-ternjs-rename {
     }
 }
 
-atom-ternjs-reference, atom-ternjs-rename {
+atom-ternjs-reference,
+atom-ternjs-rename,
+atom-ternjs-config {
 
     > div {
 
@@ -145,7 +149,9 @@ atom-text-editor::shadow .atom-ternjs-definition-marker {
     }
 }
 
-.atom-ternjs-reference-close, .atom-ternjs-rename-close {
+.atom-ternjs-reference-close,
+.atom-ternjs-rename-close,
+.atom-ternjs-config-close {
 
     margin: @atom-ternjs-padding;
     position: absolute;

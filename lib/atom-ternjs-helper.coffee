@@ -29,13 +29,16 @@ class Helper
 
   hasTernProjectFile: ->
     return false if !@manager.server
-    @projectRoot = @manager.server.rootPath
+    @projectRoot = @manager.server?.rootPath
     return undefined unless @projectRoot
     return true if @fileExists(path.resolve(__dirname, @projectRoot + '/.tern-project')) is undefined
     return false
 
   createTernProjectFile: ->
     return unless @hasTernProjectFile() is false
+    @writeFile(path.resolve(__dirname, @projectRoot + '/.tern-project'), @ternProjectFileContent)
+
+  updateTernFile: ->
     @writeFile(path.resolve(__dirname, @projectRoot + '/.tern-project'))
 
   fileExists: (path) ->
@@ -43,12 +46,25 @@ class Helper
       console.log err
     catch e then return false
 
-  writeFile: (path) ->
-    fs.writeFile path, @ternProjectFileContent, (err) =>
-      atom.workspace.open(path)
+  writeFile: (filePath, content) ->
+    fs.writeFile filePath, content, (err) =>
+      atom.workspace.open(filePath)
       return unless err
-      content = 'Could not create .tern-project file. Use the README to manually create a .tern-project file.'
-      atom.notifications.addInfo(content, dismissable: true)
+      message = 'Could not create/update .tern-project file. Use the README to manually create a .tern-project file.'
+      atom.notifications.addInfo(message, dismissable: true)
+
+  readFile: (path) ->
+    fs.readFileSync path, 'utf8'
+
+  getFileContent: (filePath, projectRoot) ->
+    if not @projectRoot
+      @projectRoot = @manager.server?.rootPath
+    return false unless @projectRoot
+    if projectRoot
+      filePath = @projectRoot + filePath
+    resolvedPath = path.resolve(__dirname, filePath)
+    return false unless @fileExists(resolvedPath) is undefined
+    @readFile(resolvedPath)
 
   markerCheckpointBack: ->
     return unless @checkpointsDefinition.length

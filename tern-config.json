@@ -1,0 +1,84 @@
+{
+  "libs": {
+    "browser": false,
+    "ecma5": false,
+    "ecma6": false,
+    "jquery": false
+  },
+  "loadEagerly": [],
+  "dontLoad": [],
+  "plugins": {
+    "complete_strings": {
+      "maxLength": 15
+    },
+    "node": {
+      "dontLoad": false,
+      "load": false,
+      "modules": {}
+    },
+    "angular": {},
+    "requirejs": {
+      "baseURL": "",
+      "paths": "",
+      "override": {}
+    },
+    "doc_comment": {
+      "fullDocs": true
+    }
+  },
+  "docs": {
+    "libs": {
+      "browser": {
+        "doc": "Vanilla JavaScript"
+      },
+      "ecma5": {
+        "doc": "ECMAScript 5"
+      },
+      "ecma6": {
+        "doc": "ECMAScript 6"
+      },
+      "jquery": {
+        "doc": "JQuery"
+      }
+    },
+    "loadEagerly": {
+      "doc": "loadEagerly allows you to force some files to always be loaded, it may be an array of filenames or glob patterns (i.e. foo/bar/*.js)."
+    },
+    "dontLoad": {
+      "doc": "The dontLoad option can be used to prevent Tern from loading certain files. It also takes an array of file names or glob patterns."
+    },
+    "plugins": {
+      "complete_strings": {
+        "doc": "",
+        "options": {
+          "fullDocs": "Can be set to true to return the full comment text instead of the first sentence."
+        }
+      },
+      "node": {
+        "doc": "The node.js plugin, called \"node\", provides variables that are part of the node environment, such as process and require, and hooks up require to try and find the dependencies that are being loaded, and assign them the correct types. It also includes types for the built-in modules that node.js provides (\"fs\", \"http\", etc). The plugin understands the following configuration parameters:",
+        "options": {
+          "dontLoad": "Can be set to true to disable dynamic loading of required modules entirely, or to a regular expression to disable loading of files that match the expression.",
+          "load": "If dontLoad isn’t given, this setting is checked. If it is a regular expression, the plugin will only load files that match the expression.",
+          "modules": "Can be used to assign JSON type definitions to certain modules, so that those are loaded instead of the source code itself. If given, should be an object mapping module names to either JSON objects defining the types in the module, or a string referring to a file name (relative to the project directory) that contains the JSON data."
+        }
+      },
+      "angular": {
+        "doc": "Adds the angular object to the top-level environment, and tries to wire up some of the bizarre dependency management scheme from this library, so that dependency injections get the right types. Enabled with the name \"angular\"."
+      },
+      "requirejs": {
+        "doc": "This plugin (\"requirejs\") teaches the server to understand RequireJS-style dependency management. It defines the global functions define and requirejs, and will do its best to resolve dependencies and give them their proper types.",
+        "options": {
+          "baseURL": "The base path to prefix to dependency filenames.",
+          "paths": "An object mapping filename prefixes to specific paths. For example {\"acorn\": \"lib/acorn/\"}.",
+          "override": "An object that can be used to override some dependency names to refer to predetermined types. The value associated with a name can be a string starting with the character =, in which case the part after the = will be interpreted as a global variable (or dot-separated path) that contains the proper type. If it is a string not starting with =, it is interpreted as the path to the file that contains the code for the module. If it is an object, it is interpreted as JSON type definition."
+        }
+      },
+      "doc_comment": {
+        "doc": "This plugin, which is enabled by default in the bin/tern server, parses comments before function declarations, variable declarations, and object properties. It will look for JSDoc-style type declarations, and try to parse them and add them to the inferred types, and it will treat the first sentence of comment text as the docstring for the defined variable or property.",
+        "options": {
+          "fullDocs": "Can be set to true to return the full comment text instead of the first sentence."
+        }
+      }
+    }
+  }
+}
