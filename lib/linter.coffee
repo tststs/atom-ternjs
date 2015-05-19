@@ -13,9 +13,9 @@ class LinterTern extends Linter
     super(editor)
 
   lintFile: (filePath, callback) ->
-    console.log @_manager
-    return unless @_manager.server and @_manager.useLint and @_manager.config.config
-    return unless @_manager.config.config.plugins.lint?.active
+    messages = []
+    return callback(messages) unless @_manager.server and @_manager.useLint and @_manager.config.config
+    return callback(messages) unless @_manager.config.config.plugins.lint?.active
     editor = atom.workspace.getActiveTextEditor()
     buffer = editor.getBuffer()
     URI = editor.getURI()
@@ -25,7 +25,6 @@ class LinterTern extends Linter
         return unless data.messages
         editor = atom.workspace.getActiveTextEditor()
         buffer = editor.getBuffer()
-        messages = []
         for message in data.messages
           positionFrom = buffer.positionForCharacterIndex(message.from)
           positionTo = buffer.positionForCharacterIndex(message.to)
