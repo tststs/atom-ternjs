@@ -14,6 +14,8 @@ In your project root create a file named .tern-project
 * Check path in loadEagerly
 * Restart the server via Packages -> Atom Ternjs -> Restart server
 
+If a root file named .tern-project is not found ~/.tern-config serves as a default.
+
 Example .tern-project file (customize to your own needs):
 ```
 {
