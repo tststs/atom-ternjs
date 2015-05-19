@@ -60,6 +60,8 @@ class Config
     localConfig = @getContent('/.tern-project', true)
     if localConfig
       localConfig = @prepareLibs(localConfig, configStub)
+      for plugin of localConfig.plugins
+        localConfig.plugins[plugin].active = true
       @config = @mergeConfigObjects(configStub, localConfig)
     else
       @config = configStub
