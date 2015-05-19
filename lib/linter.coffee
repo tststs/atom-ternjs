@@ -13,7 +13,9 @@ class LinterTern extends Linter
     super(editor)
 
   lintFile: (filePath, callback) ->
-    return unless @_manager.useLint
+    console.log @_manager
+    return unless @_manager.server and @_manager.useLint and @_manager.config.config
+    return unless @_manager.config.config.plugins.lint?.active
     editor = atom.workspace.getActiveTextEditor()
     buffer = editor.getBuffer()
     URI = editor.getURI()
