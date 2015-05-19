@@ -19,6 +19,7 @@ class Helper
     \ ],\n
     \ "plugins": {\n
     \ \ \ "complete_strings": {},\n
+    \ \ \ "lint": {},\n
     \ \ \ "doc_comment": {\n
     \ \ \ \ "fullDocs": true\n
     \ \ \ }\n
