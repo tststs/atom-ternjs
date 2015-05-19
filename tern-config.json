@@ -23,6 +23,7 @@
       "override": {}
     },
     "doc_comment": {
+      "strong": false,
       "fullDocs": true
     }
   },
