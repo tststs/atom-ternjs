@@ -48,7 +48,7 @@ module.exports =
       title: 'Use tern-lint'
       description: 'Use tern-lint to validate JavaScript files to collect semantic errors'
       type: 'boolean'
-      default: false
+      default: true
       order: 6
     documentation:
       title: 'Documentation'
