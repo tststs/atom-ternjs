@@ -57,8 +57,7 @@ class Helper
     fs.readFileSync path, 'utf8'
 
   getFileContent: (filePath, projectRoot) ->
-    if not @projectRoot
-      @projectRoot = @manager.server?.rootPath
+    @projectRoot = @manager.server?.rootPath
     return false unless @projectRoot
     if projectRoot
       filePath = @projectRoot + filePath
