@@ -32,6 +32,7 @@ Example .tern-project file (customize to your own needs):
   "plugins": {
     "complete_strings": {},
     "node": {},
+    "lint": {},
     "angular": {},
     "requirejs": {},
     "doc_comment": {
@@ -54,6 +55,7 @@ Example .tern-project file (customize to your own needs):
 * complete_strings: When enabled, this plugin will gather (short) strings in your code, and completing when inside a string will try to complete to previously seen strings. Takes a single option, maxLength, which controls the maximum length of string values to gather, and defaults to 15. (optional)
 * doc_comment: tern will look for JSDoc-style type declarations. Returns the full comment text instead of the first sentence. (optional)
 * node: NodeJS (optional)
+* lint: <a href="https://github.com/angelozerr/tern-lint">angelozerr/tern-lint</a> is a tern plugin which is able to validate JavaScript files to collect semantic errors. <a href="https://github.com/AtomLinter/Linter">Linter</a> is used to display these errors and warnings (optional)
 * angular: AngularJS (optional)
 * requirejs: RequireJS (optional, understand RequireJS-style dependency management)
 * For a list of possible plugins goto http://ternjs.net/doc/manual.html#plugins
