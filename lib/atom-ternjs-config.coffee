@@ -29,6 +29,7 @@ class Config
 
   prepareLibs: (localConfig, configStub) ->
     libs = []
+    localConfig.libs = [] if !localConfig.libs
     for lib in Object.keys(configStub.libs)
       if localConfig.libs.indexOf(lib) is -1
         libs.push
