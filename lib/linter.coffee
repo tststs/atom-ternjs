@@ -17,6 +17,7 @@ class LinterTern extends Linter
     return callback(messages) unless @_manager.server and @_manager.useLint and @_manager.config.config
     return callback(messages) unless @_manager.config.config.plugins.lint?.active
     editor = atom.workspace.getActiveTextEditor()
+    return callback(messages) unless editor
     buffer = editor.getBuffer()
     URI = editor.getURI()
     text = editor.getText()
