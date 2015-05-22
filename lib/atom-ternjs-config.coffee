@@ -62,7 +62,7 @@ class Config
     if localConfig
       localConfig = @prepareLibs(localConfig, configStub)
       for plugin of localConfig.plugins
-        localConfig.plugins[plugin].active = true
+        localConfig.plugins[plugin]?.active = true
       @config = @mergeConfigObjects(configStub, localConfig)
     else
       @config = configStub
