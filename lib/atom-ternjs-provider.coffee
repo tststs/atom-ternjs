@@ -33,10 +33,10 @@ class Provider
     line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
     line.match(regexp)?[0]
 
-  getSuggestions: ({editor, bufferPosition, scopeDescriptor, prefix}) ->
+  getSuggestions: ({editor, bufferPosition, scopeDescriptor, prefix, activatedManually}) ->
     return [] unless @manager.client
     tempPrefix = @getPrefix(editor, bufferPosition) or prefix
-    if !@isValidPrefix(tempPrefix) and !@force
+    if !@isValidPrefix(tempPrefix) and !@force and !activatedManually
       return []
     prefix = @checkPrefix(tempPrefix)
 
