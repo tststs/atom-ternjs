@@ -15,6 +15,9 @@ class Manager
   helper: null
   rename: null
   config: null
+  useSnippets: false
+  useSnippetsAndFunction: false
+  doNotAddParantheses: false
   type: null
   useLint: null
   reference: null
@@ -182,6 +185,19 @@ class Manager
       @checkGrammarSettings()
     @disposables.push atom.config.observe 'atom-ternjs.lint', =>
       @useLint = atom.config.get('atom-ternjs.lint')
+    @disposables.push atom.config.observe 'atom-ternjs.useSnippets', (value) =>
+      @useSnippets = value
+      return unless value
+      atom.config.set('atom-ternjs.doNotAddParantheses', false)
+    @disposables.push atom.config.observe 'atom-ternjs.useSnippetsAndFunction', (value) =>
+      @useSnippetsAndFunction = value
+      return unless value
+      atom.config.set('atom-ternjs.doNotAddParantheses', false)
+    @disposables.push atom.config.observe 'atom-ternjs.doNotAddParantheses', (value) =>
+      @doNotAddParantheses = atom.config.get('atom-ternjs.lint')
+      return unless value
+      atom.config.set('atom-ternjs.useSnippets', false)
+      atom.config.set('atom-ternjs.useSnippetsAndFunction', false)
 
   checkGrammarSettings: ->
     if atom.config.get('atom-ternjs.coffeeScript')
