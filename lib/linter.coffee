@@ -10,6 +10,7 @@ class LinterTern extends Linter
 
   constructor: (editor) ->
     @_manager = atom.packages.getLoadedPackage('atom-ternjs').mainModule.manager
+    return unless @_manager
     super(editor)
 
   lintFile: (filePath, callback) ->
