@@ -170,7 +170,8 @@ class Manager
         return unless modified
         @reference?.hide()
       @disposables.push editor.getBuffer().onDidSave (event) =>
-        @client?.update(editor.getURI(), editor.getText())
+        return unless @client
+        @client.update(editor.getURI(), editor.getText())
     @disposables.push atom.workspace.onDidChangeActivePaneItem (item) =>
       @type?.destroyOverlay()
       @rename?.hide()
