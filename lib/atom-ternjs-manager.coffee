@@ -127,7 +127,7 @@ class Manager
     return if serverIdx is undefined
     server = @servers[serverIdx]
     client = @getClientForProject(server.rootPath)
-    client.unregisterEvents()
+    client?.unregisterEvents()
     client = null
     server.stop()
     server = null
