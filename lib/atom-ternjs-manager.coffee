@@ -99,8 +99,8 @@ class Manager
       activePane = atom.workspace.getActivePaneItem()
       URI = if activePane then activePane.getURI?() else false
     if !URI
-      @server = false
-      @client = false
+      @server = null
+      @client = null
       return
     dir = atom.project.relativizePath(URI)[0]
     server = @getServerForProject(dir)
@@ -110,8 +110,8 @@ class Manager
       @config.gatherData()
       @client = client
     else
-      @server = false
-      @client = false
+      @server = null
+      @client = null
 
   checkPaths: (paths) ->
     for path in paths
@@ -170,8 +170,7 @@ class Manager
         return unless modified
         @reference?.hide()
       @disposables.push editor.getBuffer().onDidSave (event) =>
-        return unless @client
-        @client.update(editor.getURI(), editor.getText())
+        @client?.update(editor.getURI(), editor.getText())
     @disposables.push atom.workspace.onDidChangeActivePaneItem (item) =>
       @type?.destroyOverlay()
       @rename?.hide()
