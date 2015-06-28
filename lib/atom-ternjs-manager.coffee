@@ -181,8 +181,6 @@ class Manager
     @disposables.push atom.config.observe 'atom-ternjs.inlineFnCompletion', =>
       @inlineFnCompletion = atom.config.get('atom-ternjs.inlineFnCompletion')
       @type?.destroyOverlay()
-    @disposables.push atom.config.observe 'atom-ternjs.coffeeScript', =>
-      @checkGrammarSettings()
     @disposables.push atom.config.observe 'atom-ternjs.lint', =>
       @useLint = atom.config.get('atom-ternjs.lint')
     @disposables.push atom.config.observe 'atom-ternjs.useSnippets', (value) =>
@@ -198,14 +196,6 @@ class Manager
       return unless value
       atom.config.set('atom-ternjs.useSnippets', false)
       atom.config.set('atom-ternjs.useSnippetsAndFunction', false)
-
-  checkGrammarSettings: ->
-    if atom.config.get('atom-ternjs.coffeeScript')
-      @addGrammar('CoffeeScript')
-      @provider.addSelector('.source.coffee')
-    else
-      @removeGrammar('CoffeeScript')
-      @provider.removeSelector('.source.coffee')
 
   addGrammar: (grammar) ->
     return unless @grammars.indexOf(grammar) is -1

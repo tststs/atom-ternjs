@@ -81,9 +81,3 @@ class Provider
     @force = true
     atom.commands.dispatch(atom.views.getView(atom.workspace.getActiveTextEditor()), 'autocomplete-plus:activate');
     @force = false
-
-  addSelector: (selector) ->
-    @selector = @selector + ',' + selector
-
-  removeSelector: (selector) ->
-    @selector = @selector.replace(',' + selector, '')

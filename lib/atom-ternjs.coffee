@@ -74,12 +74,6 @@ module.exports =
       type: 'boolean'
       default: true
       order: 10
-    coffeeScript:
-      title: 'CoffeeScript'
-      description: 'Completions for CoffeeScript. Please restart atom after activating/deactivating this option (highly experimental)'
-      type: 'boolean'
-      default: false
-      order: 11
 
   activate: (state) ->
     @provider = new Provider()
