@@ -10,6 +10,6 @@
 'atom-text-editor':
   'ctrl-alt-d': 'tern:definition'
   'ctrl-alt-c': 'tern:rename'
-  'ctrl-alt-r': 'tern:references'
+  'ctrl-shift-r': 'tern:references'
   'ctrl-alt-z': 'tern:markerCheckpointBack'
   'ctrl-alt-space': 'tern:startCompletion'
