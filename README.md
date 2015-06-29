@@ -66,12 +66,12 @@ Example .tern-project file (customize to your own needs):
 * After the file was created or has been modified, restart the server via Packages -> Atom Ternjs -> Restart server
 
 # Features
-* Completion (autocompletion triggers automatically or can be forced with ctrl+alt+space)
+* Completion (autocompletion triggers automatically, via strg+space or can be forced in any context with ctrl+alt+space)
 
 ![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-9.png)
 
 ![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-inline-2.png)
-* Find references (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find references" or use the shortcut ctrl+alt+r) Click any item in the generated reference-list and navigate directly to file and position
+* Find references (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find references" or use the shortcut ctrl+shift+r) Click any item in the generated reference-list and navigate directly to file and position
 
 ![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-reference.png)
 
