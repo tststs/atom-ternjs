@@ -1,24 +1,24 @@
-#ConfigView = require './atom-ternjs-config-view'
+ConfigView = require './atom-ternjs-config-view'
 _ = require 'underscore-plus'
 
 module.exports =
 class Config
 
-  #configView: null
+  configView: null
   config: []
   manager: null
-  #projectConfig: null
+  projectConfig: null
 
   constructor: (manager, state = {}) ->
     @manager = manager
     @gatherData()
-    #@configView = new ConfigView()
-    #@configView.initialize(this)
-    #@configPanel = atom.workspace.addBottomPanel(item: @configView, priority: 0)
-    #@configPanel.hide()
+    @configView = new ConfigView()
+    @configView.initialize(this)
+    @configPanel = atom.workspace.addModalPanel(item: @configView, priority: 0)
+    @configPanel.hide()
 
-    #atom.views.getView(@configPanel).classList.add('atom-ternjs-config-panel', 'panel-bottom')
-    #@registerEvents()
+    atom.views.getView(@configPanel).classList.add('atom-ternjs-config-panel', 'panel-bottom')
+    @registerEvents()
 
   getContent: (filePath, projectRoot) ->
     content = @manager.helper.getFileContent(filePath, projectRoot)
@@ -42,12 +42,12 @@ class Config
     localConfig.libs = libs
     localConfig
 
-  # registerEvents: ->
-  #   close = @configView.getClose()
-  #   close.addEventListener('click', (e) =>
-  #     @hide()
-  #     @manager.helper.focusEditor()
-  #   )
+  registerEvents: ->
+    close = @configView.getClose()
+    close.addEventListener('click', (e) =>
+      @hide()
+      @manager.helper.focusEditor()
+    )
 
   mergeConfigObjects: (configStub, localConfig) ->
     _.deepExtend({}, configStub, localConfig)
@@ -66,13 +66,13 @@ class Config
       @config = @mergeConfigObjects(configStub, localConfig)
     else
       @config = configStub
+    @configView.buildOptionsMarkup()
 
   show: ->
-    #@configPanel.show()
-    #@configView.buildOptionsMarkup()
+    @configPanel.show()
 
   destroy: ->
-    #@configView?.destroy()
-    #@configView = null
-    #@configPanel?.destroy()
-    #@configPanel = null
+    @configView?.destroy()
+    @configView = null
+    @configPanel?.destroy()
+    @configPanel = null
