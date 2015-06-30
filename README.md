@@ -5,13 +5,8 @@ Uses suggestion provider by [autocomplete-plus](https://github.com/atom/autocomp
 
 ## Installation
 
-Make sure <a href="https://nodejs.org">Node.js</a> is installed and the PATH variable is set. <br>
+Make sure <a href="https://nodejs.org">Node.js</a> is installed and the PATH variable is set.<br>
 Make sure <a href="http://git-scm.com">GIT</a> is installed and the PATH variable is set.<br>
-Make sure [Tern](https://github.com/marijnh/tern) is installed globally:
-
-```sh
-$ npm install tern -g
-```
 
 In your project root create a file named .tern-project
 
