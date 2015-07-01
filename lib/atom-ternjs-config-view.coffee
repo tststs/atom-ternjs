@@ -18,18 +18,34 @@ class ConfigView extends HTMLElement
 
   buildOptionsMarkup: ->
     config = @getModel().config
-    for lib in config.libs
-      @content.appendChild(@buildBoolean(lib))
+    @content.appendChild(@buildBoolean(config.libs))
+    @content.appendChild(@buildStringArray(config.loadEagerly))
 
-  buildBoolean: (obj) ->
+  buildStringArray: (obj) ->
     wrapper = document.createElement('div')
-    label = document.createElement('span')
-    label.innerHTML = obj.name
-    checkbox = document.createElement('input')
-    checkbox.type = 'checkbox'
-    checkbox.checked = obj.value
-    wrapper.appendChild(label)
-    wrapper.appendChild(checkbox)
+    header = document.createElement('h2')
+    header.innerHTML = 'loadEagerly:'
+    wrapper.appendChild(header)
+    for path in obj
+      item = document.createElement('input')
+      item.type = 'text'
+      item.value = path
+      wrapper.appendChild(item)
+    wrapper
+
+  buildBoolean: (libs) ->
+    wrapper = document.createElement('div')
+    header = document.createElement('h2')
+    header.innerHTML = 'libs:'
+    wrapper.appendChild(header)
+    for lib in libs
+      label = document.createElement('span')
+      label.innerHTML = lib.name
+      checkbox = document.createElement('input')
+      checkbox.type = 'checkbox'
+      checkbox.checked = lib.value
+      wrapper.appendChild(label)
+      wrapper.appendChild(checkbox)
     wrapper
 
   getClose: ->
