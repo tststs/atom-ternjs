@@ -31,7 +31,7 @@
   "docs": {
     "libs": {
       "browser": {
-        "doc": "Vanilla JavaScript"
+        "doc": "JavaScript"
       },
       "ecma5": {
         "doc": "ECMAScript 5"
