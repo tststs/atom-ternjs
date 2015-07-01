@@ -39,13 +39,16 @@ class ConfigView extends HTMLElement
     header.innerHTML = 'libs:'
     wrapper.appendChild(header)
     for lib in libs
+      inputWrapper = document.createElement('div')
+      inputWrapper.classList.add('input-wrapper')
       label = document.createElement('span')
       label.innerHTML = lib.name
       checkbox = document.createElement('input')
       checkbox.type = 'checkbox'
       checkbox.checked = lib.value
-      wrapper.appendChild(label)
-      wrapper.appendChild(checkbox)
+      inputWrapper.appendChild(label)
+      inputWrapper.appendChild(checkbox)
+      wrapper.appendChild(inputWrapper)
     wrapper
 
   getClose: ->
