@@ -19,13 +19,16 @@ class ConfigView extends HTMLElement
   buildOptionsMarkup: ->
     config = @getModel().config
     @content.appendChild(@buildBoolean(config.libs))
-    @content.appendChild(@buildStringArray(config.loadEagerly))
+    @content.appendChild(@buildStringArray(config.loadEagerly, 'loadEagerly'))
 
-  buildStringArray: (obj) ->
+  buildStringArray: (obj, section) ->
     wrapper = document.createElement('div')
     header = document.createElement('h2')
-    header.innerHTML = 'loadEagerly:'
+    header.innerHTML = section
+    doc = document.createElement('p')
+    doc.innerHTML = @getModel().config.docs[section].doc
     wrapper.appendChild(header)
+    wrapper.appendChild(doc)
     for path in obj
       item = document.createElement('input')
       item.type = 'text'
