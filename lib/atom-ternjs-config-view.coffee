@@ -30,9 +30,9 @@ class ConfigView extends HTMLElement
     wrapper.appendChild(header)
     wrapper.appendChild(doc)
     for path in obj
-      item = document.createElement('input')
-      item.type = 'text'
-      item.value = path
+      item = document.createElement('atom-text-editor')
+      item.setAttribute('mini', true)
+      item.getModel().getBuffer().setText(path)
       wrapper.appendChild(item)
     wrapper
 
