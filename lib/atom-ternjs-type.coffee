@@ -8,11 +8,11 @@ class Type
   overlayDecoration: null
   marker: null
 
-  constructor: (manager, state = {}) ->
+  constructor: (manager) ->
     @manager = manager
 
     @view = new TypeView()
-    @view.initialize(state)
+    @view.initialize(this)
 
     atom.views.getView(atom.workspace).appendChild(@view)
 
