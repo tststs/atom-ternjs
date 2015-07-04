@@ -22,23 +22,20 @@ class RenameView extends HTMLElement
       @model.hide()
       return
 
-    editor = document.createElement('atom-text-editor')
-    editor.setAttribute('mini', true)
+    @nameEditor = document.createElement('atom-text-editor')
+    @nameEditor.setAttribute('mini', true)
+    @nameEditor.addEventListener 'core:confirm', (e) => @rename()
 
     buttonRename = document.createElement('button')
     buttonRename.innerHTML = 'Rename'
     buttonRename.id = 'close'
     buttonRename.classList.add('btn')
     buttonRename.classList.add('mt')
-    buttonRename.addEventListener 'click', (e) =>
-      editor = @querySelector('atom-text-editor')
-      text = editor.getModel().getBuffer().getText()
-      return unless text
-      @model.updateAllAndRename(text)
+    buttonRename.addEventListener 'click', (e) => @rename()
 
     wrapper.appendChild(title)
     wrapper.appendChild(sub)
-    wrapper.appendChild(editor)
+    wrapper.appendChild(@nameEditor)
     wrapper.appendChild(buttonClose)
     wrapper.appendChild(buttonRename)
     container.appendChild(wrapper)
@@ -54,6 +51,11 @@ class RenameView extends HTMLElement
 
   setModel: (model) ->
     @model = model
+
+  rename: ->
+    text = @nameEditor.getModel().getBuffer().getText()
+    return unless text
+    @model.updateAllAndRename(text)
 
   destroy: ->
     @remove()

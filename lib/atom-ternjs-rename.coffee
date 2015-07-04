@@ -25,7 +25,18 @@ class Rename
     @manager.helper.focusEditor()
 
   show: ->
+    codeEditor = atom.workspace.getActiveTextEditor()
+
+    currentNameRange = codeEditor.getLastCursor().getCurrentWordBufferRange
+      includeNonWordCharacters: false
+
+    currentName = codeEditor.getTextInBufferRange(currentNameRange)
+
+    @renameView.nameEditor.getModel().setText(currentName)
+    @renameView.nameEditor.getModel().selectAll()
+
     @renamePanel.show()
+    @renameView.nameEditor.focus()
 
   updateAllAndRename: (newName) ->
     return unless @manager.client
