@@ -55,6 +55,11 @@ class Config
   hide: ->
     @configPanel.hide()
 
+  clear: ->
+    @hide()
+    @config = null
+    @projectConfig = null
+
   gatherData: ->
     configStub = @getContent('../tern-config.json', false)
     return unless configStub

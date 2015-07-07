@@ -111,6 +111,7 @@ class Manager
       @client = client
     else
       @server = null
+      @config.clear()
       @client = null
 
   checkPaths: (paths) ->
