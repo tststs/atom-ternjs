@@ -18,7 +18,7 @@ class ConfigView extends HTMLElement
 
   buildOptionsMarkup: ->
     config = @getModel().config
-    @content.appendChild(@buildBoolean(config.libs))
+    @content.appendChild(@buildBoolean())
     @content.appendChild(@buildStringArray(config.loadEagerly, 'loadEagerly'))
 
   buildStringArray: (obj, section) ->
@@ -36,19 +36,23 @@ class ConfigView extends HTMLElement
       wrapper.appendChild(item)
     wrapper
 
-  buildBoolean: (libs) ->
+  buildBoolean: ->
     wrapper = document.createElement('div')
     header = document.createElement('h2')
     header.innerHTML = 'libs:'
     wrapper.appendChild(header)
-    for lib in libs
+    for key in Object.keys(@getModel().config.libs)
       inputWrapper = document.createElement('div')
       inputWrapper.classList.add('input-wrapper')
       label = document.createElement('span')
-      label.innerHTML = lib.name
+      label.innerHTML = key
       checkbox = document.createElement('input')
       checkbox.type = 'checkbox'
-      checkbox.checked = lib.value
+      checkbox.checked = @getModel().config.libs[key]
+      checkbox.__ternjs_key = key
+      checkbox.addEventListener('change', (e) =>
+        @getModel().config.libs[e.target.__ternjs_key] = e.target.checked
+      , false)
       inputWrapper.appendChild(label)
       inputWrapper.appendChild(checkbox)
       wrapper.appendChild(inputWrapper)

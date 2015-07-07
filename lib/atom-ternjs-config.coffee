@@ -28,17 +28,19 @@ class Config
     content
 
   prepareLibs: (localConfig, configStub) ->
-    libs = []
-    localConfig.libs = [] if !localConfig.libs
+    libs = {}
+    if !localConfig.libs
+      localConfig.libs = {}
+    else
+      libsAsObject = {}
+      for lib in localConfig.libs
+        libsAsObject[lib] = true
+      localConfig.libs = libsAsObject
     for lib in Object.keys(configStub.libs)
-      if localConfig.libs.indexOf(lib) is -1
-        libs.push
-          name: lib
-          value: false
+      if !localConfig.libs[lib]
+        libs[lib] = false
       else
-        libs.push
-          name: lib
-          value: true
+        libs[lib] = true
     localConfig.libs = libs
     localConfig
 
