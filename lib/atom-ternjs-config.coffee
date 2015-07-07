@@ -11,7 +11,6 @@ class Config
 
   constructor: (manager, state = {}) ->
     @manager = manager
-    @gatherData()
     @configView = new ConfigView()
     @configView.initialize(this)
     @configPanel = atom.workspace.addModalPanel(item: @configView, priority: 0)
@@ -56,12 +55,12 @@ class Config
 
   hide: ->
     @configPanel?.hide()
-    @configView?.removeContent()
 
   clear: ->
     @hide()
     @config = null
     @projectConfig = null
+    @configView?.removeContent()
 
   gatherData: ->
     @clear()

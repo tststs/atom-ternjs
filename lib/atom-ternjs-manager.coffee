@@ -91,8 +91,9 @@ class Manager
         @clients[clientIdx].port = port
       else
         client.port = port
-      @init() if @servers.length is @clients.length and !@initialised
-      @setActiveServerAndClient(dir)
+      if @servers.length is @clients.length
+        @init() if !@initialised
+        @setActiveServerAndClient(dir)
 
   setActiveServerAndClient: (URI) ->
     if !URI
