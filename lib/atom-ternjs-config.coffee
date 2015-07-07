@@ -53,7 +53,8 @@ class Config
     _.deepExtend({}, configStub, localConfig)
 
   hide: ->
-    @configPanel.hide()
+    @configPanel?.hide()
+    @configView?.removeContent()
 
   clear: ->
     @hide()
@@ -61,6 +62,7 @@ class Config
     @projectConfig = null
 
   gatherData: ->
+    @clear()
     configStub = @getContent('../tern-config.json', false)
     return unless configStub
     @projectConfig = @config = @getContent('/.tern-project', true)

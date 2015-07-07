@@ -54,6 +54,9 @@ class ConfigView extends HTMLElement
       wrapper.appendChild(inputWrapper)
     wrapper
 
+  removeContent: ->
+    @content?.innerHTML = ''
+
   getClose: ->
     @close
 
