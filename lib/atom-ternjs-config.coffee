@@ -5,9 +5,9 @@ module.exports =
 class Config
 
   configView: null
-  config: []
-  manager: null
+  config: null
   projectConfig: null
+  manager: null
 
   constructor: (manager, state = {}) ->
     @manager = manager
@@ -58,12 +58,12 @@ class Config
   gatherData: ->
     configStub = @getContent('../tern-config.json', false)
     return unless configStub
-    localConfig = @getContent('/.tern-project', true)
-    if localConfig
-      localConfig = @prepareLibs(localConfig, configStub)
-      for plugin of localConfig.plugins
-        localConfig.plugins[plugin]?.active = true
-      @config = @mergeConfigObjects(configStub, localConfig)
+    @projectConfig = @config = @getContent('/.tern-project', true)
+    if @projectConfig
+      @config = @prepareLibs(@config, configStub)
+      for plugin of @config.plugins
+        @config.plugins[plugin]?.active = true
+      @config = @mergeConfigObjects(configStub, @config)
     else
       @config = configStub
     @configView.buildOptionsMarkup()
