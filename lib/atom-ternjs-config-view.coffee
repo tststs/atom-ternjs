@@ -20,6 +20,16 @@ class ConfigView extends HTMLElement
     @content.appendChild(@buildBoolean('libs'))
     @content.appendChild(@buildStringArray(config.loadEagerly, 'loadEagerly'))
     @content.appendChild(@buildStringArray(config.dontLoad, 'dontLoad'))
+
+    wrapper = document.createElement('section')
+    header = document.createElement('h2')
+    header.innerHTML = 'plugins'
+    text = document.createElement('p')
+    text.innerHTML = 'This section isn\'t implemented yet.<br />Please add plugins manually by editing your .tern-project file located in your root-path.'
+    wrapper.appendChild(header)
+    wrapper.appendChild(text)
+
+    @content.appendChild(wrapper)
     @content.appendChild(@close)
 
   buildStringArray: (obj, section) ->
