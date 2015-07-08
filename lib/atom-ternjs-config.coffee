@@ -69,6 +69,7 @@ class Config
 
   clear: ->
     @hide()
+    @destroyEditors()
     @config = null
     @projectConfig = null
     @configView?.removeContent()
@@ -101,14 +102,14 @@ class Config
     @editors = []
 
   updateConfig: ->
+    @config.loadEagerly = []
+    @config.dontLoad = []
     for editor in @editors
       buffer = editor.getModel().getBuffer()
       text = buffer.getText()
       text = text.trim()
       continue if text is ''
-      idx = @config[editor.__ternjs_section].indexOf(text)
-      if idx is -1
-        @config[editor.__ternjs_section].push(text)
+      @config[editor.__ternjs_section].push(text)
     @destroyEditors()
     newConfig = @buildNewConfig()
     newConfigJSON = JSON.stringify(newConfig, null, 2)
