@@ -52,8 +52,8 @@ class Config
       @manager.helper.focusEditor()
     )
 
-  mergeConfigObjects: (configStub, localConfig) ->
-    _.deepExtend({}, configStub, localConfig)
+  mergeConfigObjects: (obj1, obj2) ->
+    _.deepExtend({}, obj1, obj2)
 
   hide: ->
     @configPanel?.hide()
@@ -67,7 +67,9 @@ class Config
   gatherData: ->
     configStub = @getContent('../tern-config.json', false)
     return unless configStub
-    @projectConfig = @config = @getContent('/.tern-project', true)
+    @projectConfig = @getContent('/.tern-project', true)
+    @config = {}
+    @config = @mergeConfigObjects(@projectConfig, @config)
     if @projectConfig
       @config = @prepareLibs(@config, configStub)
       for plugin of @config.plugins
@@ -94,6 +96,20 @@ class Config
       if idx is -1
         @config[editor.__ternjs_section].push(text)
     @editors = []
+    @buildNewConfig()
+
+  buildNewConfig: ->
+    newConfig = {}
+    if !_.isEmpty(@config.libs)
+      newConfig.libs = []
+      for key in Object.keys(@config.libs)
+        if @config.libs[key]
+          newConfig.libs.push(key)
+    if @config.loadEagerly.length isnt 0
+      newConfig.loadEagerly = @config.loadEagerly
+    if @config.dontLoad.length isnt 0
+      newConfig.dontLoad = @config.dontLoad
+    newConfig.plugins = @projectConfig.plugins
 
   show: ->
     @clear()
