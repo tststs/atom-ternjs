@@ -75,7 +75,6 @@ class Config
     @config = @mergeConfigObjects(@projectConfig, @config)
     if @projectConfig
       @config = @prepareLibs(@config, configStub)
-      console.log @config
       for plugin of @config.plugins
         @config.plugins[plugin]?.active = true
       @config = @mergeConfigObjects(configStub, @config)
