@@ -7,37 +7,9 @@ class Helper
   projectRoot: null
   manager: null
   checkpointsDefinition: []
-  ternProjectFileContent: '{\n
-    \ "libs": [\n
-    \ \ \ "browser",\n
-    \ \ \ "ecma5",\n
-    \ \ \ "ecma6",\n
-    \ \ \ "jquery"\n
-    \ ],\n
-    \ "loadEagerly": [\n
-    \ \ \ "js/**/*.js"\n
-    \ ],\n
-    \ "plugins": {\n
-    \ \ \ "complete_strings": {},\n
-    \ \ \ "lint": {},\n
-    \ \ \ "doc_comment": {\n
-    \ \ \ \ "fullDocs": true\n
-    \ \ \ }\n
-    \ }\n}'
 
   constructor: (manager) ->
     @manager = manager
-
-  hasTernProjectFile: ->
-    return false if !@manager.server
-    @projectRoot = @manager.server?.rootPath
-    return undefined unless @projectRoot
-    return true if @fileExists(path.resolve(__dirname, @projectRoot + '/.tern-project')) is undefined
-    return false
-
-  createTernProjectFile: ->
-    return unless @hasTernProjectFile() is false
-    @writeFile(path.resolve(__dirname, @projectRoot + '/.tern-project'), @ternProjectFileContent)
 
   updateTernFile: (content) ->
     @projectRoot = @manager.server?.rootPath
