@@ -14,10 +14,10 @@ class Config
     @manager = manager
     @configView = new ConfigView()
     @configView.initialize(this)
-    @configPanel = atom.workspace.addModalPanel(item: @configView, priority: 0)
+    @configPanel = atom.workspace.addRightPanel(item: @configView, priority: 0)
     @configPanel.hide()
 
-    atom.views.getView(@configPanel).classList.add('atom-ternjs-config-panel', 'panel-bottom')
+    atom.views.getView(@configPanel).classList.add('atom-ternjs-config-panel')
     @registerEvents()
 
   getContent: (filePath, projectRoot) ->
