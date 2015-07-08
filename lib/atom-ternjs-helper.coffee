@@ -39,8 +39,10 @@ class Helper
     return unless @hasTernProjectFile() is false
     @writeFile(path.resolve(__dirname, @projectRoot + '/.tern-project'), @ternProjectFileContent)
 
-  updateTernFile: ->
-    @writeFile(path.resolve(__dirname, @projectRoot + '/.tern-project'))
+  updateTernFile: (content) ->
+    @projectRoot = @manager.server?.rootPath
+    return unless @projectRoot
+    @writeFile(path.resolve(__dirname, @projectRoot + '/.tern-project'), content)
 
   fileExists: (path) ->
     try fs.accessSync path, fs.F_OK, (err) =>

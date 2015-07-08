@@ -96,7 +96,10 @@ class Config
       if idx is -1
         @config[editor.__ternjs_section].push(text)
     @editors = []
-    @buildNewConfig()
+    newConfig = @buildNewConfig()
+    newConfigJSON = JSON.stringify(newConfig, null, 2)
+    @manager.helper.updateTernFile(newConfigJSON)
+    @manager.restartServer()
 
   buildNewConfig: ->
     newConfig = {}
@@ -109,7 +112,9 @@ class Config
       newConfig.loadEagerly = @config.loadEagerly
     if @config.dontLoad.length isnt 0
       newConfig.dontLoad = @config.dontLoad
-    newConfig.plugins = @projectConfig.plugins
+    if @projectConfig and !_.isEmpty(@projectConfig.plugins)
+      newConfig.plugins = @projectConfig.plugins
+    newConfig
 
   show: ->
     @clear()
