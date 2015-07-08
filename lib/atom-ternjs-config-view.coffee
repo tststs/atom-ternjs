@@ -33,6 +33,8 @@ class ConfigView extends HTMLElement
     wrapper.appendChild(doc)
     for path in obj
       wrapper.appendChild(@createInputWrapper(path, section))
+    if obj.length is 0
+      wrapper.appendChild(@createInputWrapper(null, section))
     wrapper
 
   createInputWrapper: (path, section) ->
