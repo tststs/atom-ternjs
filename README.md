@@ -8,13 +8,15 @@ Uses suggestion provider by [autocomplete-plus](https://github.com/atom-communit
 Make sure <a href="https://nodejs.org">Node.js</a> is installed and the PATH variable is set.
 Make sure <a href="http://git-scm.com">GIT</a> is installed and the PATH variable is set.
 
-In your project root create a file named .tern-project
+Configure your project
+* Navigate to Packages -> Atom Ternjs -> Configure project
+* The config view appears.
+* Hit "Save & Restart Server" to create/update the .tern-project file
 
-* With default config via menu (Packages -> Atom Ternjs -> Create default .tern-project) or by adding it manually. See docs @ http://ternjs.net/doc/manual.html#configuration.
+If configure project does not work for you
+* In your project root create a file named .tern-project. See docs @ http://ternjs.net/doc/manual.html#configuration.
 * Check path in loadEagerly
 * Restart the server via Packages -> Atom Ternjs -> Restart server
-
-If a root file named .tern-project is not found ~/.tern-config serves as a default.
 
 Example .tern-project file (customize to your own needs):
 ```
