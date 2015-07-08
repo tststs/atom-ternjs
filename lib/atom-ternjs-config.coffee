@@ -56,6 +56,7 @@ class Config
     )
     cancel = @configView.getCancel()
     cancel.addEventListener('click', (e) =>
+      @destroyEditors()
       @hide()
       @manager.helper.focusEditor()
     )
@@ -93,17 +94,22 @@ class Config
     return if idx is -1
     @editors.splice(idx, 1)
 
+  destroyEditors: ->
+    for editor in @editors
+      buffer = editor.getModel().getBuffer()
+      buffer.destroy()
+    @editors = []
+
   updateConfig: ->
     for editor in @editors
       buffer = editor.getModel().getBuffer()
       text = buffer.getText()
       text = text.trim()
-      buffer.destroy()
       continue if text is ''
       idx = @config[editor.__ternjs_section].indexOf(text)
       if idx is -1
         @config[editor.__ternjs_section].push(text)
-    @editors = []
+    @destroyEditors()
     newConfig = @buildNewConfig()
     newConfigJSON = JSON.stringify(newConfig, null, 2)
     @manager.helper.updateTernFile(newConfigJSON)
