@@ -7,8 +7,7 @@ class ConfigView extends HTMLElement
     @content = document.createElement('div')
     @close = document.createElement('button')
     @close.classList.add('btn', 'atom-ternjs-config-close')
-    @close.innerHTML = 'Close'
-    container.appendChild(@close)
+    @close.innerHTML = 'Save & Restart Server'
     container.appendChild(@content)
     @appendChild(container)
 
@@ -20,9 +19,11 @@ class ConfigView extends HTMLElement
     config = @getModel().config
     @content.appendChild(@buildBoolean())
     @content.appendChild(@buildStringArray(config.loadEagerly, 'loadEagerly'))
+    @content.appendChild(@close)
 
   buildStringArray: (obj, section) ->
     wrapper = document.createElement('section')
+    wrapper.dataset.type = section
     header = document.createElement('h2')
     header.innerHTML = section
     doc = document.createElement('p')
@@ -36,12 +37,13 @@ class ConfigView extends HTMLElement
   createInputWrapper: (path) ->
     inputWrapper = document.createElement('div')
     inputWrapper.classList.add('input-wrapper')
-    inputWrapper.appendChild(@createTextEditor(path))
+    editor = @createTextEditor(path)
+    inputWrapper.appendChild(editor)
     inputWrapper.appendChild(@createAdd())
-    inputWrapper.appendChild(@createSub())
+    inputWrapper.appendChild(@createSub(editor))
     inputWrapper
 
-  createSub: ->
+  createSub: (editor) ->
     sub = document.createElement('span')
     sub.classList.add('sub')
     sub.classList.add('inline-block')
@@ -49,6 +51,7 @@ class ConfigView extends HTMLElement
     sub.classList.add('icon')
     sub.classList.add('icon-diff-removed')
     sub.addEventListener('click', (e) =>
+      @getModel().removeEditor(editor)
       inputWrapper = e.target.closest('.input-wrapper')
       inputWrapper.parentNode.removeChild(inputWrapper)
     , false)
@@ -70,6 +73,7 @@ class ConfigView extends HTMLElement
     item = document.createElement('atom-text-editor')
     item.setAttribute('mini', true)
     item.getModel().getBuffer().setText(path) if path
+    @getModel().editors.push(item)
     item
 
   buildBoolean: ->

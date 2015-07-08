@@ -7,6 +7,7 @@ class Config
   configView: null
   config: null
   projectConfig: null
+  editors: []
   manager: null
 
   constructor: (manager, state = {}) ->
@@ -46,6 +47,7 @@ class Config
   registerEvents: ->
     close = @configView.getClose()
     close.addEventListener('click', (e) =>
+      #@configView.getTextEditors()
       @hide()
       @manager.helper.focusEditor()
     )
@@ -75,6 +77,12 @@ class Config
     else
       @config = configStub
     @configView.buildOptionsMarkup()
+
+  removeEditor: (editor) ->
+    return unless editor
+    idx = @editors.indexOf(editor)
+    return if idx is -1
+    @servers.splice(idx, 1)
 
   show: ->
     @configPanel.show()
