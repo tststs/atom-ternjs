@@ -22,7 +22,7 @@ class ConfigView extends HTMLElement
     @content.appendChild(@buildStringArray(config.loadEagerly, 'loadEagerly'))
 
   buildStringArray: (obj, section) ->
-    wrapper = document.createElement('div')
+    wrapper = document.createElement('section')
     header = document.createElement('h2')
     header.innerHTML = section
     doc = document.createElement('p')
@@ -30,14 +30,50 @@ class ConfigView extends HTMLElement
     wrapper.appendChild(header)
     wrapper.appendChild(doc)
     for path in obj
-      item = document.createElement('atom-text-editor')
-      item.setAttribute('mini', true)
-      item.getModel().getBuffer().setText(path)
-      wrapper.appendChild(item)
+      wrapper.appendChild(@createInputWrapper(path))
     wrapper
 
+  createInputWrapper: (path) ->
+    inputWrapper = document.createElement('div')
+    inputWrapper.classList.add('input-wrapper')
+    inputWrapper.appendChild(@createTextEditor(path))
+    inputWrapper.appendChild(@createAdd())
+    inputWrapper.appendChild(@createSub())
+    inputWrapper
+
+  createSub: ->
+    sub = document.createElement('span')
+    sub.classList.add('sub')
+    sub.classList.add('inline-block')
+    sub.classList.add('status-removed')
+    sub.classList.add('icon')
+    sub.classList.add('icon-diff-removed')
+    sub.addEventListener('click', (e) =>
+      inputWrapper = e.target.closest('.input-wrapper')
+      inputWrapper.parentNode.removeChild(inputWrapper)
+    , false)
+    sub
+
+  createAdd: ->
+    add = document.createElement('span')
+    add.classList.add('add')
+    add.classList.add('inline-block')
+    add.classList.add('status-added')
+    add.classList.add('icon')
+    add.classList.add('icon-diff-added')
+    add.addEventListener('click', (e) =>
+      e.target.closest('section').appendChild(@createInputWrapper())
+    , false)
+    add
+
+  createTextEditor: (path) ->
+    item = document.createElement('atom-text-editor')
+    item.setAttribute('mini', true)
+    item.getModel().getBuffer().setText(path) if path
+    item
+
   buildBoolean: ->
-    wrapper = document.createElement('div')
+    wrapper = document.createElement('section')
     header = document.createElement('h2')
     header.innerHTML = 'libs:'
     wrapper.appendChild(header)

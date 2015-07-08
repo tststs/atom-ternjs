@@ -157,3 +157,53 @@ atom-text-editor::shadow .atom-ternjs-definition-marker {
   right: 0;
   top: 0;
 }
+
+.atom-ternjs-config {
+
+  atom-text-editor {
+
+    width: calc(~"100% - 60px");
+  }
+
+  .add,
+  .sub {
+
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .add {
+
+    right: 0;
+  }
+
+  .sub {
+
+    right: 30px;
+  }
+
+  .input-wrapper {
+
+    position: relative;
+  }
+
+  .input-wrapper {
+
+    &:first-of-type {
+
+      .sub {
+
+        display: none;
+      }
+    }
+  }
+
+  .input-wrapper:not(:last-of-type) {
+
+    .add {
+
+      display: none;
+    }
+  }
+}
