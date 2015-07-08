@@ -31,15 +31,16 @@ class ConfigView extends HTMLElement
     wrapper.appendChild(header)
     wrapper.appendChild(doc)
     for path in obj
-      wrapper.appendChild(@createInputWrapper(path))
+      wrapper.appendChild(@createInputWrapper(path, section))
     wrapper
 
-  createInputWrapper: (path) ->
+  createInputWrapper: (path, section) ->
     inputWrapper = document.createElement('div')
     inputWrapper.classList.add('input-wrapper')
     editor = @createTextEditor(path)
+    editor.__ternjs_section = section
     inputWrapper.appendChild(editor)
-    inputWrapper.appendChild(@createAdd())
+    inputWrapper.appendChild(@createAdd(section))
     inputWrapper.appendChild(@createSub(editor))
     inputWrapper
 
@@ -57,7 +58,7 @@ class ConfigView extends HTMLElement
     , false)
     sub
 
-  createAdd: ->
+  createAdd: (section) ->
     add = document.createElement('span')
     add.classList.add('add')
     add.classList.add('inline-block')
@@ -65,7 +66,7 @@ class ConfigView extends HTMLElement
     add.classList.add('icon')
     add.classList.add('icon-diff-added')
     add.addEventListener('click', (e) =>
-      e.target.closest('section').appendChild(@createInputWrapper())
+      e.target.closest('section').appendChild(@createInputWrapper(null, section))
     , false)
     add
 

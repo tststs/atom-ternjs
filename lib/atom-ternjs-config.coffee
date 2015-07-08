@@ -47,7 +47,7 @@ class Config
   registerEvents: ->
     close = @configView.getClose()
     close.addEventListener('click', (e) =>
-      #@configView.getTextEditors()
+      @updateConfig()
       @hide()
       @manager.helper.focusEditor()
     )
@@ -65,7 +65,6 @@ class Config
     @configView?.removeContent()
 
   gatherData: ->
-    @clear()
     configStub = @getContent('../tern-config.json', false)
     return unless configStub
     @projectConfig = @config = @getContent('/.tern-project', true)
@@ -82,9 +81,23 @@ class Config
     return unless editor
     idx = @editors.indexOf(editor)
     return if idx is -1
-    @servers.splice(idx, 1)
+    @editors.splice(idx, 1)
+
+  updateConfig: ->
+    for editor in @editors
+      buffer = editor.getModel().getBuffer()
+      text = buffer.getText()
+      text = text.trim()
+      buffer.destroy()
+      continue if text is ''
+      idx = @config[editor.__ternjs_section].indexOf(text)
+      if idx is -1
+        @config[editor.__ternjs_section].push(text)
+    @editors = []
 
   show: ->
+    @clear()
+    @gatherData()
     @configPanel.show()
 
   destroy: ->
