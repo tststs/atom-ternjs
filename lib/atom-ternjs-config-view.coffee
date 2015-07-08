@@ -17,7 +17,7 @@ class ConfigView extends HTMLElement
 
   buildOptionsMarkup: ->
     config = @getModel().config
-    @content.appendChild(@buildBoolean())
+    @content.appendChild(@buildBoolean('libs'))
     @content.appendChild(@buildStringArray(config.loadEagerly, 'loadEagerly'))
     @content.appendChild(@buildStringArray(config.dontLoad, 'dontLoad'))
     @content.appendChild(@close)
@@ -80,10 +80,11 @@ class ConfigView extends HTMLElement
     @getModel().editors.push(item)
     item
 
-  buildBoolean: ->
+  buildBoolean: (section) ->
     wrapper = document.createElement('section')
+    wrapper.classList.add(section)
     header = document.createElement('h2')
-    header.innerHTML = 'libs:'
+    header.innerHTML = section
     wrapper.appendChild(header)
     for key in Object.keys(@getModel().config.libs)
       inputWrapper = document.createElement('div')
