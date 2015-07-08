@@ -8,6 +8,9 @@ class ConfigView extends HTMLElement
     @close = document.createElement('button')
     @close.classList.add('btn', 'atom-ternjs-config-close')
     @close.innerHTML = 'Save & Restart Server'
+    @cancel = document.createElement('button')
+    @cancel.classList.add('btn', 'atom-ternjs-config-close')
+    @cancel.innerHTML = 'Cancel'
     container.appendChild(@content)
     @appendChild(container)
 
@@ -31,6 +34,7 @@ class ConfigView extends HTMLElement
 
     @content.appendChild(wrapper)
     @content.appendChild(@close)
+    @content.appendChild(@cancel)
 
   buildStringArray: (obj, section) ->
     wrapper = document.createElement('section')
@@ -118,6 +122,9 @@ class ConfigView extends HTMLElement
 
   getClose: ->
     @close
+
+  getCancel: ->
+    @cancel
 
   destroy: ->
     @remove()

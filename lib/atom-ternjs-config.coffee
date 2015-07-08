@@ -54,6 +54,11 @@ class Config
       @hide()
       @manager.helper.focusEditor()
     )
+    cancel = @configView.getCancel()
+    cancel.addEventListener('click', (e) =>
+      @hide()
+      @manager.helper.focusEditor()
+    )
 
   mergeConfigObjects: (obj1, obj2) ->
     _.deepExtend({}, obj1, obj2)
