@@ -19,6 +19,7 @@ class ConfigView extends HTMLElement
     config = @getModel().config
     @content.appendChild(@buildBoolean())
     @content.appendChild(@buildStringArray(config.loadEagerly, 'loadEagerly'))
+    @content.appendChild(@buildStringArray(config.dontLoad, 'dontLoad'))
     @content.appendChild(@close)
 
   buildStringArray: (obj, section) ->
