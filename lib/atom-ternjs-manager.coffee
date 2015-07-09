@@ -209,7 +209,7 @@ class Manager
     @grammars.splice(idx, 1)
 
   registerHelperCommands: ->
-    @disposables.push atom.commands.add 'atom-text-editor', 'tern:openConfig': (event) =>
+    @disposables.push atom.commands.add 'atom-workspace', 'tern:openConfig': (event) =>
       if !@config
         Config = require './atom-ternjs-config'
         @config = new Config(this)

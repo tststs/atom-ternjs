@@ -133,7 +133,9 @@ class Config
 
   show: ->
     @clear()
-    @gatherData()
+    if !@gatherData()
+      atom.notifications.addInfo('There is no active project. Please re-open or focus at least one JavaScript file of the project to configure.', dismissable: true)
+      return
     @configPanel.show()
 
   destroy: ->
