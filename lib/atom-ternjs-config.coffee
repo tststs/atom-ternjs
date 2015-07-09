@@ -87,7 +87,7 @@ class Config
       @config = @mergeConfigObjects(configStub, @config)
     else
       @config = configStub
-    @configView.buildOptionsMarkup()
+    @configView.buildOptionsMarkup(@manager)
 
   removeEditor: (editor) ->
     return unless editor

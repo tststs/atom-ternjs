@@ -5,6 +5,7 @@ class ConfigView extends HTMLElement
 
     container = document.createElement('div')
     @content = document.createElement('div')
+    @content.classList.add('content')
     @close = document.createElement('button')
     @close.classList.add('btn', 'atom-ternjs-config-close')
     @close.innerHTML = 'Save & Restart Server'
@@ -18,8 +19,12 @@ class ConfigView extends HTMLElement
     @setModel(model)
     this
 
-  buildOptionsMarkup: ->
+  buildOptionsMarkup: (manager) ->
+    project = manager.client?.rootPath
     config = @getModel().config
+    title = document.createElement('h2')
+    title.innerHTML = project
+    @content.appendChild(title)
     @content.appendChild(@buildBoolean('libs'))
     @content.appendChild(@buildStringArray(config.loadEagerly, 'loadEagerly'))
     @content.appendChild(@buildStringArray(config.dontLoad, 'dontLoad'))
