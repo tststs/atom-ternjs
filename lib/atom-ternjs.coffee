@@ -1,5 +1,6 @@
 Manager = require './atom-ternjs-manager'
 Provider = require './atom-ternjs-provider'
+LinterTern = require './linter'
 
 module.exports =
 
@@ -78,6 +79,7 @@ module.exports =
   activate: (state) ->
     @provider = new Provider()
     @manager = new Manager(@provider)
+    @providerLinter = new LinterTern(@manager)
 
   deactivate: ->
     @manager.destroy()
@@ -85,3 +87,6 @@ module.exports =
 
   provide: ->
     @provider
+
+  provideLinter: ->
+    @providerLinter

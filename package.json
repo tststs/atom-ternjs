@@ -10,8 +10,6 @@
   "engines": {
     "atom": ">=0.199.0"
   },
-  "linter-package": true,
-  "linter-implementation": "linter",
   "dependencies": {
     "jquery": "*",
     "loophole": "*",
@@ -24,10 +22,12 @@
       "versions": {
         "2.0.0": "provide"
       }
+    },
+    "linter": {
+      "versions": {
+        "1.0.0": "provideLinter"
+      }
     }
-  },
-  "package-dependencies": {
-    "linter": ">=0.12.0"
   },
   "keywords": [
     "javascript",

@@ -1,42 +1,37 @@
-linterPath = atom.packages.getLoadedPackage('linter').path
-Linter = require "#{linterPath}/lib/linter"
-{Range} = require 'atom'
+class LinterTern
 
-class LinterTern extends Linter
+  grammarScopes: ['source.js']
+  scope: 'file'
+  lintOnFly: true
+  manager: null
 
-  @syntax: 'source.js'
-  linterName: 'tern-lint'
-  _manager: null
+  constructor: (manager) ->
+    @manager = manager
+    return unless @manager
 
-  constructor: (editor) ->
-    @_manager = atom.packages.getLoadedPackage('atom-ternjs').mainModule.manager
-    return unless @_manager
-    super(editor)
+  lint: (textEditor) ->
+    return new Promise (resolve, reject) =>
+      messages = []
+      return resolve [] unless @manager.server and @manager.useLint and @manager.config.config
+      return resolve [] unless @manager.config.config.plugins.lint?.active
 
-  lintFile: (filePath, callback) ->
-    messages = []
-    return callback(messages) unless @_manager.server and @_manager.useLint and @_manager.config.config
-    return callback(messages) unless @_manager.config.config.plugins.lint?.active
-    editor = atom.workspace.getActiveTextEditor()
-    return callback(messages) unless editor
-    buffer = editor.getBuffer()
-    URI = editor.getURI()
-    text = editor.getText()
-    @_manager.client?.update(URI, text).then =>
-      @_manager.client.lint(URI, text).then (data) =>
-        return unless data.messages
-        editor = atom.workspace.getActiveTextEditor()
-        buffer = editor.getBuffer()
-        for message in data.messages
-          positionFrom = buffer.positionForCharacterIndex(message.from)
-          positionTo = buffer.positionForCharacterIndex(message.to)
-          messages.push
-            message: message.message,
-            line: positionFrom.row,
-            col: positionFrom.column,
-            level: message.severity,
-            range: new Range([positionFrom.row, positionFrom.column], [positionTo.row, positionTo.column])
-            linter: 'tern-lint'
-        return callback(messages)
+      buffer = textEditor.getBuffer()
+      URI = textEditor.getURI()
+      text = textEditor.getText()
+      @manager.client?.update(URI, text).then =>
+        @manager.client.lint(URI, text).then (data) =>
+          return resolve [] unless data.messages
+          for message in data.messages
+            positionFrom = buffer.positionForCharacterIndex(message.from)
+            positionTo = buffer.positionForCharacterIndex(message.to)
+            messages.push
+              text: message.message,
+              type: message.severity,
+              filePath: buffer.file.path
+              range: [
+                [positionFrom.row, positionFrom.column],
+                [positionTo.row, positionTo.column]
+              ]
+          return resolve messages
 
 module.exports = LinterTern
