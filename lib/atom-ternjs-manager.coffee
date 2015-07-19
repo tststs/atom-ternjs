@@ -91,8 +91,9 @@ class Manager
         @clients[clientIdx].port = port
       else
         client.port = port
-      @init() if @servers.length is @clients.length and !@initialised
-      @setActiveServerAndClient(dir)
+      if @servers.length is @clients.length
+        @init() if !@initialised
+        @setActiveServerAndClient(dir)
 
   setActiveServerAndClient: (URI) ->
     if !URI
@@ -111,6 +112,7 @@ class Manager
       @client = client
     else
       @server = null
+      @config.clear()
       @client = null
 
   checkPaths: (paths) ->
@@ -172,6 +174,7 @@ class Manager
       @disposables.push editor.getBuffer().onDidSave (event) =>
         @client?.update(editor.getURI(), editor.getText())
     @disposables.push atom.workspace.onDidChangeActivePaneItem (item) =>
+      @config?.clear()
       @type?.destroyOverlay()
       @rename?.hide()
       if !@isValidEditor(item)
@@ -207,13 +210,11 @@ class Manager
     @grammars.splice(idx, 1)
 
   registerHelperCommands: ->
-    @disposables.push atom.commands.add 'atom-workspace', 'tern:createTernProjectFile': (event) =>
-      @helper.createTernProjectFile()
-    # @disposables.push atom.commands.add 'atom-text-editor', 'tern:openConfig': (event) =>
-    #   if !@config
-    #     Config = require './atom-ternjs-config'
-    #     @config = new Config(this)
-    #   @config.show()
+    @disposables.push atom.commands.add 'atom-workspace', 'tern:openConfig': (event) =>
+      if !@config
+        Config = require './atom-ternjs-config'
+        @config = new Config(this)
+      @config.show()
 
   registerCommands: ->
     @disposables.push atom.commands.add 'atom-text-editor', 'tern:rename': (event) =>

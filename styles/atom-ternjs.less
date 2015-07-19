@@ -8,9 +8,7 @@
 @atom-ternjs-height: 180px;
 
 atom-ternjs-reference > div > div,
-atom-ternjs-rename > div > div,
-atom-ternjs-config > div > div {
-
+atom-ternjs-rename > div > div {
 
   max-height: @atom-ternjs-height;
   overflow-y: auto;
@@ -149,11 +147,112 @@ atom-text-editor::shadow .atom-ternjs-definition-marker {
 }
 
 .atom-ternjs-reference-close,
-.atom-ternjs-rename-close,
-.atom-ternjs-config-close {
+.atom-ternjs-rename-close {
 
   margin: @atom-ternjs-padding;
   position: absolute;
   right: 0;
   top: 0;
+}
+
+.atom-ternjs-config-close {
+
+  margin: 20px 0 0;
+}
+
+.atom-ternjs-config-panel {
+
+  overflow-y: auto;
+  padding: @atom-ternjs-padding;
+}
+
+.atom-ternjs-config {
+
+  .content {
+
+    > h2 {
+
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  atom-text-editor {
+
+    width: calc(~"100% - 60px");
+  }
+
+  button {
+
+    + button {
+
+      margin-left: 10px;
+    }
+  }
+
+  .add,
+  .sub {
+
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .add {
+
+    right: 0;
+  }
+
+  .sub {
+
+    right: 30px;
+  }
+
+  .input-wrapper {
+
+    position: relative;
+  }
+
+  .input-wrapper {
+
+    &:first-of-type {
+
+      .sub {
+
+        display: none;
+      }
+    }
+
+    + .input-wrapper {
+
+      margin-top: 10px;
+    }
+  }
+
+  .libs {
+
+    span {
+
+      margin-right: 10px;
+    }
+
+    .input-wrapper {
+
+      display: inline-block;
+
+      + .input-wrapper {
+
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .input-wrapper:not(:last-of-type) {
+
+    .add {
+
+      display: none;
+    }
+  }
 }
