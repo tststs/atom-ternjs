@@ -13,6 +13,9 @@ Configure your project
 * The config view appears.
 * Hit "Save & Restart Server" to create/update the .tern-project file
 
+**Configure project doesn't support the plugins-section (yet).
+Please add plugins manually by editing the .tern-project file as shown below**.
+
 If configure project does not work for you
 * In your project root create a file named .tern-project. See docs @ http://ternjs.net/doc/manual.html#configuration.
 * Check path in loadEagerly
