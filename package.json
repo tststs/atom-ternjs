@@ -8,7 +8,7 @@
   "repository": "https://github.com/tststs/atom-ternjs",
   "license": "MIT",
   "engines": {
-    "atom": ">=0.199.0"
+    "atom": ">=1.0.0"
   },
   "dependencies": {
     "jquery": "*",
