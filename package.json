@@ -1,7 +1,7 @@
 {
   "name": "atom-ternjs",
   "main": "./lib/atom-ternjs",
-  "version": "0.6.8",
+  "version": "0.6.9",
   "private": false,
   "description": "Javascript code intelligence for atom with tern.js. Uses suggestion provider by autocomplete-plus.",
   "activationCommands": {},
