@@ -10,7 +10,7 @@ class Provider
   selector: '.source.js'
   disableForSelector: '.source.js .comment'
   inclusionPriority: 1
-  excludeLowerPriority: true
+  excludeLowerPriority: atom.config.get('atom-ternjs.excludeLowerPriorityProviders')
 
   init: (manager) ->
     @manager = manager
