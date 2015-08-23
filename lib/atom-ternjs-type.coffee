@@ -19,6 +19,7 @@ class Type
   setPosition: ->
     if !@marker
       editor = atom.workspace.getActiveTextEditor()
+      return unless editor
       @marker = editor.getLastCursor?().getMarker()
       return unless @marker
       @overlayDecoration = editor.decorateMarker(@marker, {type: 'overlay', item: @view, class: 'atom-ternjs-type', position: 'tale', invalidate: 'touch'})
