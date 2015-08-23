@@ -43,7 +43,7 @@ class Helper
   markerCheckpointBack: ->
     return unless @checkpointsDefinition.length
     checkpoint = @checkpointsDefinition.pop()
-    @openFileAndGoToPosition(checkpoint.marker.range.start, checkpoint.editor.getURI())
+    @openFileAndGoToPosition(checkpoint.marker.getRange().start, checkpoint.editor.getURI())
 
   setMarkerCheckpoint: ->
     editor = atom.workspace.getActiveTextEditor()
