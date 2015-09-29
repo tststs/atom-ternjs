@@ -21,9 +21,15 @@ class Config
     @registerEvents()
 
   getContent: (filePath, projectRoot) ->
+    error = false
     content = @manager.helper.getFileContent(filePath, projectRoot)
     return unless content
-    content = JSON.parse(content)
+    try
+      content = JSON.parse(content)
+    catch e then error = true
+    if error
+      atom.notifications.addInfo('Error parsing .tern-project. Please check if it is a valid JSON file.', dismissable: true)
+      return
     return unless content
     content
 
