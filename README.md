@@ -26,10 +26,9 @@ If a root file named .tern-project is not found `~/.tern-config` serves as a def
 Example `.tern-project` file (customize to your own needs):
 ```json
 {
+  "ecmaVersion": 6,
   "libs": [
     "browser",
-    "ecma5",
-    "ecma6",
     "jquery"
   ],
   "loadEagerly": [
@@ -44,16 +43,19 @@ Example `.tern-project` file (customize to your own needs):
     "lint": {},
     "angular": {},
     "requirejs": {},
+    "es_modules": {},
     "doc_comment": {
       "fullDocs": true
     }
   }
 }
 ```
+## EcmaVersion
+* 5: use ECMAScript5
+* 6: use ECMAScript6 (default)
+
 ## Libs
 * browser: completion for vanilla js (optional)
-* ecma5: es5 (optional)
-* ecma6: es6 (optional)
 * jquery: completion for jQuery (optional)
 
 ## Options

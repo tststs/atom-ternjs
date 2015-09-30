@@ -1,3 +1,6 @@
+## 0.8.0
+* Add support for ES6
+
 ## 0.5.24
 * Add support for multiply projects
 

@@ -48,9 +48,27 @@ class Config
       else
         libs[lib] = true
     for lib in Object.keys(localConfig.libs)
+      if lib is 'ecma5' || lib is 'ecma6'
+        atom.notifications.addInfo('You are using a outdated .tern-project file. Please remove libs ecma5, ecma6 manually and restart the Server via Packages -> Atom Ternjs -> Restart server. Then configure the project via Packages -> Atom Ternjs -> Configure project.', dismissable: true)
       if !libs[lib]
         libs[lib] = true
     localConfig.libs = libs
+    localConfig
+
+  prepareEcma: (localConfig, configStub) ->
+    ecmaVersions = {}
+    for lib in Object.keys(configStub.ecmaVersions)
+      ecmaVersions[lib] = configStub.ecmaVersions[lib]
+    for lib in ecmaVersions
+      if lib
+        useDefault = false
+    localConfig.ecmaVersions = ecmaVersions
+    if localConfig.ecmaVersion
+      for lib in Object.keys(localConfig.ecmaVersions)
+        if lib is 'ecmaVersion' + localConfig.ecmaVersion
+          localConfig.ecmaVersions[lib] = true
+        else
+          localConfig.ecmaVersions[lib] = false
     localConfig
 
   registerEvents: ->
@@ -87,6 +105,7 @@ class Config
     @config = {}
     @config = @mergeConfigObjects(@projectConfig, @config)
     if @projectConfig
+      @config = @prepareEcma(@config, configStub)
       @config = @prepareLibs(@config, configStub)
       for plugin of @config.plugins
         @config.plugins[plugin]?.active = true
@@ -124,6 +143,10 @@ class Config
 
   buildNewConfig: ->
     newConfig = {}
+    for key in Object.keys(@config.ecmaVersions)
+      if @config.ecmaVersions[key]
+        newConfig.ecmaVersion = key[key.length - 1]
+        break
     if !_.isEmpty(@config.libs)
       newConfig.libs = []
       for key in Object.keys(@config.libs)

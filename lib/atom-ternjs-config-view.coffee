@@ -25,6 +25,7 @@ class ConfigView extends HTMLElement
     title = document.createElement('h2')
     title.innerHTML = project
     @content.appendChild(title)
+    @content.appendChild(@buildRadio('ecmaVersion'))
     @content.appendChild(@buildBoolean('libs'))
     @content.appendChild(@buildStringArray(config.loadEagerly, 'loadEagerly'))
     @content.appendChild(@buildStringArray(config.dontLoad, 'dontLoad'))
@@ -99,6 +100,35 @@ class ConfigView extends HTMLElement
     item.getModel().getBuffer().setText(path) if path
     @getModel().editors.push(item)
     item
+
+  buildRadio: (section) ->
+    wrapper = document.createElement('section')
+    wrapper.classList.add(section)
+    header = document.createElement('h2')
+    header.innerHTML = section
+    doc = document.createElement('p')
+    doc.innerHTML = @getModel().config.docs[section].doc
+    wrapper.appendChild(header)
+    wrapper.appendChild(doc)
+    for key in Object.keys(@getModel().config.ecmaVersions)
+      inputWrapper = document.createElement('div')
+      inputWrapper.classList.add('input-wrapper')
+      label = document.createElement('span')
+      label.innerHTML = key
+      radio = document.createElement('input')
+      radio.type = 'radio'
+      radio.name = 'ecmaVersions'
+      radio.checked = @getModel().config.ecmaVersions[key]
+      radio.__ternjs_key = key
+      radio.addEventListener('change', (e) =>
+        for key in Object.keys(@getModel().config.ecmaVersions)
+          @getModel().config.ecmaVersions[key] = false
+        @getModel().config.ecmaVersions[e.target.__ternjs_key] = e.target.checked
+      , false)
+      inputWrapper.appendChild(label)
+      inputWrapper.appendChild(radio)
+      wrapper.appendChild(inputWrapper)
+    wrapper
 
   buildBoolean: (section) ->
     wrapper = document.createElement('section')

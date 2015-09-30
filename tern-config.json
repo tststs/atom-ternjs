@@ -1,8 +1,10 @@
 {
+  "ecmaVersions": {
+    "ecmaVersion5": false,
+    "ecmaVersion6": true
+  },
   "libs": {
     "browser": false,
-    "ecma5": false,
-    "ecma6": false,
     "jquery": false
   },
   "loadEagerly": [],
@@ -29,15 +31,12 @@
     }
   },
   "docs": {
+    "ecmaVersion": {
+      "doc": "The ECMAScript version to parse. Should be either 5 or 6. Default is 6."
+    },
     "libs": {
       "browser": {
         "doc": "JavaScript"
-      },
-      "ecma5": {
-        "doc": "ECMAScript 5"
-      },
-      "ecma6": {
-        "doc": "ECMAScript 6"
       },
       "jquery": {
         "doc": "JQuery"
