@@ -121,8 +121,8 @@ class Client
         end: end
     ).then (data) =>
       if data?.start
-        @manager.helper.setMarkerCheckpoint()
-        @manager.helper.openFileAndGoTo(data.start, data.file)
+        @manager.helper?.setMarkerCheckpoint()
+        @manager.helper?.openFileAndGoTo(data.start, data.file)
     , (err) ->
       console.log err
 
