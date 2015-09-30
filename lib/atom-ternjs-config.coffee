@@ -145,7 +145,7 @@ class Config
     newConfig = {}
     for key in Object.keys(@config.ecmaVersions)
       if @config.ecmaVersions[key]
-        newConfig.ecmaVersion = key[key.length - 1]
+        newConfig.ecmaVersion = Number(key[key.length - 1])
         break
     if !_.isEmpty(@config.libs)
       newConfig.libs = []
