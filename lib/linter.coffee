@@ -1,5 +1,6 @@
 class LinterTern
 
+  name: 'Tern'
   grammarScopes: ['source.js']
   scope: 'file'
   lintOnFly: true
