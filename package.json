@@ -13,8 +13,8 @@
   "dependencies": {
     "jquery": "*",
     "loophole": "*",
-    "tern": "git+https://github.com/marijnh/tern.git",
-    "tern-lint": "git+https://github.com/angelozerr/tern-lint.git",
+    "tern": "marijnh/tern",
+    "tern-lint": "angelozerr/tern-lint",
     "underscore-plus": "*"
   },
   "providedServices": {
