@@ -1,3 +1,4 @@
+fs = require 'fs'
 Helper = require './atom-ternjs-helper'
 Config = require './atom-ternjs-config'
 Server = null
@@ -77,7 +78,7 @@ class Manager
     return unless dirs.length
     for i in [0..dirs.length - 1]
       dir = atom.project.relativizePath(dirs[i].path)[0]
-      @startServer(dir)
+      @startServer(dir) if @isDirectory dir
 
   startServer: (dir) ->
     Server = require './atom-ternjs-server' if !Server
@@ -118,7 +119,10 @@ class Manager
   checkPaths: (paths) ->
     for path in paths
       dir = atom.project.relativizePath(path)[0]
-      @startServer(dir)
+      @startServer(dir) if @isDirectory dir
+
+  isDirectory: (dir) ->
+    fs.statSync(dir).isDirectory()
 
   destroyServer: (paths) ->
     return unless @servers.length
