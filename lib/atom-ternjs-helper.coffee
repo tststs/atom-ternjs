@@ -128,6 +128,7 @@ class Helper
     return "#{name}()" if params.length is 0
     suggestionParams = []
     for param, i in params
+      param = param.replace '}', '\\}'
       suggestionParams.push "${#{i + 1}:#{param}}"
     "#{name}(#{suggestionParams.join(',')})"
 
