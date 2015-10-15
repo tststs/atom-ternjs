@@ -78,7 +78,7 @@ class Manager
     return unless dirs.length
     for i in [0..dirs.length - 1]
       dir = atom.project.relativizePath(dirs[i].path)[0]
-      @startServer(dir) if @isDirectory dir
+      @startServer(dir) if @helper.isDirectory(dir)
 
   startServer: (dir) ->
     Server = require './atom-ternjs-server' if !Server
@@ -119,10 +119,7 @@ class Manager
   checkPaths: (paths) ->
     for path in paths
       dir = atom.project.relativizePath(path)[0]
-      @startServer(dir) if @isDirectory dir
-
-  isDirectory: (dir) ->
-    fs.statSync(dir).isDirectory()
+      @startServer(dir) if @helper.isDirectory(dir)
 
   destroyServer: (paths) ->
     return unless @servers.length

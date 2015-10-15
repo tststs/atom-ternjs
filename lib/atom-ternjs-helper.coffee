@@ -21,6 +21,9 @@ class Helper
       console.log err
     catch e then return false
 
+  isDirectory: (dir) ->
+    fs.statSync(dir).isDirectory()
+
   writeFile: (filePath, content) ->
     fs.writeFile filePath, content, (err) =>
       atom.workspace.open(filePath)
