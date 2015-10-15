@@ -11,11 +11,11 @@
     "atom": ">=1.0.0"
   },
   "dependencies": {
-    "jquery": "*",
-    "loophole": "*",
-    "tern": "git+https://github.com/marijnh/tern.git",
-    "tern-lint": "git+https://github.com/angelozerr/tern-lint.git",
-    "underscore-plus": "*"
+    "jquery": "^2.1.4",
+    "loophole": "^1.1.0",
+    "tern": "marijnh/tern",
+    "tern-lint": "^0.5.0",
+    "underscore-plus": "^1.6.6"
   },
   "providedServices": {
     "autocomplete.provider": {
