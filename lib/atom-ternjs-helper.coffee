@@ -22,7 +22,8 @@ class Helper
     catch e then return false
 
   isDirectory: (dir) ->
-    fs.statSync(dir).isDirectory()
+    try return fs.statSync(dir).isDirectory()
+    catch then return false
 
   writeFile: (filePath, content) ->
     fs.writeFile filePath, content, (err) =>
