@@ -105,7 +105,7 @@ class Rename
     range = new Range(position, end)
     buffer.setTextInRange(range, change.text)
     return unless moveCursor
-    textEditor.getLastCursor()?.setBufferPosition(start)
+    textEditor.getLastCursor()?.setBufferPosition(position)
 
   destroy: ->
     @renameView?.destroy()
