@@ -46,6 +46,7 @@ class Reference
     cursor = editor.getLastCursor()
     position = cursor.getBufferPosition()
     @manager.client.refs(editor.getURI(), {line: position.row, ch: position.column}).then (data) =>
+      return unless data
       @references = data
       for ref in data.refs
         ref.file = ref.file.replace(/^.\//, '')
