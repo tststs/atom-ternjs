@@ -45,19 +45,20 @@ class Reference
     return unless editor
     cursor = editor.getLastCursor()
     position = cursor.getBufferPosition()
-    @manager.client.refs(editor.getURI(), {line: position.row, ch: position.column}).then (data) =>
-      return unless data
-      @references = data
-      for ref in data.refs
-        ref.file = ref.file.replace(/^.\//, '')
-        ref.file = path.resolve(atom.project.relativizePath(@manager.server.rootPath)[0], ref.file)
-      data.refs = _.uniq(data.refs, (item) =>
-        JSON.stringify item
-      )
+    @manager.client.update(editor.getURI(), editor.getText()).then =>
+      @manager.client.refs(editor.getURI(), {line: position.row, ch: position.column}).then (data) =>
+        return unless data
+        @references = data
+        for ref in data.refs
+          ref.file = ref.file.replace(/^.\//, '')
+          ref.file = path.resolve(atom.project.relativizePath(@manager.server.rootPath)[0], ref.file)
+        data.refs = _.uniq(data.refs, (item) =>
+          JSON.stringify item
+        )
 
-      data = @gatherMeta(data)
-      @referencePanel.show()
-      @reference.buildItems(data)
+        data = @gatherMeta(data)
+        @referencePanel.show()
+        @reference.buildItems(data)
 
   gatherMeta: (data) ->
     for item, i in data.refs
