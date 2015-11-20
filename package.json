@@ -11,7 +11,6 @@
     "atom": ">=1.0.0"
   },
   "dependencies": {
-    "jquery": "^2.1.4",
     "loophole": "^1.1.0",
     "tern": "github:ternjs/tern",
     "tern-lint": "^0.5.0",

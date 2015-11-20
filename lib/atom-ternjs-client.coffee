@@ -1,6 +1,3 @@
-$ = require('jquery')
-$.ajaxSetup({ cache: false })
-
 module.exports =
 class Client
 
@@ -127,5 +124,12 @@ class Client
       console.log err
 
   post: (data) ->
-    $.post("http://localhost:#{@port}", data).then (data) ->
-      data
+    fetch("http://localhost:#{@port}",
+      method:
+        'post'
+      body:
+        data
+      ).then (response) ->
+        if response.ok
+          response.json().then (data) ->
+            data
