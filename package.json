@@ -3,7 +3,7 @@
   "main": "./lib/atom-ternjs",
   "version": "0.8.4",
   "private": false,
-  "description": "Javascript code intelligence for atom with tern.js. Uses suggestion provider by autocomplete-plus.",
+  "description": "JavaScript code intelligence for atom with tern.js. Uses suggestion provider by autocomplete-plus.",
   "activationCommands": {},
   "repository": "https://github.com/tststs/atom-ternjs",
   "license": "MIT",

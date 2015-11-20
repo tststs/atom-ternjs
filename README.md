@@ -1,6 +1,6 @@
 # atom-ternjs
 
-> Javascript code intelligence for atom with [Tern](https://github.com/ternjs/tern).
+> JavaScript code intelligence for atom with [Tern](https://github.com/ternjs/tern).
 Uses suggestion provider by [autocomplete-plus](https://github.com/atom/autocomplete-plus).
 
 ## Installation
