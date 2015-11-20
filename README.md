@@ -1,6 +1,6 @@
 # atom-ternjs
 
-> Javascript code intelligence for atom with [Tern](https://github.com/marijnh/tern).
+> Javascript code intelligence for atom with [Tern](https://github.com/ternjs/tern).
 Uses suggestion provider by [autocomplete-plus](https://github.com/atom/autocomplete-plus).
 
 ## Installation
@@ -77,12 +77,12 @@ Example `.tern-project` file (customize to your own needs):
 ## Features
 * Completion (autocompletion triggers automatically, via strg+space or can be forced in any context with <kbd>ctrl+alt+space</kbd>)
 
-![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-9.png)
+![atom-ternjs](http://www.tobias-schubert.com/github/completion-1.png)
 
-![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-inline-2.png)
+![atom-ternjs](http://www.tobias-schubert.com/github/completion-2.png)
 * Find references (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find references" or use the shortcut <kbd>ctrl+shift+r</kbd>) Click any item in the generated reference-list and navigate directly to file and position
 
-![atom-ternjs](http://www.tobias-schubert.com/github/github-atom-ternjs-reference.png)
+![atom-ternjs](http://www.tobias-schubert.com/github/reference-1.png)
 
 * Documentation (displayed if a suggestion with a valid documentation is selected in the select-list)
 * Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition" or use the shortcut <kbd>ctrl+alt+d</kbd>)
