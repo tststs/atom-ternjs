@@ -78,7 +78,7 @@ Example `.tern-project` file (customize to your own needs):
 ![atom-ternjs](http://www.tobias-schubert.com/github/completion-1.png)
 
 ![atom-ternjs](http://www.tobias-schubert.com/github/completion-2.png)
-* Find references (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find references" or use the shortcut <kbd>ctrl+shift+r</kbd>) Click any item in the generated reference-list and navigate directly to file and position
+* Find references (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find references" or use the shortcut <kbd>ctrl+shift+r</kbd> (mac), <kbd>ctrl+shift+e</kbd> (mac, linux)) Click any item in the generated reference-list and navigate directly to file and position
 
 ![atom-ternjs](http://www.tobias-schubert.com/github/reference-1.png)
 

@@ -7,9 +7,23 @@
 
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
-'atom-text-editor':
+'.platform-darwin atom-text-editor':
   'ctrl-alt-d': 'tern:definition'
   'ctrl-alt-c': 'tern:rename'
   'ctrl-shift-r': 'tern:references'
+  'ctrl-alt-z': 'tern:markerCheckpointBack'
+  'ctrl-alt-space': 'tern:startCompletion'
+
+'.platform-linux atom-text-editor':
+  'ctrl-alt-d': 'tern:definition'
+  'ctrl-alt-c': 'tern:rename'
+  'ctrl-shift-e': 'tern:references'
+  'ctrl-alt-z': 'tern:markerCheckpointBack'
+  'ctrl-alt-space': 'tern:startCompletion'
+
+'.platform-windows atom-text-editor':
+  'ctrl-alt-d': 'tern:definition'
+  'ctrl-alt-c': 'tern:rename'
+  'ctrl-shift-e': 'tern:references'
   'ctrl-alt-z': 'tern:markerCheckpointBack'
   'ctrl-alt-space': 'tern:startCompletion'
