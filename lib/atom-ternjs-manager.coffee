@@ -161,6 +161,10 @@ class Manager
       @reference.findReference()
     @disposables.push atom.workspace.observeTextEditors (editor) =>
       return unless @isValidEditor(editor)
+      editorView = atom.views.getView(editor)
+      @disposables.push editorView.addEventListener 'click', (event) =>
+        return unless event[@helper.accessKey]
+        @client?.definition()
       @disposables.push editor.onDidChangeCursorPosition (event) =>
         if @inlineFnCompletion
           if !@type

@@ -85,6 +85,6 @@ Example `.tern-project` file (customize to your own needs):
 ![atom-ternjs](http://www.tobias-schubert.com/github/reference-1.png)
 
 * Documentation (displayed if a suggestion with a valid documentation is selected in the select-list)
-* Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition" or use the shortcut <kbd>ctrl+alt+d</kbd>)
+* Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition", <kbd>alt+click</kbd> (mac, linux), <kbd>ctrl+click</kbd> (windows) or use the shortcut <kbd>ctrl+alt+d</kbd>)
 * Back from definition <kbd>ctrl+alt+z</kbd>
 * Rename variable (set your cursor position to a variable -> open context-menu and trigger "Rename" or use the shortcut <kbd>ctrl+alt+c</kbd>)
