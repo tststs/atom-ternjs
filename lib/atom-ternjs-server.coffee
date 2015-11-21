@@ -21,7 +21,7 @@ class Server
       return if isNaN(port) or port is 0
       callback port
 
-    if @isPlatformWindows()
+    if @manager.helper.platform.windows
       {BufferedProcess} = require 'atom'
       @process = new BufferedProcess {command, args, options, stdout, @stderr, @exit}
     else
@@ -40,6 +40,3 @@ class Server
     content = "tern exited with code: #{code}.<br />Server is restarting..."
     atom.notifications.addError(content, dismissable: false)
     @manager.restartServer()
-
-  isPlatformWindows: ->
-    document.getElementsByTagName('body')[0].classList.toString().indexOf('platform-win') > -1
