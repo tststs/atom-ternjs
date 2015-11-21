@@ -21,8 +21,6 @@ If configure project does not work for you
 * Check path in loadEagerly
 * Restart the server via *Packages -> Atom Ternjs -> Restart server*
 
-If a root file named .tern-project is not found `~/.tern-config` serves as a default.
-
 Example `.tern-project` file (customize to your own needs):
 ```json
 {
