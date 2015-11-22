@@ -87,7 +87,8 @@ class Manager
     if !client
       Client = require './atom-ternjs-client' if !Client
       clientIdx = @clients.push(new Client(this, dir)) - 1
-    idxServer = @servers.push(new Server(dir, @clients[clientIdx], this)) - 1
+      client = @clients[clientIdx]
+    idxServer = @servers.push(new Server(dir, client, this)) - 1
     if @servers.length is @clients.length
       @init() if !@initialised
       @setActiveServerAndClient(dir)
