@@ -15,6 +15,7 @@ Configure your project
 
 **Configure project doesn't support the plugins-section (yet).
 Please add plugins manually by editing the .tern-project file as shown below**
+**In order to use third party plugins read the [Third party plugins](#third-party-plugins) section!** 
 
 If configure project does not work for you
 * In your project root create a file named .tern-project. See docs @ http://ternjs.net/doc/manual.html#configuration.
@@ -41,6 +42,7 @@ Example `.tern-project` file (customize to your own needs):
     "lint": {},
     "angular": {},
     "requirejs": {},
+    "modules": {},
     "es_modules": {},
     "doc_comment": {
       "fullDocs": true
@@ -67,7 +69,32 @@ Example `.tern-project` file (customize to your own needs):
 * lint: <a href="https://github.com/angelozerr/tern-lint">angelozerr/tern-lint</a> is a tern plugin which is able to validate JavaScript files to collect semantic errors. <a href="https://github.com/AtomLinter/Linter">Linter</a> is used to display these errors and warnings (optional)
 * angular: AngularJS (optional)
 * requirejs: RequireJS (optional, understand RequireJS-style dependency management)
+* modules: This is a supporting plugin to act as a dependency for other module-loading and module-resolving plugins. (optional, required by es_modules)
+* es_modules: Builds on top of the modules plugin to support ECMAScript 6’s import and export based module inclusion. (optional, requires modules)
 * For a list of possible plugins goto http://ternjs.net/doc/manual.html#plugins
+
+## Third party plugins
+In order to use third party plugins (e.g. [tern-node-express](https://github.com/angelozerr/tern-node-express)):
+```
+$ cd ~/.atom/packages/atom-ternjs
+$ npm install tern-node-express
+```
+Add the plugin to your .tern-project file:
+```json
+{
+  "ecmaVersion": 6,
+  "libs": [
+    "browser"
+  ],
+  "loadEagerly": [
+    "app/**/*.js"
+  ],
+  "plugins": {
+    "node-express": {}
+  }
+}
+```
+Restart the server: *Packages -> Atom Ternjs -> Restart server*
 
 ## .tern-project created/modified
 * After the file was created or has been modified, restart the server via *Packages -> Atom Ternjs -> Restart server*
