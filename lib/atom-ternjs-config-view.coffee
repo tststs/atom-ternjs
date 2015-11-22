@@ -20,7 +20,7 @@ class ConfigView extends HTMLElement
     this
 
   buildOptionsMarkup: (manager) ->
-    project = manager.client?.rootPath
+    project = manager.client?.projectDir
     config = @getModel().config
     title = document.createElement('h2')
     title.innerHTML = project

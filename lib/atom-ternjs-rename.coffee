@@ -47,7 +47,7 @@ class Rename
       if !@manager.isValidEditor(editor)
         idx++
         continue
-      if atom.project.relativizePath(editor.getURI())[0] isnt @manager.client.rootPath
+      if atom.project.relativizePath(editor.getURI())[0] isnt @manager.client.projectDir
         idx++
         continue
       @manager.client.update(editor.getURI(), editor.getText()).then =>
@@ -64,7 +64,7 @@ class Rename
             atom.notifications.addError(content, dismissable: false)
 
   rename: (obj) ->
-    dir = @manager.server.rootPath
+    dir = @manager.server.projectDir
     return unless dir
 
     translateColumnBy = obj.changes[0].text.length - obj.name.length

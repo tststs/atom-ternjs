@@ -45,7 +45,7 @@ class Manager
 
   destroy: ->
     for server in @servers
-      server.stop()
+      server.destroy()
       server = null
     @servers = []
     for client in @clients
@@ -83,18 +83,14 @@ class Manager
   startServer: (dir) ->
     Server = require './atom-ternjs-server' if !Server
     return if @getServerForProject(dir)
-    idxServer = @servers.push(new Server(dir, this)) - 1
-    @servers[idxServer].start (port) =>
-      client = @getClientForProject(dir)
-      if !client
-        Client = require './atom-ternjs-client' if !Client
-        clientIdx = @clients.push(new Client(this, dir)) - 1
-        @clients[clientIdx].port = port
-      else
-        client.port = port
-      if @servers.length is @clients.length
-        @init() if !@initialised
-        @setActiveServerAndClient(dir)
+    client = @getClientForProject(dir)
+    if !client
+      Client = require './atom-ternjs-client' if !Client
+      clientIdx = @clients.push(new Client(this, dir)) - 1
+    idxServer = @servers.push(new Server(dir, @clients[clientIdx], this)) - 1
+    if @servers.length is @clients.length
+      @init() if !@initialised
+      @setActiveServerAndClient(dir)
 
   setActiveServerAndClient: (URI) ->
     if !URI
@@ -125,25 +121,25 @@ class Manager
     return unless @servers.length
     serverIdx = undefined
     for i in [0..@servers.length - 1]
-      if paths.indexOf(@servers[i].rootPath) is -1
+      if paths.indexOf(@servers[i].projectDir) is -1
         serverIdx = i
     return if serverIdx is undefined
     server = @servers[serverIdx]
-    client = @getClientForProject(server.rootPath)
+    client = @getClientForProject(server.projectDir)
     client?.unregisterEvents()
     client = null
-    server.stop()
+    server.destroy()
     server = null
     @servers.splice(serverIdx, 1)
 
-  getServerForProject: (rootPath) ->
+  getServerForProject: (projectDir) ->
     for server in @servers
-      return server if server.rootPath is rootPath
+      return server if server.projectDir is projectDir
     return
 
-  getClientForProject: (rootPath) ->
+  getClientForProject: (projectDir) ->
     for client in @clients
-      return client if client.rootPath is rootPath
+      return client if client.projectDir is projectDir
     return
 
   isValidEditor: (editor) ->
@@ -238,12 +234,12 @@ class Manager
 
   restartServer: ->
     return unless @server
-    dir = @server.rootPath
+    dir = @server.projectDir
     for i in [0..@servers.length - 1]
-      if dir is @servers[i].rootPath
+      if dir is @servers[i].projectDir
         serverIdx = i
         break
-    @server?.stop()
+    @server?.destroy()
     @server = null
     @servers.splice(serverIdx, 1)
     @startServer(dir)

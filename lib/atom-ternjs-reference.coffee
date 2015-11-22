@@ -51,7 +51,7 @@ class Reference
         @references = data
         for ref in data.refs
           ref.file = ref.file.replace(/^.\//, '')
-          ref.file = path.resolve(atom.project.relativizePath(@manager.server.rootPath)[0], ref.file)
+          ref.file = path.resolve(atom.project.relativizePath(@manager.server.projectDir)[0], ref.file)
         data.refs = _.uniq(data.refs, (item) =>
           JSON.stringify item
         )

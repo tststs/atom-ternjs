@@ -27,7 +27,7 @@ class Helper
       @accessKey = 'ctrlKey'
 
   updateTernFile: (content) ->
-    @projectRoot = @manager.server?.rootPath
+    @projectRoot = @manager.server?.projectDir
     return unless @projectRoot
     @writeFile(path.resolve(__dirname, @projectRoot + '/.tern-project'), content)
 
@@ -51,7 +51,7 @@ class Helper
     fs.readFileSync path, 'utf8'
 
   getFileContent: (filePath, projectRoot) ->
-    @projectRoot = @manager.server?.rootPath
+    @projectRoot = @manager.server?.projectDir
     return false unless @projectRoot
     if projectRoot
       filePath = @projectRoot + filePath

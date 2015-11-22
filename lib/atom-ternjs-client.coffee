@@ -3,7 +3,7 @@ class Client
 
   port: null
   manager: null
-  rootPath: null
+  projectDir: null
   disposables: []
   config:
     sort: false
@@ -13,9 +13,9 @@ class Client
     caseInsensitive: false
     documentation: false
 
-  constructor: (manager, rootPath) ->
+  constructor: (manager, projectDir) ->
     @manager = manager
-    @rootPath = rootPath
+    @projectDir = projectDir
     @registerEvents()
 
   registerEvents: ->

@@ -4,3 +4,4 @@ node_modules
 ternjs-test
 .tern-project
 .jshintrc
+jsconfig.json
