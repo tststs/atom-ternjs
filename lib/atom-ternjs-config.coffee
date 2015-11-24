@@ -138,8 +138,7 @@ class Config
     @destroyEditors()
     newConfig = @buildNewConfig()
     newConfigJSON = JSON.stringify(newConfig, null, 2)
-    @manager.helper.updateTernFile(newConfigJSON)
-    @manager.restartServer()
+    @manager.helper.updateTernFile(newConfigJSON, true)
 
   buildNewConfig: ->
     newConfig = {}

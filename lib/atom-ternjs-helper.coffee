@@ -40,9 +40,11 @@ class Helper
     try return fs.statSync(dir).isDirectory()
     catch then return false
 
-  writeFile: (filePath, content) ->
+  writeFile: (filePath, content, restartServer) ->
     fs.writeFile filePath, content, (err) =>
       atom.workspace.open(filePath)
+      if !err and restartServer
+        @manager.restartServer()
       return unless err
       message = 'Could not create/update .tern-project file. Use the README to manually create a .tern-project file.'
       atom.notifications.addInfo(message, dismissable: true)
