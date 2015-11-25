@@ -1,5 +1,4 @@
 ConfigView = require './atom-ternjs-config-view'
-_ = require 'underscore-plus'
 
 module.exports =
 class Config
@@ -86,7 +85,7 @@ class Config
     )
 
   mergeConfigObjects: (obj1, obj2) ->
-    _.deepExtend({}, obj1, obj2)
+    @manager.helper._.deepExtend({}, obj1, obj2)
 
   hide: ->
     @configPanel?.hide()
@@ -146,7 +145,7 @@ class Config
       if @config.ecmaVersions[key]
         newConfig.ecmaVersion = Number(key[key.length - 1])
         break
-    if !_.isEmpty(@config.libs)
+    if !@manager.helper._.isEmpty(@config.libs)
       newConfig.libs = []
       for key in Object.keys(@config.libs)
         if @config.libs[key]
@@ -155,7 +154,7 @@ class Config
       newConfig.loadEagerly = @config.loadEagerly
     if @config.dontLoad.length isnt 0
       newConfig.dontLoad = @config.dontLoad
-    if @projectConfig and !_.isEmpty(@projectConfig.plugins)
+    if @projectConfig and !@manager.helper._.isEmpty(@projectConfig.plugins)
       newConfig.plugins = @projectConfig.plugins
     newConfig
 

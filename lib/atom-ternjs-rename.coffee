@@ -1,6 +1,5 @@
 RenameView = require './atom-ternjs-rename-view'
 {Point, Range} = require 'atom'
-_ = require 'underscore-plus'
 path = require 'path'
 
 module.exports =
@@ -72,7 +71,7 @@ class Rename
     for change in obj.changes
       change.file = change.file.replace(/^.\//, '')
       change.file = path.resolve(atom.project.relativizePath(dir)[0], change.file)
-    changes = _.uniq(obj.changes, (item) =>
+    changes = @manager.helper._.uniq(obj.changes, (item) =>
       JSON.stringify item
     )
 

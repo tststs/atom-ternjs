@@ -1,5 +1,4 @@
 {Function} = require 'loophole'
-_ = require 'underscore-plus'
 
 module.exports =
 class Provider
@@ -65,7 +64,7 @@ class Provider
               descriptionMoreURL: url
 
             if atom.config.get('atom-ternjs.useSnippetsAndFunction') and obj._hasParams
-              suggestionClone = _.clone(suggestion)
+              suggestionClone = @manager.helper._.clone(suggestion)
               suggestionClone.type = 'snippet'
               suggestion.snippet = if obj._hasParams then "#{obj.name}(${#{0}:#{}})" else "#{obj.name}()"
               suggestionsArr.push suggestion
