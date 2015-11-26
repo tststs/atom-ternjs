@@ -4,38 +4,10 @@ class Client
   port: null
   manager: null
   projectDir: null
-  disposables: []
-  config:
-    sort: false
-    guess: false
-    urls: false
-    origins: false
-    caseInsensitive: false
-    documentation: false
 
   constructor: (manager, projectDir) ->
     @manager = manager
     @projectDir = projectDir
-    @registerEvents()
-
-  registerEvents: ->
-    @disposables.push atom.config.observe 'atom-ternjs.sort', =>
-      @config.sort = atom.config.get('atom-ternjs.sort')
-    @disposables.push atom.config.observe 'atom-ternjs.guess', =>
-      @config.guess = atom.config.get('atom-ternjs.guess')
-    @disposables.push atom.config.observe 'atom-ternjs.urls', =>
-      @config.urls = atom.config.get('atom-ternjs.urls')
-    @disposables.push atom.config.observe 'atom-ternjs.origins', =>
-      @config.origins = atom.config.get('atom-ternjs.origins')
-    @disposables.push atom.config.observe 'atom-ternjs.caseInsensitive', =>
-      @config.caseInsensitive = atom.config.get('atom-ternjs.caseInsensitive')
-    @disposables.push atom.config.observe 'atom-ternjs.documentation', =>
-      @config.documentation = atom.config.get('atom-ternjs.documentation')
-
-  unregisterEvents: ->
-    for disposable in @disposables
-      disposable.dispose()
-    @disposables = []
 
   completions: (file, end) ->
     @post(JSON.stringify
@@ -45,13 +17,13 @@ class Client
         end: end
         types: true
         includeKeywords: true
-        sort: @config.sort
-        guess: @config.guess
-        docs: @config.documentation
-        urls: @config.urls
-        origins: @config.origins
+        sort: @manager.packageConfig.options.sort
+        guess: @manager.packageConfig.options.guess
+        docs: @manager.packageConfig.options.documentation
+        urls: @manager.packageConfig.options.urls
+        origins: @manager.packageConfig.options.origins
         lineCharPositions: true
-        caseInsensitive: @config.caseInsensitive
+        caseInsensitive: @manager.packageConfig.options.caseInsensitive
     )
 
   refs: (file, end) ->

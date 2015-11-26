@@ -124,11 +124,11 @@ class Helper
 
     if obj.rightLabel.startsWith('fn')
       params = @extractParams(obj.rightLabel)
-      if @manager.useSnippets || @manager.useSnippetsAndFunction
+      if @manager.packageConfig.options.useSnippets || @manager.packageConfig.options.useSnippetsAndFunction
         obj._snippet = @buildSnippet(params, obj.name)
         obj._hasParams = if params.length then true else false
       else
-        if @manager.doNotAddParantheses
+        if @manager.packageConfig.options.doNotAddParantheses
           obj._snippet = "#{obj.name}"
         else
           obj._snippet = if params.length then "#{obj.name}(${#{0}:#{}})" else "#{obj.name}()"
