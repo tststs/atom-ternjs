@@ -41,7 +41,6 @@ class ConfigView extends HTMLElement
     @content.appendChild(wrapper)
     @content.appendChild(@close)
     @content.appendChild(@cancel)
-    true
 
   buildStringArray: (obj, section) ->
     wrapper = document.createElement('section')
