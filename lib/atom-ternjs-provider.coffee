@@ -63,7 +63,7 @@ class Provider
               description: description
               descriptionMoreURL: url
 
-            if atom.config.get('atom-ternjs.useSnippetsAndFunction') and obj._hasParams
+            if @manager.packageConfig.options.useSnippetsAndFunction and obj._hasParams
               suggestionClone = @manager.helper._.clone(suggestion)
               suggestionClone.type = 'snippet'
               suggestion.snippet = if obj._hasParams then "#{obj.name}(${#{0}:#{}})" else "#{obj.name}()"
