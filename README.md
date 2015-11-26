@@ -139,7 +139,7 @@ Restart the server via *Packages -> Atom Ternjs -> Restart server*
 * After the file was created or has been modified, restart the server via *Packages -> Atom Ternjs -> Restart server*
 
 ## Features
-* Completion (autocompletion triggers automatically, via strg+space or can be forced in any context with <kbd>ctrl+alt+space</kbd>)
+* Completion (autocompletion triggers automatically, via <kbd>strg+space</kbd> or can be forced in any context with <kbd>ctrl+alt+space</kbd>)
 
 ![atom-ternjs](http://www.tobias-schubert.com/github/completion-1.png)
 
