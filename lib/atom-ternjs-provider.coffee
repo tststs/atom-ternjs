@@ -10,10 +10,11 @@ class Provider
   selector: '.source.js'
   disableForSelector: '.source.js .comment'
   inclusionPriority: 1
-  excludeLowerPriority: atom.config.get('atom-ternjs.excludeLowerPriorityProviders')
+  excludeLowerPriority: false
 
   init: (manager) ->
     @manager = manager
+    @excludeLowerPriority = @manager.packageConfig.options.excludeLowerPriorityProviders
 
   isValidPrefix: (prefix) ->
     return true if prefix[prefix.length - 1] is '\.'
