@@ -129,21 +129,40 @@ atom-ternjs-type {
   }
 }
 
-atom-text-editor::shadow .atom-ternjs-definition-marker {
+atom-text-editor::shadow {
 
-  div {
+  .source.js {
 
-    transition: opacity 0.75s ease;
-    opacity: 0;
-    background: @background-color-selected;
-    border-bottom: 4px solid @background-color-warning;
+    .function:not(.meta):not(.type),
+    .class .name,
+    .support,
+    .constant.other,
+    .object:not(.delimiter),
+    .variable {
+
+      &.atom-ternjs-hover {
+
+        border-bottom: 1px solid @background-color-warning;
+      }
+    }
   }
 
-  &.active {
+  .atom-ternjs-definition-marker {
 
     div {
 
-      opacity: 1;
+      transition: opacity 0.75s ease;
+      opacity: 0;
+      background: @background-color-selected;
+      border-bottom: 4px solid @background-color-warning;
+    }
+
+    &.active {
+
+      div {
+
+        opacity: 1;
+      }
     }
   }
 }
