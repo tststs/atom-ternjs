@@ -1,5 +1,6 @@
 ReferenceView = require './atom-ternjs-reference-view'
 fs = require 'fs'
+_ = require 'underscore-plus'
 path = require 'path'
 {TextBuffer} = require 'atom'
 
@@ -51,7 +52,7 @@ class Reference
         for ref in data.refs
           ref.file = ref.file.replace(/^.\//, '')
           ref.file = path.resolve(atom.project.relativizePath(@manager.server.projectDir)[0], ref.file)
-        data.refs = @manager.helper._.uniq(data.refs, (item) =>
+        data.refs = _.uniq(data.refs, (item) =>
           JSON.stringify item
         )
 

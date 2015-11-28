@@ -1,10 +1,10 @@
 fs = require 'fs'
 path = require 'path'
+_ = require 'underscore-plus'
 
 module.exports =
 class Helper
-
-  _ = null
+  
   projectRoot: null
   manager: null
   accessKey: 'altKey'
@@ -15,7 +15,6 @@ class Helper
   checkpointsDefinition: []
 
   constructor: (manager) ->
-    @_ = require 'underscore-plus'
     @manager = manager
     @initPlatform()
 
