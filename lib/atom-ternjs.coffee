@@ -10,8 +10,8 @@ module.exports =
   # config
   config:
     excludeLowerPriorityProviders:
-      title: 'Exclude other providers'
-      description: 'Whether to exclude other providers (e.g. autocomplete-paths)'
+      title: 'Exclude lower priority providers'
+      description: 'Whether to exclude lower priority providers (e.g. autocomplete-paths)'
       type: 'boolean'
       default: false
       order: 0
