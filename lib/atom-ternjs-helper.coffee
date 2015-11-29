@@ -4,7 +4,7 @@ _ = require 'underscore-plus'
 
 module.exports =
 class Helper
-  
+
   projectRoot: null
   manager: null
   accessKey: 'altKey'
@@ -23,9 +23,6 @@ class Helper
     @platform.darwin = classList.indexOf('platform-darwin') > -1
     @platform.linux = classList.indexOf('platform-linux') > -1
     @platform.windows = classList.indexOf('platform-win') > -1
-
-    if @platform.windows
-      @accessKey = 'ctrlKey'
 
   updateTernFile: (content) ->
     @projectRoot = @manager.server?.projectDir
