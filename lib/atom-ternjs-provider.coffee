@@ -15,6 +15,8 @@ class Provider
   init: (manager) ->
     @manager = manager
     @excludeLowerPriority = @manager.packageConfig.options.excludeLowerPriorityProviders
+    if @manager.packageConfig.options.displayAboveSnippets
+      @suggestionPriority = 2
 
   isValidPrefix: (prefix) ->
     return true if prefix[prefix.length - 1] is '\.'
