@@ -15,10 +15,10 @@
   'ctrl-alt-space': 'tern:startCompletion'
 
 '.platform-linux atom-text-editor':
-  'ctrl-alt-d': 'tern:definition'
-  'ctrl-alt-c': 'tern:rename'
-  'ctrl-shift-e': 'tern:references'
-  'ctrl-alt-z': 'tern:markerCheckpointBack'
+  'ctrl-alt-shift-d': 'tern:definition'
+  'ctrl-alt-shift-c': 'tern:rename'
+  'ctrl-alt-shift-e': 'tern:references'
+  'ctrl-alt-shift-z': 'tern:markerCheckpointBack'
   'ctrl-alt-space': 'tern:startCompletion'
 
 '.platform-windows atom-text-editor':
