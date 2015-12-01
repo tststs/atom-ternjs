@@ -18,9 +18,9 @@
           "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-0.3.0.tgz",
           "dependencies": {
             "lru-cache": {
-              "version": "2.7.0",
+              "version": "2.7.3",
               "from": "lru-cache@>=2.0.0 <3.0.0",
-              "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-2.7.0.tgz"
+              "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-2.7.3.tgz"
             },
             "sigmund": {
               "version": "1.0.1",
@@ -42,9 +42,9 @@
       "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-0.2.14.tgz",
       "dependencies": {
         "lru-cache": {
-          "version": "2.7.0",
+          "version": "2.7.3",
           "from": "lru-cache@>=2.0.0 <3.0.0",
-          "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-2.7.0.tgz"
+          "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-2.7.3.tgz"
         },
         "sigmund": {
           "version": "1.0.1",
@@ -56,7 +56,7 @@
     "tern": {
       "version": "0.16.1",
       "from": "ternjs/tern",
-      "resolved": "git://github.com/ternjs/tern.git#db3f169390c74ea52edfbc34d7fd090cccd25fac",
+      "resolved": "git://github.com/ternjs/tern.git#d91740fa9cfd2194bcf54c4c9d054b31fe5a5a66",
       "dependencies": {
         "acorn": {
           "version": "2.6.4",
@@ -69,9 +69,9 @@
           "resolved": "https://registry.npmjs.org/enhanced-resolve/-/enhanced-resolve-0.9.1.tgz",
           "dependencies": {
             "tapable": {
-              "version": "0.1.9",
+              "version": "0.1.10",
               "from": "tapable@>=0.1.8 <0.2.0",
-              "resolved": "https://registry.npmjs.org/tapable/-/tapable-0.1.9.tgz"
+              "resolved": "https://registry.npmjs.org/tapable/-/tapable-0.1.10.tgz"
             },
             "memory-fs": {
               "version": "0.2.0",
