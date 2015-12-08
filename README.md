@@ -60,7 +60,7 @@ Example `.tern-project` file (customize to your own needs):
 * jquery: completion for jQuery (optional)
 
 ## Options
-* loadEagerly: provide the path to your projects js. Absolute path is recommended, but not necessary. (For relative path do not use `./` as a prefix. This sometimes leads to an unexpected behaviour)
+* loadEagerly: provide the path to your projects js. Absolute path is recommended, but not necessary. (For relative path do not use `./` as a prefix. This sometimes leads to an unexpected behaviour). **loadEagerly is expensive. Do not add paths like `node_modules`.**
 * dontLoad: can be used to prevent Tern from loading certain files. It also takes an array of file names or glob patterns.
 
 ## Plugins
