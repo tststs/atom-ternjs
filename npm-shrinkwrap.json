@@ -56,7 +56,7 @@
     "tern": {
       "version": "0.16.1",
       "from": "ternjs/tern",
-      "resolved": "git://github.com/ternjs/tern.git#d91740fa9cfd2194bcf54c4c9d054b31fe5a5a66",
+      "resolved": "git://github.com/ternjs/tern.git#f585fe7d6f4da28770fdd3dc7ddf88a39ad9b105",
       "dependencies": {
         "acorn": {
           "version": "2.6.4",
