@@ -1,3 +1,13 @@
+## [0.11.0]
+- Removed `autocomplete-snippets` as a default. By default method completion now won't add snippets after confirming the suggestion. Re-activate it via package settings.
+- Removed the option `do not add parantheses`
+- Some performance improvements
+  - Do not update the file if there are no changes made to the text-buffer
+  - Reduce garbage in certain contexes
+- Updated Tern to the latest version
+- Added the context menu items (find definition, find references & rename) to sub-menu
+- Bugfixing
+
 ## [0.10.3]
 - Updated Tern to the latest version
 - Fixed keybindings for platform linux (see README.md)
