@@ -18,7 +18,10 @@
         'label': 'Atom Ternjs'
         'submenu': [
           {label: 'Configure project', command: 'tern:openConfig'},
-          {label: 'Restart server', command: 'tern:restart'}
+          {label: 'Restart server', command: 'tern:restart'},
+          {label: 'Find definition', command: 'tern:definition'},
+          {label: 'Find references', command: 'tern:references'},
+          {label: 'Rename', command: 'tern:rename'}
         ]
       }
     ]
