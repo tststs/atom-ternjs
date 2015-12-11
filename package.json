@@ -3,7 +3,7 @@
   "main": "./lib/atom-ternjs",
   "version": "0.11.0",
   "private": false,
-  "description": "JavaScript code intelligence for atom with Tern. Adds support for ES5, ES6 (JavaScript 2015), Node.js, jQuery & Angular. Extendable via plugins.",
+  "description": "JavaScript code intelligence for atom with Tern. Adds support for ES5, ES6 (JavaScript 2015), Node.js, jQuery & Angular. Extendable via plugins. Uses suggestion provider by autocomplete-plus.",
   "activationCommands": {},
   "repository": "https://github.com/tststs/atom-ternjs",
   "license": "MIT",
