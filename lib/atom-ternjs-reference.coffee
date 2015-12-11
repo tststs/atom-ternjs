@@ -45,7 +45,7 @@ class Reference
     return unless editor
     cursor = editor.getLastCursor()
     position = cursor.getBufferPosition()
-    @manager.client.update(editor.getURI(), editor.getText()).then =>
+    @manager.client.update(editor).then =>
       @manager.client.refs(editor.getURI(), {line: position.row, ch: position.column}).then (data) =>
         return unless data
         @references = data

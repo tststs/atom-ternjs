@@ -34,12 +34,32 @@ class Client
         end: end
     )
 
-  update: (file, text) ->
+  update: (editor) ->
+    _editor = @manager.getEditor(editor)
+    return Promise.resolve({}) if _editor.diffs.length is 0
+    # buffer = editor.getBuffer()
+    # if buffer.getMaxCharacterIndex() > 5000
+    #   doDiff = true
+    #   for diff in _editor.diffs
+    #     start = Math.max(0, diff.oldRange.start.row - 50)
+    #     end = Math.min(buffer.getLineCount(), diff.oldRange.end.row + 20)
+    #   text = buffer.getTextInRange([[start, 0], [end, buffer.lineLengthForRow(end)]])
+    _editor.diffs = []
+    # if (false)
+      # @post(JSON.stringify
+      #   files: [
+      #       type: 'part'
+      #       name: editor.getURI()
+      #       text: text
+      #       offsetLines: start
+      #   ]
+      # )
+    # else
     @post(JSON.stringify
       files: [
           type: 'full'
-          name: file
-          text: text
+          name: editor.getURI()
+          text: editor.getText()
       ]
     )
 

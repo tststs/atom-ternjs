@@ -50,7 +50,7 @@ class Rename
       if atom.project.relativizePath(editor.getURI())[0] isnt @manager.client.projectDir
         idx++
         continue
-      @manager.client.update(editor.getURI(), editor.getText()).then =>
+      @manager.client.update(editor).then =>
         if ++idx is editors.length
           editor = atom.workspace.getActiveTextEditor()
           cursor = editor.getLastCursor()

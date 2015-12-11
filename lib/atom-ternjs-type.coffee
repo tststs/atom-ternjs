@@ -123,7 +123,7 @@ class Type
 
     text = buffer.getTextInRange([[rangeBefore.start.row, 0], [rangeBefore.start.row, rangeBefore.start.column]])
 
-    @manager.client.update(editor.getURI(), editor.getText()).then =>
+    @manager.client.update(editor).then =>
       @manager.client.type(editor, rangeBefore.start).then (data) =>
         if !data or data.type is '?' or !data.exprName
           @destroyOverlay()
