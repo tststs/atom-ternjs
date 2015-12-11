@@ -36,7 +36,7 @@ class Client
 
   update: (editor) ->
     _editor = @manager.getEditor(editor)
-    return Promise.resolve({}) if _editor.diffs.length is 0
+    return Promise.resolve() if _editor?.diffs.length is 0
     # buffer = editor.getBuffer()
     # if buffer.getMaxCharacterIndex() > 5000
     #   doDiff = true
@@ -121,7 +121,7 @@ class Client
         type: 'files'
     ).then (data) =>
       console.dir(data)
-      
+
   post: (data) ->
     fetch("http://localhost:#{@port}",
       method:
