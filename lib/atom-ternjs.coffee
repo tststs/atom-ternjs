@@ -38,7 +38,7 @@ module.exports =
       title: 'Use autocomplete-snippets'
       description: 'Adds snippets to autocomplete+ suggestions'
       type: 'boolean'
-      default: true
+      default: false
       order: 4
     displayAboveSnippets:
       title: 'Display above snippets'
@@ -52,42 +52,36 @@ module.exports =
       type: 'boolean'
       default: false
       order: 6
-    doNotAddParantheses:
-      title: 'Do not add parantheses if method is completed'
-      description: 'Currently only works if "Use autocomplete-snippets" and "Display both, autocomplete-snippets and function name" are both disabled.'
-      type: 'boolean'
-      default: false
-      order: 7
     inlineFnCompletion:
       title: 'Display inline suggestions for function params'
       description: 'Displays a inline suggestion located right next to the current cursor'
       type: 'boolean'
       default: true
-      order: 8
+      order: 7
     lint:
       title: 'Use tern-lint'
       description: 'Use tern-lint to validate JavaScript files to collect semantic errors. Restart atom after this option has been changed.'
       type: 'boolean'
       default: true
-      order: 9
+      order: 8
     documentation:
       title: 'Documentation'
       description: 'Whether to include documentation string (if found) in the result data.'
       type: 'boolean'
       default: true
-      order: 10
+      order: 9
     urls:
       title: 'Url'
       description: 'Whether to include documentation urls (if found) in the result data.'
       type: 'boolean'
       default: true
-      order: 11
+      order: 10
     origins:
       title: 'Origin'
       description: 'Whether to include origins (if found) in the result data.'
       type: 'boolean'
       default: true
-      order: 12
+      order: 11
 
   activate: (state) ->
     @provider = new Provider()

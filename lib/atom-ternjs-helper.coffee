@@ -124,10 +124,8 @@ class Helper
         obj._snippet = @buildSnippet(params, obj.name)
         obj._hasParams = if params.length then true else false
       else
-        if @manager.packageConfig.options.doNotAddParantheses
-          obj._snippet = "#{obj.name}"
-        else
-          obj._snippet = if params.length then "#{obj.name}(${#{0}:#{}})" else "#{obj.name}()"
+        obj._snippet = if params.length then "#{obj.name}(${#{0}:#{}})" else "#{obj.name}()"
+        obj._displayText = @buildDisplayText(params, obj.name)
       obj._typeSelf = 'function'
 
     if obj.name
@@ -139,6 +137,14 @@ class Helper
       obj.rightLabel = null
 
     obj
+
+  buildDisplayText: (params, name) ->
+    return "#{name}()" if params.length is 0
+    suggestionParams = []
+    for param, i in params
+      param = param.replace '}', '\\}'
+      suggestionParams.push "#{param}"
+    "#{name}(#{suggestionParams.join(',')})"
 
   buildSnippet: (params, name) ->
     return "#{name}()" if params.length is 0
