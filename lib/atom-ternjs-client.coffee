@@ -115,6 +115,13 @@ class Client
     , (err) ->
       console.log err
 
+  files: ->
+    @post(JSON.stringify
+      query:
+        type: 'files'
+    ).then (data) =>
+      console.dir(data)
+      
   post: (data) ->
     fetch("http://localhost:#{@port}",
       method:

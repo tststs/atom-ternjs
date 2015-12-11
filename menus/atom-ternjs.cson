@@ -7,6 +7,10 @@
         {label: 'Find definition', command: 'tern:definition'},
         {label: 'Find references', command: 'tern:references'},
         {label: 'Rename', command: 'tern:rename'},
+        {label: 'Configure project', command: 'tern:openConfig'},
+        {label: 'Restart server', command: 'tern:restart'},
+        {label: 'List analyzed files (console)', command: 'tern:listFiles'},
+        {label: 'Fetch all files and reanalyze', command: 'tern:flush'}
       ]
     }
   ]
@@ -21,7 +25,9 @@
           {label: 'Restart server', command: 'tern:restart'},
           {label: 'Find definition', command: 'tern:definition'},
           {label: 'Find references', command: 'tern:references'},
-          {label: 'Rename', command: 'tern:rename'}
+          {label: 'Rename', command: 'tern:rename'},
+          {label: 'List analyzed files (console)', command: 'tern:listFiles'},
+          {label: 'Fetch all files and reanalyze', command: 'tern:flush'}
         ]
       }
     ]
