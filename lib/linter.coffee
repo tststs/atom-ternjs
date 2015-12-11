@@ -22,7 +22,7 @@ class LinterTern
       text = textEditor.getText()
       @manager.client?.update(textEditor).then =>
         @manager.client.lint(URI, text).then (data) =>
-          return resolve [] unless data.messages
+          return resolve [] unless data?.messages
           for message in data.messages
             positionFrom = buffer.positionForCharacterIndex(message.from)
             positionTo = buffer.positionForCharacterIndex(message.to)
