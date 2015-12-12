@@ -24,10 +24,10 @@ class Helper
     @platform.linux = classList.indexOf('platform-linux') > -1
     @platform.windows = classList.indexOf('platform-win') > -1
 
-  updateTernFile: (content) ->
+  updateTernFile: (content, restartServer) ->
     @projectRoot = @manager.server?.projectDir
     return unless @projectRoot
-    @writeFile(path.resolve(__dirname, @projectRoot + '/.tern-project'), content)
+    @writeFile(path.resolve(__dirname, @projectRoot + '/.tern-project'), content, restartServer)
 
   fileExists: (path) ->
     try fs.accessSync path, fs.F_OK, (err) =>
