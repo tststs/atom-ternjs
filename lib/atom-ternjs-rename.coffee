@@ -50,13 +50,14 @@ class Rename
       if atom.project.relativizePath(editor.getURI())[0] isnt @manager.client.projectDir
         idx++
         continue
-      @manager.client.update(editor).then =>
+      @manager.client.update(editor).then (data) =>
+        return if data.isQueried
         if ++idx is editors.length
           editor = atom.workspace.getActiveTextEditor()
           cursor = editor.getLastCursor()
           return unless cursor
           position = cursor.getBufferPosition()
-          @manager.client.rename(editor.getURI(), {line: position.row, ch: position.column}, newName).then (data) =>
+          @manager.client.rename(atom.project.relativizePath(editor.getURI())[1], {line: position.row, ch: position.column}, newName).then (data) =>
             return unless data
             @rename(data)
           , (err) ->

@@ -18,9 +18,11 @@ class LinterTern
       messages = []
 
       buffer = textEditor.getBuffer()
-      URI = textEditor.getURI()
+      URI = atom.project.relativizePath(textEditor.getURI())[1]
+
       text = textEditor.getText()
-      @manager.client?.update(textEditor).then =>
+      @manager.client?.update(textEditor).then (data) =>
+        return if data.isQueried
         @manager.client.lint(URI, text).then (data) =>
           return resolve [] unless data?.messages
           for message in data.messages

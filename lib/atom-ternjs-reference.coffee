@@ -45,8 +45,9 @@ class Reference
     return unless editor
     cursor = editor.getLastCursor()
     position = cursor.getBufferPosition()
-    @manager.client.update(editor).then =>
-      @manager.client.refs(editor.getURI(), {line: position.row, ch: position.column}).then (data) =>
+    @manager.client.update(editor).then (data) =>
+      return if data.isQueried
+      @manager.client.refs(atom.project.relativizePath(editor.getURI())[1], {line: position.row, ch: position.column}).then (data) =>
         return unless data
         @references = data
         for ref in data.refs

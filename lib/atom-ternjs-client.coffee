@@ -44,8 +44,22 @@ class Client
 
   update: (editor) ->
     _editor = @manager.getEditor(editor)
-    return Promise.resolve() if _editor?.diffs.length is 0
-    _editor?.diffs = []
+    # check if the file is registered, else return
+    @files().then (data) =>
+      registered = data.files.indexOf(atom.project.relativizePath(editor.getURI())[1]) > -1
+      return Promise.resolve({}) if _editor and _editor.diffs.length is 0 and registered
+      _editor?.diffs = []
+      promise = @post(JSON.stringify
+        files: [
+          type: 'full'
+          name: atom.project.relativizePath(editor.getURI())[1]
+          text: editor.getText()
+        ]
+      )
+      if registered
+        return promise
+      else
+        return Promise.resolve({isQueried: true})
     # buffer = editor.getBuffer()
     # if buffer.getMaxCharacterIndex() > 5000
     #   doDiff = true
@@ -63,13 +77,6 @@ class Client
       #   ]
       # )
     # else
-    @post(JSON.stringify
-      files: [
-          type: 'full'
-          name: editor.getURI()
-          text: editor.getText()
-      ]
-    )
 
   rename: (file, end, newName) ->
     @post(JSON.stringify
@@ -93,7 +100,7 @@ class Client
     )
 
   type: (editor, position) ->
-    file = editor.getURI()
+    file = atom.project.relativizePath(editor.getURI())[1]
     end = {line: position.row, ch: position.column}
 
     @post(JSON.stringify
@@ -108,7 +115,7 @@ class Client
     editor = atom.workspace.getActiveTextEditor()
     cursor = editor.getLastCursor()
     position = cursor.getBufferPosition()
-    file = editor.getURI()
+    file = atom.project.relativizePath(editor.getURI())[1]
     end = {line: position.row, ch: position.column}
 
     @post(JSON.stringify
@@ -128,7 +135,7 @@ class Client
       query:
         type: 'files'
     ).then (data) =>
-      console.dir(data)
+      data
 
   post: (data) ->
     fetch("http://localhost:#{@port}",
@@ -139,4 +146,4 @@ class Client
       ).then (response) ->
         if response.ok
           response.json().then (data) ->
-            data
+            data || {}
