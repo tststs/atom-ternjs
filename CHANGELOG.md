@@ -1,3 +1,9 @@
+## [0.11.4]
+- Added inline documentation with an overlay decoration. Use <kbd>alt-o</kbd> and get the documentation (if any) for the thing under the cursor.
+- Some improvements how files get registered and updated. This should produce less errors and a better compatibility for projects not using the `loadEagerly` property and projects without a `.tern-project` file.
+- Updated `npm-shrinkwrap` to use `https://` instead of `git://`. This hopefully fixes the behind proxy issues if only `http://` and `https://` is allowed.
+- All decorations now have a max-width and should behave better if there is too much content.
+
 ## [0.11.0]
 - Removed `autocomplete-snippets` as a default. By default method completion now won't add snippets after confirming the suggestion. Re-activate it via package settings.
 - Removed the option `do not add parantheses`
