@@ -5,8 +5,7 @@ class TypeView extends HTMLElement
     @addEventListener('click', =>
       @getModel().destroyOverlay()
     , false)
-    @classList.add('atom-ternjs-type')
-    @container = document.createElement('span')
+    @container = document.createElement('div')
     @appendChild(@container)
 
   initialize: (model) ->

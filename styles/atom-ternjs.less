@@ -108,27 +108,36 @@ atom-ternjs-reference {
   }
 }
 
-atom-ternjs-documentation,
-atom-ternjs-type {
+.atom-ternjs-documentation,
+.atom-ternjs-type {
 
+  max-width: 60%;
   background: fade(@overlay-background-color, 90%);
   border: 1px solid fade(@base-border-color, 20%);
   color: @text-color;
   border-radius: @component-border-radius;
-  display: inline-block;
-  position: relative;
 
-  span {
+  h3,
+  p,
+  a {
 
-    display: inline-block;
+    word-break: break-all;
   }
 }
 
-.atom-ternjs-documentation {
+atom-ternjs-type,
+atom-ternjs-documentation {
 
-  max-width: 60%;
+  > div {
 
-  atom-ternjs-documentation {
+    max-height: calc(100vh / 3);
+    overflow-y: auto;
+  }
+}
+
+atom-ternjs-documentation {
+
+  > div {
 
     padding: 5px 20px;
   }
@@ -136,7 +145,10 @@ atom-ternjs-type {
 
 atom-ternjs-type {
 
-  padding: 5px;
+  > div {
+
+    padding: 5px 10px;
+  }
 
   .current-param {
 
