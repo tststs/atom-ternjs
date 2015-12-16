@@ -95,10 +95,11 @@ class Helper
     return @tags[tag]
 
   replaceTags: (str) ->
+    return '' unless str
     str.replace(/[&<>]/g, @replaceTag)
 
   formatType: (data) ->
-    return unless data.type
+    return '' unless data.type
     data.type = data.type.replace(/->/g, ':').replace('<top>', 'window')
     return data.type unless data.exprName
     data.type = data.type.replace(/^fn/, data.exprName)
