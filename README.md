@@ -155,7 +155,10 @@ Click any item in the generated reference-list and navigate directly to file and
 
 ![atom-ternjs](http://www.tobias-schubert.com/github/reference-1.png)
 
-* Documentation (displayed if a suggestion with a valid documentation is selected in the select-list)
+* Documentation
+  * Show documentation for the thing under the cursor via <kbd>alt+o</kbd> (mac, windows, linux)
+  ![atom-ternjs](http://www.tobias-schubert.com/github/docs.png)
+  * Also displayed if a suggestion with a valid documentation is selected in the autocomplete-plus select-list
 
 * Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition") or use the keybindings:
   * <kbd>alt+click</kbd> (mac, windows, linux)
