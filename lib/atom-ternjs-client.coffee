@@ -26,6 +26,14 @@ class Client
         caseInsensitive: @manager.packageConfig.options.caseInsensitive
     )
 
+  documentation: (file, end) ->
+    @post(JSON.stringify
+      query:
+        type: 'documentation'
+        file: file
+        end: end
+    )
+
   refs: (file, end) ->
     @post(JSON.stringify
       query:

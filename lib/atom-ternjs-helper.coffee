@@ -13,6 +13,10 @@ class Helper
     linux: false
     windows: false
   checkpointsDefinition: []
+  tags:
+    '&': '&amp;'
+    '<': '&lt;'
+    '>': '&gt;'
 
   constructor: (manager) ->
     @manager = manager
@@ -87,9 +91,16 @@ class Helper
       cursor.setBufferPosition(buffer.positionForCharacterIndex(start))
       @markDefinitionBufferRange(cursor, textEditor)
 
+  replaceTag: (tag) =>
+    return @tags[tag]
+
+  replaceTags: (str) ->
+    str.replace(/[&<>]/g, @replaceTag)
+
   formatType: (data) ->
     return unless data.type
     data.type = data.type.replace(/->/g, ':').replace('<top>', 'window')
+    return data.type unless data.exprName
     data.type = data.type.replace(/^fn/, data.exprName)
 
   prepareType: (data) ->

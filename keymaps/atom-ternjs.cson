@@ -13,6 +13,7 @@
   'ctrl-shift-r': 'tern:references'
   'ctrl-alt-z': 'tern:markerCheckpointBack'
   'ctrl-alt-space': 'tern:startCompletion'
+  'alt-o': 'tern:documentation'
 
 '.platform-linux atom-text-editor':
   'ctrl-alt-shift-d': 'tern:definition'
@@ -20,6 +21,7 @@
   'ctrl-alt-shift-e': 'tern:references'
   'ctrl-alt-shift-z': 'tern:markerCheckpointBack'
   'ctrl-alt-space': 'tern:startCompletion'
+  'alt-o': 'tern:documentation'
 
 '.platform-windows atom-text-editor':
   'ctrl-alt-d': 'tern:definition'
@@ -27,3 +29,4 @@
   'ctrl-shift-e': 'tern:references'
   'ctrl-alt-z': 'tern:markerCheckpointBack'
   'ctrl-alt-space': 'tern:startCompletion'
+  'alt-o': 'tern:documentation'
