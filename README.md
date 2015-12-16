@@ -32,10 +32,10 @@ Example `.tern-project` file (customize to your own needs):
     "jquery"
   ],
   "loadEagerly": [
-    "absolute/or/relative/path/to/your/js/**/*.js"
+    "path/to/your/js/**/*.js"
   ],
   "dontLoad": [
-    "absolute/or/relative/path/to/your/js/**/*.js"
+    "path/to/your/js/**/*.js"
   ],
   "plugins": {
     "complete_strings": {},
@@ -52,19 +52,20 @@ Example `.tern-project` file (customize to your own needs):
 }
 ```
 
-## EcmaVersion
+### EcmaVersion
 * 5: use ECMAScript5
 * 6: use ECMAScript6 (default)
 
-## Libs
+### Libs
 * browser: completion for vanilla js (optional)
 * jquery: completion for jQuery (optional)
 
-## Options
-* loadEagerly: provide the path to your projects js. Absolute path is recommended, but not necessary. (For relative path do not use `./` as a prefix. This sometimes leads to an unexpected behaviour). **loadEagerly is expensive. Do not add paths like `node_modules`.**
+### Options
+* loadEagerly: provide the path to your projects js. For relative paths do not use `./` as a prefix. This sometimes leads to an unexpected behaviour.
+* **loadEagerly is expensive. Do not add paths like `node_modules`.**
 * dontLoad: can be used to prevent Tern from loading certain files. It also takes an array of file names or glob patterns.
 
-## Plugins
+### Plugins
 * complete_strings: When enabled, this plugin will gather (short) strings in your code, and completing when inside a string will try to complete to previously seen strings. Takes a single option, maxLength, which controls the maximum length of string values to gather, and defaults to 15. (optional)
 * doc_comment: tern will look for JSDoc-style type declarations. Returns the full comment text instead of the first sentence. (optional)
 * node: NodeJS (optional)
