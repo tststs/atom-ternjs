@@ -1,6 +1,6 @@
 {
   "name": "atom-ternjs",
-  "version": "0.12.1",
+  "version": "0.12.2",
   "dependencies": {
     "glob": {
       "version": "3.2.11",
