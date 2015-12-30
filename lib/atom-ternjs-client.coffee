@@ -46,7 +46,7 @@ class Client
     _editor = @manager.getEditor(editor)
     # check if the file is registered, else return
     @files().then (data) =>
-      registered = data.files.indexOf(atom.project.relativizePath(editor.getURI())[1].replace('\\', '/')) > -1
+      registered = data.files.indexOf(atom.project.relativizePath(editor.getURI())[1].replace(/\\/g, '/')) > -1
       return Promise.resolve({}) if _editor and _editor.diffs.length is 0 and registered
       _editor?.diffs = []
       promise = @post(JSON.stringify
