@@ -114,8 +114,6 @@ class Helper
 
     return obj if !obj.type
 
-    console.log obj
-
     if !obj.type.startsWith('fn')
       obj._typeSelf = 'variable'
 
