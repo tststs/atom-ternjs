@@ -59,7 +59,7 @@
     "title": "Use tern-lint",
     "description": "Use tern-lint to validate JavaScript files to collect semantic errors. Restart atom after this option has been changed.",
     "type": "boolean",
-    "default": true,
+    "default": false,
     "order": 8
   },
   "documentation": {
