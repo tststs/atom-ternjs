@@ -48,7 +48,9 @@ class Reference
     @manager.client.update(editor).then (data) =>
       return if data.isQueried
       @manager.client.refs(atom.project.relativizePath(editor.getURI())[1], {line: position.row, ch: position.column}).then (data) =>
-        return unless data
+        if !data
+          atom.notifications.addInfo('No references found.', { dismissable: false })
+          return
         @references = data
         for ref in data.refs
           ref.file = ref.file.replace(/^.\//, '')
