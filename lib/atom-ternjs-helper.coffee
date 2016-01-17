@@ -114,11 +114,15 @@ class Helper
 
     return obj if !obj.type
 
+    console.log obj
+
     if !obj.type.startsWith('fn')
       obj._typeSelf = 'variable'
 
     if obj.type is 'string'
       obj.name = obj.name?.replace /(^"|"$)/g, ''
+    else
+      obj.name = obj.name?.replace /["']/g, ''
 
     obj.type = obj.rightLabel = @prepareType(obj)
 
@@ -155,6 +159,7 @@ class Helper
     suggestionParams = []
     for param, i in params
       param = param.replace '}', '\\}'
+      param = param.replace /'"/g, ''
       suggestionParams.push "#{param}"
     "#{name}(#{suggestionParams.join(',')})"
 
