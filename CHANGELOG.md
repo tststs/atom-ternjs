@@ -1,4 +1,4 @@
-## [0.12]
+## [0.13]
 - Push the tern server to a webworker
 - Do not send files to the tern server if it is defined in dontLoad
 - tern-lint is now disabled by default. Activate it via the package options
