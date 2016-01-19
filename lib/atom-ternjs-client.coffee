@@ -10,36 +10,33 @@ class Client
     @projectDir = projectDir
 
   completions: (file, end) ->
-    @post(JSON.stringify
-      query:
-        type: 'completions'
-        file: file
-        end: end
-        types: true
-        includeKeywords: true
-        sort: @manager.packageConfig.options.sort
-        guess: @manager.packageConfig.options.guess
-        docs: @manager.packageConfig.options.documentation
-        urls: @manager.packageConfig.options.urls
-        origins: @manager.packageConfig.options.origins
-        lineCharPositions: true
-        caseInsensitive: @manager.packageConfig.options.caseInsensitive
+    @post(query:
+      type: 'completions'
+      file: file
+      end: end
+      types: true
+      includeKeywords: true
+      sort: @manager.packageConfig.options.sort
+      guess: @manager.packageConfig.options.guess
+      docs: @manager.packageConfig.options.documentation
+      urls: @manager.packageConfig.options.urls
+      origins: @manager.packageConfig.options.origins
+      lineCharPositions: true
+      caseInsensitive: @manager.packageConfig.options.caseInsensitive
     )
 
   documentation: (file, end) ->
-    @post(JSON.stringify
-      query:
-        type: 'documentation'
-        file: file
-        end: end
+    @post(query:
+      type: 'documentation'
+      file: file
+      end: end
     )
 
   refs: (file, end) ->
-    @post(JSON.stringify
-      query:
-        type: 'refs'
-        file: file
-        end: end
+    @post(query:
+      type: 'refs'
+      file: file
+      end: end
     )
 
   update: (editor) ->
@@ -49,8 +46,7 @@ class Client
       registered = data.files.indexOf(atom.project.relativizePath(editor.getURI())[1].replace(/\\/g, '/')) > -1
       return Promise.resolve({}) if _editor and _editor.diffs.length is 0 and registered
       _editor?.diffs = []
-      promise = @post(JSON.stringify
-        files: [
+      promise = @post(files: [
           type: 'full'
           name: atom.project.relativizePath(editor.getURI())[1]
           text: editor.getText()
@@ -79,36 +75,33 @@ class Client
     # else
 
   rename: (file, end, newName) ->
-    @post(JSON.stringify
-      query:
-        type: 'rename'
-        file: file
-        end: end
-        newName: newName
+    @post(query:
+      type: 'rename'
+      file: file
+      end: end
+      newName: newName
     )
 
   lint: (file, text) ->
-    @post(JSON.stringify
-      query:
-        type: 'lint'
-        file: file,
-        files: [
-          type: 'full'
-          name: file
-          text: text
-        ]
+    @post(query:
+      type: 'lint'
+      file: file,
+      files: [
+        type: 'full'
+        name: file
+        text: text
+      ]
     )
 
   type: (editor, position) ->
     file = atom.project.relativizePath(editor.getURI())[1]
     end = {line: position.row, ch: position.column}
 
-    @post(JSON.stringify
-      query:
-        type: 'type'
-        file: file
-        end: end
-        preferFunction: true
+    @post(query:
+      type: 'type'
+      file: file
+      end: end
+      preferFunction: true
     )
 
   definition: ->
@@ -118,11 +111,10 @@ class Client
     file = atom.project.relativizePath(editor.getURI())[1]
     end = {line: position.row, ch: position.column}
 
-    @post(JSON.stringify
-      query:
-        type: 'definition'
-        file: file
-        end: end
+    @post(query:
+      type: 'definition'
+      file: file
+      end: end
     ).then (data) =>
       if data?.start
         @manager.helper?.setMarkerCheckpoint()
@@ -131,19 +123,11 @@ class Client
       console.log err
 
   files: ->
-    @post(JSON.stringify
-      query:
-        type: 'files'
+    @post(query:
+      type: 'files'
     ).then (data) =>
       data
 
   post: (data) ->
-    fetch("http://localhost:#{@port}",
-      method:
-        'post'
-      body:
-        data
-      ).then (response) ->
-        if response.ok
-          response.json().then (data) ->
-            data || {}
+    promise = @manager.server.request(data)
+    return promise
