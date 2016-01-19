@@ -10,7 +10,7 @@ class Client
     @projectDir = projectDir
 
   completions: (file, end) ->
-    @post(query:
+    @post('query', query:
       type: 'completions'
       file: file
       end: end
@@ -26,14 +26,14 @@ class Client
     )
 
   documentation: (file, end) ->
-    @post(query:
+    @post('query', query:
       type: 'documentation'
       file: file
       end: end
     )
 
   refs: (file, end) ->
-    @post(query:
+    @post('query', query:
       type: 'refs'
       file: file
       end: end
@@ -46,7 +46,7 @@ class Client
       registered = data.files.indexOf(atom.project.relativizePath(editor.getURI())[1].replace(/\\/g, '/')) > -1
       return Promise.resolve({}) if _editor and _editor.diffs.length is 0 and registered
       _editor?.diffs = []
-      promise = @post(files: [
+      promise = @post('query', files: [
           type: 'full'
           name: atom.project.relativizePath(editor.getURI())[1]
           text: editor.getText()
@@ -75,7 +75,7 @@ class Client
     # else
 
   rename: (file, end, newName) ->
-    @post(query:
+    @post('query', query:
       type: 'rename'
       file: file
       end: end
@@ -83,7 +83,7 @@ class Client
     )
 
   lint: (file, text) ->
-    @post(query:
+    @post('query', query:
       type: 'lint'
       file: file,
       files: [
@@ -97,7 +97,7 @@ class Client
     file = atom.project.relativizePath(editor.getURI())[1]
     end = {line: position.row, ch: position.column}
 
-    @post(query:
+    @post('query', query:
       type: 'type'
       file: file
       end: end
@@ -111,7 +111,7 @@ class Client
     file = atom.project.relativizePath(editor.getURI())[1]
     end = {line: position.row, ch: position.column}
 
-    @post(query:
+    @post('query', query:
       type: 'definition'
       file: file
       end: end
@@ -123,11 +123,11 @@ class Client
       console.log err
 
   files: ->
-    @post(query:
+    @post('query', query:
       type: 'files'
     ).then (data) =>
       data
 
-  post: (data) ->
-    promise = @manager.server.request(data)
+  post: (type, data) ->
+    promise = @manager.server.request(type, data)
     return promise
