@@ -1,3 +1,12 @@
+## [0.12]
+- Push the tern server to a webworker
+- Do not send files to the tern server if it is defined in dontLoad
+- tern-lint is now disabled by default. Activate it via the package options
+- Notify the user if no reference was found
+- Optimize string completion
+- Do not resolve tern dependency via git:// anymore
+- various bugfixing
+
 ## [0.11.4]
 - Added inline documentation with an overlay decoration. Use <kbd>alt-o</kbd> and get the documentation (if any) for the thing under the cursor.
 - Some improvements how files get registered and updated. This should produce less errors and a better compatibility for projects not using the `loadEagerly` property and projects without a `.tern-project` file.
