@@ -41,9 +41,12 @@ class Client
 
   update: (editor) ->
     _editor = @manager.getEditor(editor)
+    file = atom.project.relativizePath(editor.getURI())[1].replace(/\\/g, '/')
+    # check if this file is excluded via dontLoad
+    return Promise.resolve({}) if @manager.server?.dontLoad(file)
     # check if the file is registered, else return
     @files().then (data) =>
-      registered = data.files.indexOf(atom.project.relativizePath(editor.getURI())[1].replace(/\\/g, '/')) > -1
+      registered = data.files.indexOf(file) > -1
       return Promise.resolve({}) if _editor and _editor.diffs.length is 0 and registered
       _editor?.diffs = []
       promise = @post('query', files: [
