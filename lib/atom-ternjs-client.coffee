@@ -39,43 +39,49 @@ class Client
       end: end
     )
 
+  updateFull: (editor, editorMeta) ->
+    editorMeta?.diffs = []
+    @post('query', files: [
+        type: 'full'
+        name: atom.project.relativizePath(editor.getURI())[1]
+        text: editor.getText()
+      ]
+    )
+
+  updatePart: (editor, editorMeta, start, text) ->
+    editorMeta?.diffs = []
+    @post('query', files: [
+        type: 'part'
+        name: atom.project.relativizePath(editor.getURI())[1]
+        offset: {line: start, ch: 0}
+        text: editor.getText()
+      ]
+    )
+
   update: (editor) ->
-    _editor = @manager.getEditor(editor)
+    editorMeta = @manager.getEditor(editor)
     file = atom.project.relativizePath(editor.getURI())[1].replace(/\\/g, '/')
     # check if this file is excluded via dontLoad
     return Promise.resolve({}) if @manager.server?.dontLoad(file)
     # check if the file is registered, else return
     @files().then (data) =>
       registered = data.files.indexOf(file) > -1
-      return Promise.resolve({}) if _editor and _editor.diffs.length is 0 and registered
-      _editor?.diffs = []
-      promise = @post('query', files: [
-          type: 'full'
-          name: atom.project.relativizePath(editor.getURI())[1]
-          text: editor.getText()
-        ]
-      )
+      return Promise.resolve({}) if editorMeta and editorMeta.diffs.length is 0 and registered
       if registered
-        return promise
+        buffer = editor.getBuffer()
+        # if buffer.getMaxCharacterIndex() > 5000
+        #   start = 0
+        #   end = 0
+        #   text = ''
+        #   for diff in editorMeta.diffs
+        #     start = Math.max(0, diff.oldRange.start.row - 50)
+        #     end = Math.min(buffer.getLineCount(), diff.oldRange.end.row + 5)
+        #     text = buffer.getTextInRange([[start, 0], [end, buffer.lineLengthForRow(end)]])
+        #   promise = @updatePart(editor, editorMeta, start, text)
+        # else
+        promise = @updateFull(editor, editorMeta)
       else
-        return Promise.resolve({isQueried: true})
-    # buffer = editor.getBuffer()
-    # if buffer.getMaxCharacterIndex() > 5000
-    #   doDiff = true
-    #   for diff in _editor.diffs
-    #     start = Math.max(0, diff.oldRange.start.row - 50)
-    #     end = Math.min(buffer.getLineCount(), diff.oldRange.end.row + 20)
-    #   text = buffer.getTextInRange([[start, 0], [end, buffer.lineLengthForRow(end)]])
-    # if (false)
-      # @post(JSON.stringify
-      #   files: [
-      #       type: 'part'
-      #       name: editor.getURI()
-      #       text: text
-      #       offsetLines: start
-      #   ]
-      # )
-    # else
+        Promise.resolve({isQueried: true})
 
   rename: (file, end, newName) ->
     @post('query', query:
