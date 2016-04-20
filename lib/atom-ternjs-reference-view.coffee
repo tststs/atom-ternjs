@@ -26,6 +26,7 @@ class ReferenceView extends HTMLElement
     list = document.createElement('ul')
     for item, i in data.refs
       li = document.createElement('li')
+      item.lineText = item.lineText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
       li.innerHTML = "<h3><span><span class=\"darken\">(#{item.position.row + 1}:#{item.position.column}):</span> <span>#{item.lineText}</span></span> <span class=\"darken\">(#{item.file})</span><div class=\"clear\"></div></h3>"
       li.addEventListener('click', @clickHandle.bind(this, i), false)
       list.appendChild(li)
