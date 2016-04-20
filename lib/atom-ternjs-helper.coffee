@@ -108,7 +108,7 @@ class Helper
     return unless data.type
     type = data.type.replace(/->/g, ':').replace('<top>', 'window')
 
-  formatTypeCompletion: (obj) ->
+  formatTypeCompletion: (obj, isInFunDef) ->
     if obj.isKeyword
       obj._typeSelf = 'keyword'
 
@@ -135,10 +135,12 @@ class Helper
     if obj.rightLabel.startsWith('fn')
       params = @extractParams(obj.rightLabel)
       if @manager.packageConfig.options.useSnippets || @manager.packageConfig.options.useSnippetsAndFunction
-        obj._snippet = @buildSnippet(params, obj.name)
+        if not isInFunDef
+          obj._snippet = @buildSnippet(params, obj.name)
         obj._hasParams = if params.length then true else false
       else
-        obj._snippet = if params.length then "#{obj.name}(${#{0}:#{}})" else "#{obj.name}()"
+        if not isInFunDef
+          obj._snippet = if params.length then "#{obj.name}(${#{0}:#{}})" else "#{obj.name}()"
         obj._displayText = @buildDisplayText(params, obj.name)
       obj._typeSelf = 'function'
 
