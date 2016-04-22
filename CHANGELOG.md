@@ -1,3 +1,7 @@
+## [0.14.1]
+- Enable autocompletion if there is no .tern-project file
+- Try to restart the server if there was an uncaught exception in our child process
+
 ## [0.14]
 - Update tern to 0.18.0
 - Tern server now running in a node environment
