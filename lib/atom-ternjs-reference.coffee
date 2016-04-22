@@ -69,7 +69,6 @@ class Reference
       buffer = new TextBuffer({ text: content })
       item.position = buffer.positionForCharacterIndex(item.start)
       item.lineText = buffer.lineForRow(item.position.row)
-      item.lineText = item.lineText.replace(data.name, "<strong>#{data.name}</strong>")
       buffer.destroy()
     data
 

@@ -91,10 +91,10 @@ class Helper
       cursor.setBufferPosition(buffer.positionForCharacterIndex(start))
       @markDefinitionBufferRange(cursor, textEditor)
 
-  replaceTag: (tag) =>
+  replaceTag: (tag) ->
     return @tags[tag]
 
-  replaceTags: (str) ->
+  replaceTags: (str) =>
     return '' unless str
     str.replace(/[&<>]/g, @replaceTag)
 
