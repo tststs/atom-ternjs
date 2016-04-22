@@ -81,7 +81,7 @@ class Client
         # else
         promise = @updateFull(editor, editorMeta)
       else
-        Promise.resolve({isQueried: true})
+        Promise.resolve({})
     , (err) ->
       console.log err
 

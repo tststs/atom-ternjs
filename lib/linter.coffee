@@ -22,7 +22,6 @@ class LinterTern
 
       text = textEditor.getText()
       @manager.client?.update(textEditor).then (data) =>
-        return if data.isQueried
         @manager.client.lint(URI, text).then (data) =>
           return resolve [] unless data?.messages
           for message in data.messages

@@ -51,7 +51,6 @@ class Rename
         idx++
         continue
       @manager.client.update(editor).then (data) =>
-        return if data.isQueried
         if ++idx is editors.length
           editor = atom.workspace.getActiveTextEditor()
           cursor = editor.getLastCursor()
