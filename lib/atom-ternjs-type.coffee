@@ -137,6 +137,8 @@ class Type
           data.type = data.type.replace(params[paramPosition], offsetFix + "<span class=\"current-param\">#{params[paramPosition]}</span>")
         @view.setData({label: data.type})
         @setPosition()
+      , (err) ->
+        console.log err
 
   destroy: ->
     @destroyOverlay()
