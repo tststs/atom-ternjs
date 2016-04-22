@@ -8,25 +8,25 @@
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
 '.platform-darwin atom-text-editor':
-  'ctrl-alt-d': 'tern:definition'
-  'ctrl-alt-c': 'tern:rename'
-  'ctrl-shift-r': 'tern:references'
-  'ctrl-alt-z': 'tern:markerCheckpointBack'
-  'ctrl-alt-space': 'tern:startCompletion'
-  'alt-o': 'tern:documentation'
+  'ctrl-alt-d': 'atom-ternjs:definition'
+  'ctrl-alt-c': 'atom-ternjs:rename'
+  'ctrl-shift-r': 'atom-ternjs:references'
+  'ctrl-alt-z': 'atom-ternjs:markerCheckpointBack'
+  'ctrl-alt-space': 'atom-ternjs:startCompletion'
+  'alt-o': 'atom-ternjs:documentation'
 
 '.platform-linux atom-text-editor':
-  'ctrl-alt-shift-d': 'tern:definition'
-  'ctrl-alt-shift-c': 'tern:rename'
-  'ctrl-alt-shift-e': 'tern:references'
-  'ctrl-alt-shift-z': 'tern:markerCheckpointBack'
-  'ctrl-alt-space': 'tern:startCompletion'
-  'alt-o': 'tern:documentation'
+  'ctrl-alt-shift-d': 'atom-ternjs:definition'
+  'ctrl-alt-shift-c': 'atom-ternjs:rename'
+  'ctrl-alt-shift-e': 'atom-ternjs:references'
+  'ctrl-alt-shift-z': 'atom-ternjs:markerCheckpointBack'
+  'ctrl-alt-space': 'atom-ternjs:startCompletion'
+  'alt-o': 'atom-ternjs:documentation'
 
 '.platform-windows atom-text-editor':
-  'ctrl-alt-d': 'tern:definition'
-  'ctrl-alt-c': 'tern:rename'
-  'ctrl-shift-e': 'tern:references'
-  'ctrl-alt-z': 'tern:markerCheckpointBack'
-  'ctrl-alt-space': 'tern:startCompletion'
-  'alt-o': 'tern:documentation'
+  'ctrl-alt-d': 'atom-ternjs:definition'
+  'ctrl-alt-c': 'atom-ternjs:rename'
+  'ctrl-shift-e': 'atom-ternjs:references'
+  'ctrl-alt-z': 'atom-ternjs:markerCheckpointBack'
+  'ctrl-alt-space': 'atom-ternjs:startCompletion'
+  'alt-o': 'atom-ternjs:documentation'

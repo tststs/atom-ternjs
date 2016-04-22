@@ -52,6 +52,10 @@ Example `.tern-project` file (customize to your own needs):
 }
 ```
 
+### Keybindings
+List of [keybindings](#features).
+To use your own keybindings goto `atom-ternjs` package settings and disable keybindings.
+
 ### EcmaVersion
 * 5: use ECMAScript5
 * 6: use ECMAScript6 (default)
