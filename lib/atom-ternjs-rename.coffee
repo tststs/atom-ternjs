@@ -61,8 +61,7 @@ class Rename
             return unless data
             @rename(data)
           , (err) ->
-            content = "atom-ternjs<br />#{err.responseText}"
-            atom.notifications.addError(content, dismissable: false)
+            atom.notifications.addError(err, dismissable: false)
 
   rename: (obj) ->
     dir = @manager.server.projectDir
@@ -93,9 +92,11 @@ class Rename
     atom.workspace.open(obj[0].file).then (textEditor) =>
       currentColumnOffset = 0
       buffer = textEditor.getBuffer()
+      checkpoint = buffer.createCheckpoint()
       for change, i in obj
         @setTextInRange(buffer, change, currentColumnOffset, (i is obj.length - 1), textEditor)
         currentColumnOffset += translateColumnBy
+      buffer.groupChangesSinceCheckpoint(checkpoint)
 
   setTextInRange: (buffer, change, offset, moveCursor, textEditor) ->
     change.start += offset

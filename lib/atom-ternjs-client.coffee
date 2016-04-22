@@ -82,6 +82,8 @@ class Client
         promise = @updateFull(editor, editorMeta)
       else
         Promise.resolve({isQueried: true})
+    , (err) ->
+      console.log err
 
   rename: (file, end, newName) ->
     @post('query', query:
