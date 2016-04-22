@@ -4,14 +4,14 @@
     {
       label: 'Atom Ternjs'
       submenu: [
-        {label: 'Find definition', command: 'tern:definition'},
-        {label: 'Find references', command: 'tern:references'},
-        {label: 'Documentation', command: 'tern:documentation'},
-        {label: 'Rename', command: 'tern:rename'},
-        {label: 'Configure project', command: 'tern:openConfig'},
-        {label: 'Restart server', command: 'tern:restart'},
-        {label: 'List analyzed files (console)', command: 'tern:listFiles'},
-        {label: 'Fetch all files and reanalyze', command: 'tern:flush'}
+        {label: 'Find definition', command: 'atom-ternjs:definition'},
+        {label: 'Find references', command: 'atom-ternjs:references'},
+        {label: 'Documentation', command: 'atom-ternjs:documentation'},
+        {label: 'Rename', command: 'atom-ternjs:rename'},
+        {label: 'Configure project', command: 'atom-ternjs:openConfig'},
+        {label: 'Restart server', command: 'atom-ternjs:restart'},
+        {label: 'List analyzed files (console)', command: 'atom-ternjs:listFiles'},
+        {label: 'Fetch all files and reanalyze', command: 'atom-ternjs:flush'}
       ]
     }
   ]
@@ -22,14 +22,14 @@
       {
         label: 'Atom Ternjs'
         submenu: [
-          {label: 'Configure project', command: 'tern:openConfig'},
-          {label: 'Restart server', command: 'tern:restart'},
-          {label: 'Find definition', command: 'tern:definition'},
-          {label: 'Find references', command: 'tern:references'},
-          {label: 'Documentation', command: 'tern:documentation'},
-          {label: 'Rename', command: 'tern:rename'},
-          {label: 'List analyzed files (console)', command: 'tern:listFiles'},
-          {label: 'Fetch all files and reanalyze', command: 'tern:flush'}
+          {label: 'Configure project', command: 'atom-ternjs:openConfig'},
+          {label: 'Restart server', command: 'atom-ternjs:restart'},
+          {label: 'Find definition', command: 'atom-ternjs:definition'},
+          {label: 'Find references', command: 'atom-ternjs:references'},
+          {label: 'Documentation', command: 'atom-ternjs:documentation'},
+          {label: 'Rename', command: 'atom-ternjs:rename'},
+          {label: 'List analyzed files (console)', command: 'atom-ternjs:listFiles'},
+          {label: 'Fetch all files and reanalyze', command: 'atom-ternjs:flush'}
         ]
       }
     ]
