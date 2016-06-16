@@ -140,5 +140,6 @@ class Client
       data
 
   post: (type, data) ->
+    console.log(data);
     promise = @manager.server.request(type, data)
     return promise
