@@ -1,17 +1,23 @@
 {
-  "ecmaFeatures": {
-    "module": true,
-    "modules": true
-  },
-  "settings": {
-    "ecmascript": 6
-  },
   "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "module": true,
+      "modules": true
+    }
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
   "plugins": [
     "babel"
   ],
   "rules": {
-    "indent": [2, 2],
+    "indent": [1, 2],
     "eol-last": [2],
     "no-unused-vars": [2, {"vars": "all", "args": "none"}],
     "brace-style": [2, "1tbs", { "allowSingleLine": true }],
@@ -23,13 +29,9 @@
     "space-before-blocks": [2, { "functions": "always", "keywords": "always", "classes": "always" }],
     "quotes": [ 2, "single" ],
     "linebreak-style": [2, "unix"],
-    "semi": [2, "always"]
-  },
-  "env": {
-    "es6": true,
-    "amd": true,
-    "browser": true,
-    "node": true
+    "semi": [2, "always"],
+    "no-console": [2, { allow: ["warn", "error"] }],
+    "arrow-spacing": [2, { "before": true, "after": true }]
   },
   "extends": "eslint:recommended"
 }
