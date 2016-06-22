@@ -1,0 +1,6 @@
+{
+  "tern-node-express": {
+    "doc": "tern-node-express is a plugin which adds support for express web application framework for node to the JavaSript code intelligence system Tern.",
+    "options": []
+  }
+}
