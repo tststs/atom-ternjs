@@ -27,6 +27,9 @@
     },
     "dontLoad": {
       "doc": "The dontLoad option can be used to prevent Tern from loading certain files. It also takes an array of file names or glob patterns."
+    },
+    "plugins": {
+      "doc": "Plugins used by this project."
     }
   }
 }
