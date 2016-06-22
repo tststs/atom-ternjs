@@ -29,7 +29,7 @@
       "doc": "The dontLoad option can be used to prevent Tern from loading certain files. It also takes an array of file names or glob patterns."
     },
     "plugins": {
-      "doc": "Plugins used by this project. Currenty you can only activate the plugin from this view without setting up the options for it. After saving the config, plugins with default options are added to the .tern-project file. Unchecking the plugin will result in removing the plugin property entirely from the .tern-project file."
+      "doc": "Plugins used by this project. Currenty you can only activate the plugin from this view without setting up the options for it. After saving the config, plugins with default options are added to the .tern-project file. Unchecking the plugin will result in removing the plugin property entirely from the .tern-project file. Please refer to <a href=\"http://ternjs.net/doc/manual.html#plugins\">this page</a> for detailed information for the build in server plugins."
     }
   }
 }
