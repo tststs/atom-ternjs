@@ -218,6 +218,11 @@ atom-text-editor::shadow .scroll-view {
 
 .atom-ternjs-config {
 
+  h1 {
+
+    margin-bottom: 30px;
+  }
+
   .content {
 
     > h2 {
@@ -225,6 +230,11 @@ atom-text-editor::shadow .scroll-view {
       width: 100%;
       text-align: center;
     }
+  }
+
+  section {
+
+    padding-bottom: 20px;
   }
 
   atom-text-editor {
@@ -266,6 +276,11 @@ atom-text-editor::shadow .scroll-view {
 
   .input-wrapper {
 
+    span {
+
+      font-size: 12px;
+    }
+
     &:first-of-type {
 
       .sub {
@@ -281,12 +296,17 @@ atom-text-editor::shadow .scroll-view {
   }
 
   .libs,
-  .ecmaVersion {
+  .ecmaVersion,
+  .plugins {
 
     span {
 
       margin-right: 10px;
     }
+  }
+
+  .libs,
+  .ecmaVersion {
 
     .input-wrapper {
 
@@ -296,6 +316,14 @@ atom-text-editor::shadow .scroll-view {
 
         margin-left: 20px;
       }
+    }
+  }
+
+  .plugins {
+
+    .input-wrapper {
+
+      margin-bottom: 5px;
     }
   }
 
