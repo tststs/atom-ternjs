@@ -45,11 +45,11 @@ export default {
     }
   },
   node_resolve: {
-    doc: 'This is a supporting plugin to act as a dependency for other module-loading and module-resolving plugins. It understands the following configuration parameters:',
+    doc: 'This plugin defines the node.js module resolution strategy—things like defaulting to index.js when requiring a directory and searching node_modules directories. It depends on the modules plugin. Note that this plugin only does something meaningful when the Tern server is running on node.js itself.',
     definition: {}
   },
   modules: {
-    doc: 'This plugin defines the node.js module resolution strategy—things like defaulting to index.js when requiring a directory and searching node_modules directories. It depends on the modules plugin. Note that this plugin only does something meaningful when the Tern server is running on node.js itself.',
+    doc: 'This is a supporting plugin to act as a dependency for other module-loading and module-resolving plugins.',
     definition: {
       dontLoad: {
         doc: 'Can be set to true to disable dynamic loading of required modules entirely, or to a regular expression to disable loading of files that match the expression.',
