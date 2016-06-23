@@ -1,3 +1,7 @@
+## [0.15.0]
+- Add plugins section to configure view
+- Prevent calling the init method multiply times from within the manager
+
 ## [0.14.1]
 - Enable autocompletion if there is no .tern-project file
 - Try to restart the server if there was an uncaught exception in our child process
