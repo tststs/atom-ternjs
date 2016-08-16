@@ -17,6 +17,9 @@
     "glob": "3",
     "minimatch": "0.2",
     "node-uuid": "1.4.7",
+    "event-kit": "2.1.0"
+  },
+  "devDependencies": {
     "eslint": "^2.13.1",
     "babel-eslint": "6.0.5",
     "eslint-plugin-babel": "3.3.0"
