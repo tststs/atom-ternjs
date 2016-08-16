@@ -1,5 +1,4 @@
 {
-  "lint": {},
   "complete_strings": {
     "maxLength": 15
   },

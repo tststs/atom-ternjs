@@ -3,10 +3,9 @@
 let [workspaceElement, editor, editorElement] = [];
 let path = require('path');
 
-function sharedSetup(useTernLint) {
+function sharedSetup() {
 
   atom.project.setPaths([path.join(__dirname, 'fixtures')]);
-  atom.config.set('atom-ternjs.lint', useTernLint);
   workspaceElement = atom.views.getView(atom.workspace)
 
   waitsForPromise(() => {
@@ -47,12 +46,6 @@ describe('atom-ternjs', () => {
 
       expect(package.manager).toBeDefined();
     });
-
-    it('does not provide the linter provider if tern-lint config is set to true', () => {
-
-      expect(package.useLint).toMatch(/true/);
-      expect(package.providerLinter).toBeDefined();
-    });
   });
 
   describe('deactivate()', () => {
@@ -67,8 +60,6 @@ describe('atom-ternjs', () => {
 
       expect(package.manager).toBeUndefined();
       expect(package.provider).toBeUndefined();
-      expect(package.useLint).toBeUndefined();
-      expect(package.providerLinter).toBeUndefined();
     });
 
     it('destroys all views', () => {
@@ -92,10 +83,6 @@ describe('atom-ternjs', () => {
 
   describe('activate()', () => {
 
-    it('does not provide the linter provider if tern-lint config is set to false', () => {
 
-      expect(package.useLint).toMatch(/false/);
-      expect(package.providerLinter).toBeUndefined();
-    });
   });
 });

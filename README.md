@@ -41,7 +41,6 @@ Example `.tern-project` file (customize to your own needs):
       "maxLength": 15
     },
     "node": {},
-    "lint": {},
     "doc_comment": {
       "fullDocs": true,
       "strong": true

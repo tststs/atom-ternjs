@@ -1,10 +1,6 @@
 'use babel';
 
 export default {
-  lint: {
-    doc: 'Use tern-lint for this project.',
-    definition: {}
-  },
   complete_strings: {
     doc: 'When enabled, this plugin will gather (short) strings in your code, and completing when inside a string will try to complete to previously seen strings. Takes a single option, maxLength, which controls the maximum length of string values to gather, and defaults to 15.',
     definition: {
