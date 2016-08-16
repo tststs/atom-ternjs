@@ -1,6 +1,7 @@
 fs = require 'fs'
 path = require 'path'
 _ = require 'underscore-plus'
+packageConfig = require './atom-ternjs-package-config'
 
 module.exports =
 class Helper
@@ -134,7 +135,7 @@ class Helper
 
     if obj.rightLabel.startsWith('fn')
       params = @extractParams(obj.rightLabel)
-      if @manager.packageConfig.options.useSnippets || @manager.packageConfig.options.useSnippetsAndFunction
+      if packageConfig.options.useSnippets || packageConfig.options.useSnippetsAndFunction
         if not isInFunDef
           obj._snippet = @buildSnippet(params, obj.name)
         obj._hasParams = if params.length then true else false
