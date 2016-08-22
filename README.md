@@ -18,7 +18,6 @@ Configure your project
 
 If configure project does not work for you
 * In your project root create a file named .tern-project. See docs @ http://ternjs.net/doc/manual.html#configuration.
-* Check path in loadEagerly
 * Restart the server via *Packages -> Atom Ternjs -> Restart server*
 
 Example `.tern-project` file (customize to your own needs):
@@ -52,10 +51,13 @@ Example `.tern-project` file (customize to your own needs):
 ### EcmaVersion
 * 5: use ECMAScript5
 * 6: use ECMAScript6 (default)
+* 7: use ECMAScript7
 
 ### Libs
 * browser: completion for vanilla js (optional)
 * jquery: completion for jQuery (optional)
+* underscore: completion for underscore (optional)
+* chai: completion for chai (optional)
 
 ### Options
 * loadEagerly: provide the path to your projects js. For relative paths do not use `./` as a prefix. This sometimes leads to an unexpected behaviour.
