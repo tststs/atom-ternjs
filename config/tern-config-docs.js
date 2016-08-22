@@ -10,6 +10,12 @@ export default {
     },
     jquery: {
       doc: 'JQuery'
+    },
+    underscore: {
+      doc: 'underscore'
+    },
+    chai: {
+      doc: 'chai'
     }
   },
   loadEagerly: {
