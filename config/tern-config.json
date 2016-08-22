@@ -5,7 +5,9 @@
   },
   "libs": [
     "browser",
-    "jquery"
+    "chai",
+    "jquery",
+    "underscore"
   ],
   "loadEagerly": [],
   "dontLoad": [],
