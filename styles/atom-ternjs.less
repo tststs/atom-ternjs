@@ -1,7 +1,3 @@
-// The ui-variables file is provided by base themes provided by Atom.
-//
-// See https://github.com/atom/atom-dark-ui/blob/master/stylesheets/ui-variables.less
-// for a full listing of what's available.
 @import 'ui-variables';
 
 @atom-ternjs-padding: 20px;
@@ -112,9 +108,9 @@ atom-ternjs-reference {
 .atom-ternjs-type {
 
   max-width: 1000px;
-  background: fade(@overlay-background-color, 90%);
-  border: 1px solid fade(@base-border-color, 20%);
-  color: @text-color;
+  background: @overlay-background-color;
+  border: 10px solid @base-border-color;
+  color: @text-color-highlight;
   border-radius: @component-border-radius;
 
   h3,
