@@ -11,13 +11,14 @@
     "atom": ">=1.2.0"
   },
   "dependencies": {
-    "loophole": "^1.1.0",
-    "tern": "^0.20.0",
-    "underscore-plus": "^1.6.6",
+    "event-kit": "2.1.0",
     "glob": "3",
+    "loophole": "^1.1.0",
     "minimatch": "0.2",
     "node-uuid": "1.4.7",
-    "event-kit": "2.1.0"
+    "resolve-from": "^2.0.0",
+    "tern": "^0.20.0",
+    "underscore-plus": "^1.6.6"
   },
   "devDependencies": {
     "eslint": "^2.13.1",
