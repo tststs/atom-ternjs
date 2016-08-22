@@ -34,9 +34,9 @@
     "default": false,
     "order": 4
   },
-  "displayAboveSnippets": {
+  "snippetsFirst": {
     "title": "Display above snippets",
-    "description": "Displays ternjs suggestions above snippet suggestions. Requires a restart.",
+    "description": "Displays snippets above tern suggestions. Requires a restart.",
     "type": "boolean",
     "default": false,
     "order": 5
