@@ -1,7 +1,7 @@
 # atom-ternjs
 
 > JavaScript code intelligence for atom with [Tern](https://github.com/ternjs/tern).
-Adds support for ES5, ES6 (JavaScript 2015), Node.js, jQuery, Angular and more. Extendable via plugins.
+Adds support for ES5, ES6, ES7, Node.js, jQuery, Angular and more. Extendable via plugins.
 Uses suggestion provider by [autocomplete-plus](https://github.com/atom/autocomplete-plus).
 
 ## Installation
@@ -93,7 +93,7 @@ Add the plugin to your .tern-project file:
 }
 ```
 
-Third party plugins are still an issue and sometimes do not work as expected. This will be fixed in future release.
+Third party plugins are still an issue and sometimes do not work as expected, especially if the plugin is requiring a tern version that does not match the tern version that is used by atom-ternjs.
 Restart the server: *Packages -> Atom Ternjs -> Restart server*
 
 ## Third party plugins local
