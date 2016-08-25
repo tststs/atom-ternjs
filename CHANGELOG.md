@@ -1,6 +1,14 @@
 ## [0.15.0]
-- Add plugins section to configure view
+- config view now displays possible tern plugins (WIP)
+- add option to display documentation within the inline function completion
+- type call isn't triggered if there is a selection (possible fix for #247)
+- tern suggestions now displayed above snippets as the default
+- added chai and underscore to libs
+- package is now running on top of tern 0.20.0
+- tern-lint has been removed for now
 - Prevent calling the init method multiply times from within the manager
+- display the correct type for property for autocomplete-plus suggestions
+- added options to manually set tern options (async for getFile and dependencyBudget)
 
 ## [0.14.1]
 - Enable autocompletion if there is no .tern-project file
