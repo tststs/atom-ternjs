@@ -23,7 +23,7 @@
   'ctrl-alt-space': 'atom-ternjs:startCompletion'
   'alt-o': 'atom-ternjs:documentation'
 
-'.platform-windows atom-text-editor':
+'.platform-win32 atom-text-editor':
   'ctrl-alt-d': 'atom-ternjs:definition'
   'ctrl-alt-c': 'atom-ternjs:rename'
   'ctrl-shift-e': 'atom-ternjs:references'
