@@ -150,8 +150,7 @@ Click any item in the generated reference-list and navigate directly to file and
 
 * Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition") or use the keybindings:
   * <kbd>alt+click</kbd> (mac, windows, linux)
-  * <kbd>ctrl+alt+d</kbd> (mac, windows)
-  * <kbd>ctrl+alt+shift+d</kbd> (linux)
+  * <kbd>ctrl+alt+shift+d</kbd> (mac, windows, linux)
 
 * Back from definition
   * <kbd>ctrl+alt+z</kbd> (mac, windows)

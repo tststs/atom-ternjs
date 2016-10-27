@@ -8,7 +8,7 @@
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
 '.platform-darwin atom-text-editor':
-  'ctrl-alt-d': 'atom-ternjs:definition'
+  'ctrl-alt-shift-d': 'atom-ternjs:definition'
   'ctrl-alt-c': 'atom-ternjs:rename'
   'ctrl-shift-r': 'atom-ternjs:references'
   'ctrl-alt-z': 'atom-ternjs:markerCheckpointBack'
@@ -24,7 +24,7 @@
   'alt-o': 'atom-ternjs:documentation'
 
 '.platform-win32 atom-text-editor':
-  'ctrl-alt-d': 'atom-ternjs:definition'
+  'ctrl-alt-shift-d': 'atom-ternjs:definition'
   'ctrl-alt-c': 'atom-ternjs:rename'
   'ctrl-shift-e': 'atom-ternjs:references'
   'ctrl-alt-z': 'atom-ternjs:markerCheckpointBack'
