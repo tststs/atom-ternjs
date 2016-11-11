@@ -171,10 +171,9 @@ atom-ternjs-type {
   }
 }
 
-atom-text-editor .scroll-view,
-atom-text-editor::shadow .scroll-view {
+atom-text-editor .scroll-view .syntax-- {
 
-  .source.js {
+  .source.syntax--js {
 
     .function:not(.meta):not(.type),
     .class .name,
@@ -189,6 +188,47 @@ atom-text-editor::shadow .scroll-view {
       }
     }
   }
+}
+
+/* Atom < 1.13 */
+atom-text-editor::shadow .scroll-view .source.js,
+atom-text-editor .scroll-view .source.js {
+
+  .function:not(.meta):not(.type),
+  .class.name,
+  .support,
+  .constant.other,
+  .object:not(.delimiter),
+  .variable {
+
+    &.atom-ternjs-hover {
+
+      border-bottom: 1px solid @background-color-warning;
+    }
+  }
+}
+
+/* Atom >= 1.13 */
+atom-text-editor .scroll-view .syntax--source.syntax--js {
+
+  .syntax--function:not(.meta):not(.type),
+  .syntax--class.syntax--name,
+  .syntax--support,
+  .syntax--constant.syntax--other,
+  .syntax--object:not(.syntax--delimiter),
+  .syntax--variable {
+
+    &.atom-ternjs-hover {
+
+      border-bottom: 1px solid @background-color-warning;
+    }
+  }
+}
+
+/* Atom >= 1.13 */
+atom-text-editor[data-grammar="source js"],
+/* Atom < 1.13 */
+atom-text-editor[data-grammar="source js"]::shadow {
 
   .atom-ternjs-definition-marker {
 
