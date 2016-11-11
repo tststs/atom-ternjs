@@ -1,3 +1,13 @@
+## [0.16.0]
+- fix option behaviour for 'Display snippets above'
+- add syntax selectors for atom >= 1.13.0
+- delay the activation of the package via activationHooks. thx @walles
+- updated keymaps for definition since it was colliding with a core feature
+- added `Babel ES6 JavaScript` to valid grammars
+- only regain editor focus if a panel is visible. this prevents auto-focus of the editor if a file is opened via the tree-view
+- fix selector for win32 in keymaps. thx @seungha-kim
+- fix for 3-rd party tern modules got incorrect tern directory. thx @ocoka
+
 ## [0.15.0]
 - config view now displays possible tern plugins (WIP)
 - add option to display documentation within the inline function completion
