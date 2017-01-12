@@ -69,7 +69,7 @@ describe('atom-ternjs', () => {
       expect(workspaceElement.querySelectorAll('atom-ternjs-config').length).toBe(0);
       expect(workspaceElement.querySelectorAll('atom-ternjs-documentation').length).toBe(0);
       expect(workspaceElement.querySelectorAll('atom-ternjs-type').length).toBe(0);
-      expect(editorElement.querySelectorAll('atom-text-editor::shadow .scroll-view .atom-ternjs-definition-marker').length).toBe(0);
+      expect(editorElement.querySelectorAll('atom-text-editor .scroll-view .atom-ternjs-definition-marker').length).toBe(0);
     });
   });
 });
