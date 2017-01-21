@@ -149,7 +149,7 @@ Click any item in the generated reference-list and navigate directly to file and
   * Also displayed if a suggestion with a valid documentation is selected in the autocomplete-plus select-list
 
 * Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition") or use the keybindings:
-  * <kbd>alt+click</kbd> (mac, windows, linux)
+  * <kbd>cmd+click</kbd> (mac, windows, linux), requires https://atom.io/packages/hyperclick
   * <kbd>ctrl+alt+shift+d</kbd> (mac, windows, linux)
 
 * Navigate back or forward
