@@ -1,3 +1,9 @@
+## [0.17.0]
+- restart server on child process error. thx @A2K
+- add hyperclick support and remove the old custom logic. thx @smitt04
+- fix deprecation warnings for atom 1.13.0. thx @Greenek
+- fix for current param not highlighted in inline suggestions
+
 ## [0.16.0]
 - fix option behaviour for 'Display snippets above'
 - add syntax selectors for atom >= 1.13.0
