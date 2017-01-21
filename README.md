@@ -33,6 +33,7 @@ Example `.tern-project` file (customize to your own needs):
     "path/to/your/js/**/*.js"
   ],
   "dontLoad": [
+    "node_modules/**",
     "path/to/your/js/**/*.js"
   ],
   "plugins": {
