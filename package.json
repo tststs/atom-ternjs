@@ -8,6 +8,9 @@
     "language-javascript:grammar-used",
     "language-babel:grammar-used"
   ],
+  "activationCommands": {
+    "atom-workspace": ["atom-ternjs:openConfig"]
+  },
   "repository": "https://github.com/tststs/atom-ternjs",
   "license": "MIT",
   "engines": {
