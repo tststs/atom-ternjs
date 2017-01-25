@@ -16,7 +16,7 @@ Configure your project
 
 **In order to use third party plugins from within your project's ```node_modules``` read the [Third party plugins local](#third-party-plugins-local) section! This is also an alternative if [Third party plugins](#third-party-plugins) aren't working.**
 
-If configure project does not work for you
+If configure project does not work
 * In your project root create a file named .tern-project. See docs @ http://ternjs.net/doc/manual.html#configuration.
 * Restart the server via *Packages -> Atom Ternjs -> Restart server*
 
@@ -26,8 +26,7 @@ Example `.tern-project` file (customize to your own needs):
 {
   "ecmaVersion": 6,
   "libs": [
-    "browser",
-    "jquery"
+    "browser"
   ],
   "loadEagerly": [
     "path/to/your/js/**/*.js"
@@ -37,9 +36,8 @@ Example `.tern-project` file (customize to your own needs):
     "path/to/your/js/**/*.js"
   ],
   "plugins": {
-    "complete_strings": {
-      "maxLength": 15
-    },
+    "modules": {},
+    "es_modules": {},
     "node": {},
     "doc_comment": {
       "fullDocs": true,
@@ -150,7 +148,7 @@ Click any item in the generated reference-list and navigate directly to file and
   * Also displayed if a suggestion with a valid documentation is selected in the autocomplete-plus select-list
 
 * Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition") or use the keybindings:
-  * <kbd>cmd+click</kbd> (mac, windows, linux), requires https://atom.io/packages/hyperclick
+  * <kbd>cmd+click</kbd> (mac, windows, linux), requires https://atom.io/packages/hyperclick. Since <kbd>cmd+click</kbd> is also used for multi-line editing in macOS you should change the default hyperclick settings.
   * <kbd>ctrl+alt+shift+d</kbd> (mac, windows, linux)
 
 * Navigate back or forward
