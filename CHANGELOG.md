@@ -1,3 +1,14 @@
+## [0.17.2]
+- fix marker (inline function completion) not being destroyed correctly
+
+## [0.17.1]
+- fix IDBStore errors by not storing an reference to the view inside the marker
+- add `JavaScript (JSX)` to grammars
+- the package now gets activated if `configure project` is triggered
+- fix spamming errors and breaking autocomplete-plus if update is triggered on an unnamed/unsaved file by rejected the promise
+- Hyperclick action opens an empty file in multiproject workspace. thx @Sysoev
+- When ternjs webpack plugin in use, and we query for a definition the response contains absolute path. thx @Sysoev
+
 ## [0.17.0]
 - restart server on child process error. thx @A2K
 - add hyperclick support and remove the old custom logic. thx @smitt04
