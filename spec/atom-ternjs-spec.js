@@ -1,6 +1,6 @@
 'use babel'
 
-let [workspaceElement, editor, editorElement] = [];
+let [workspaceElement, editor, editorElement, pack] = [];
 let path = require('path');
 
 function sharedSetup() {
@@ -12,7 +12,7 @@ function sharedSetup() {
 
     return atom.packages.activatePackage('atom-ternjs').then((pkg) => {
 
-      package = pkg.mainModule;
+      pack = pkg.mainModule;
     });
   });
 
@@ -39,12 +39,12 @@ describe('atom-ternjs', () => {
 
     it('activates atom-ternjs and initializes the autocomplete-plus provider', () => {
 
-      expect(package.provider).toBeDefined();
+      expect(pack.provider).toBeDefined();
     });
 
     it('activates atom-ternjs and initializes the manager', () => {
 
-      expect(package.manager).toBeDefined();
+      expect(pack.manager).toBeDefined();
     });
   });
 
@@ -58,8 +58,8 @@ describe('atom-ternjs', () => {
 
     it('deactivates atom-ternjs', () => {
 
-      expect(package.manager).toBeUndefined();
-      expect(package.provider).toBeUndefined();
+      expect(pack.manager).toBeUndefined();
+      expect(pack.provider).toBeUndefined();
     });
 
     it('destroys all views', () => {
