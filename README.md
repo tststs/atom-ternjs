@@ -7,7 +7,7 @@ Uses suggestion provider by [autocomplete-plus](https://github.com/atom/autocomp
 ## Installation
 
 Configure your project
-* Open any JavaScript file from within you project
+* Open any JavaScript file from within your project
 * Navigate to Packages -> Atom Ternjs -> Configure project
 * The config view appears.
 * Hit "Save & Restart Server" to create/update the .tern-project file
@@ -92,7 +92,7 @@ Add the plugin to your .tern-project file:
 }
 ```
 
-Third party plugins are still an issue and sometimes do not work as expected, especially if the plugin is requiring a tern version that does not match the tern version that is used by atom-ternjs.
+Third party plugins are still an issue and sometimes do not work as expected, especially if the plugin requires a tern version that does not match the tern version that is used by atom-ternjs.
 Restart the server: *Packages -> Atom Ternjs -> Restart server*
 
 ## Third party plugins local
