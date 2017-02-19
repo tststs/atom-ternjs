@@ -22,7 +22,7 @@
     "event-kit": "^2.2.0",
     "glob": "3",
     "loophole": "^1.1.0",
-    "minimatch": "0.2",
+    "minimatch": "^3.0.3",
     "node-uuid": "1.4.7",
     "resolve-from": "^2.0.0",
     "tern": "^0.21.0",
