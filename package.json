@@ -19,7 +19,7 @@
     "atom": ">=1.13.0"
   },
   "dependencies": {
-    "event-kit": "2.1.0",
+    "event-kit": "^2.2.0",
     "glob": "3",
     "loophole": "^1.1.0",
     "minimatch": "0.2",
