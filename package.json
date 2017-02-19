@@ -26,7 +26,8 @@
     "node-uuid": "1.4.7",
     "resolve-from": "^2.0.0",
     "tern": "^0.21.0",
-    "underscore-plus": "^1.6.6"
+    "underscore-plus": "^1.6.6",
+    "uuid": "^3.0.0"
   },
   "devDependencies": {
     "eslint": "^2.13.1",
