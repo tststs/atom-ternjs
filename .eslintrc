@@ -20,7 +20,7 @@
     "babel"
   ],
   "rules": {
-    "indent": [1, 2],
+    "indent": [1, 2, {"SwitchCase": 1 }],
     "eol-last": [2],
     "no-unused-vars": [2, {"vars": "all", "args": "none"}],
     "brace-style": [2, "1tbs", { "allowSingleLine": true }],
