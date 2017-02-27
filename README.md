@@ -12,9 +12,8 @@ Configure your project
 * The config view appears.
 * Hit "Save & Restart Server" to create/update the .tern-project file
 
-**In order to use third party plugins read the [Third party plugins](#third-party-plugins) section!**
-
-**In order to use third party plugins from within your project's ```node_modules``` read the [Third party plugins local](#third-party-plugins-local) section! This is also an alternative if [Third party plugins](#third-party-plugins) aren't working.**
+Optional:
+* install the package https://atom.io/packages/hyperclick
 
 If configure project does not work
 * In your project root create a file named .tern-project. See docs @ http://ternjs.net/doc/manual.html#configuration.
@@ -46,6 +45,10 @@ Example `.tern-project` file (customize to your own needs):
   }
 }
 ```
+
+**In order to use third party plugins read the [Third party plugins](#third-party-plugins) section!**
+
+**In order to use third party plugins from within your project's ```node_modules``` read the [Third party plugins local](#third-party-plugins-local) section! This is also an alternative if [Third party plugins](#third-party-plugins) aren't working.**
 
 ### EcmaVersion
 * 5: use ECMAScript5
@@ -93,6 +96,7 @@ Add the plugin to your .tern-project file:
 ```
 
 Third party plugins are still an issue and sometimes do not work as expected, especially if the plugin requires a tern version that does not match the tern version that is used by atom-ternjs.
+
 Restart the server: *Packages -> Atom Ternjs -> Restart server*
 
 ## Third party plugins local
