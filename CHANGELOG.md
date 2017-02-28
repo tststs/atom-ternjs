@@ -1,3 +1,17 @@
+## [0.18.0]
+- destroy the tern server if there is no text-editor associated with it
+- a tern server now is forked for files not within a project. this is a WIP
+- reduce the files requests to the server per file file to 1 instead of requesting it every time an update is requested
+- type now uses cached view-data as long as the cursor is inside the same method call
+- updated tern to 0.21.0
+- less error spamming through the console
+- minor memory optimizations
+- check if pending requests exceed a specific limit and restart the server if this limit is reached
+- rewritten configure project
+- configure project now is displayed via a pane
+- fixed deactivation / activation of package
+- rename now uses a modal instead a bottom panel
+
 ## [0.17.2]
 - fix marker (inline function completion) not being destroyed correctly
 
