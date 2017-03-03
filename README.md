@@ -132,33 +132,33 @@ Restart Atom.
 
 ## Features
 * Completion (autocompletion triggers automatically), or via the keybindings:
-  * <kbd>strg+space</kbd>
+  * <kbd>ctrl+space</kbd>
   * <kbd>ctrl+alt+space</kbd> (force autocompletion in any context)
 
 ![atom-ternjs](http://www.tobias-schubert.com/github/completion-1.png)
 
 ![atom-ternjs](http://www.tobias-schubert.com/github/completion-2.png)
 * Find references (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find references" or use the keybindings:
-  * <kbd>ctrl+shift+r</kbd> (mac, windows)
-  * <kbd>ctrl+alt+shift+e</kbd> (linux)
+  * <kbd>ctrl+shift+r</kbd> (macOS, Windows)
+  * <kbd>ctrl+alt+shift+e</kbd> (Linux)
 
 Click any item in the generated reference-list and navigate directly to file and position
 
 ![atom-ternjs](http://www.tobias-schubert.com/github/reference-1.png)
 
 * Documentation
-  * Show documentation for the thing under the cursor via <kbd>alt+o</kbd> (mac, windows, linux)
+  * Show documentation for the thing under the cursor via <kbd>alt+o</kbd> (macOS, Windows, Linux)
   ![atom-ternjs](http://www.tobias-schubert.com/github/docs.png)
   * Also displayed if a suggestion with a valid documentation is selected in the autocomplete-plus select-list
 
 * Find definition (set your cursor position to one of variable, function or instance -> open context-menu and trigger "Find definition") or use the keybindings:
-  * <kbd>cmd+click</kbd> (mac, windows, linux), requires https://atom.io/packages/hyperclick. Since <kbd>cmd+click</kbd> is also used for multi-line editing in macOS you should change the default hyperclick settings.
-  * <kbd>ctrl+alt+shift+d</kbd> (mac, windows, linux)
+  * <kbd>cmd+click</kbd> (macOS, Windows, Linux), requires https://atom.io/packages/hyperclick. Since <kbd>cmd+click</kbd> is also used for multi-line editing in macOS you should change the default hyperclick settings.
+  * <kbd>ctrl+alt+shift+d</kbd> (macOS, Windows, Linux)
 
 * Navigate back or forward
-  * <kbd>ctrl+shift+cmd+left</kbd> (mac, windows, linux)
-  * <kbd>ctrl+shift+cmd+right</kbd> (mac, windows, linux)
+  * <kbd>ctrl+shift+cmd+left</kbd> (macOS, Windows, Linux)
+  * <kbd>ctrl+shift+cmd+right</kbd> (macOS, Windows, Linux)
 
 * Rename variable (set your cursor position to a variable -> open context-menu and trigger "Rename") or use the keybindings:
-  * <kbd>ctrl+alt+c</kbd> (mac, windows)
-  * <kbd>ctrl+alt+shift+c</kbd> (linux)
+  * <kbd>ctrl+alt+c</kbd> (macOS, Windows)
+  * <kbd>ctrl+alt+shift+c</kbd> (Linux)
