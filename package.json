@@ -6,7 +6,8 @@
   "description": "JavaScript code intelligence for atom with Tern. Adds support for ES5, ES6 (JavaScript 2015), Node.js, jQuery & Angular. Extendable via plugins. Uses suggestion provider by autocomplete-plus.",
   "activationHooks": [
     "language-javascript:grammar-used",
-    "language-babel:grammar-used"
+    "language-babel:grammar-used",
+    "language-vue:grammar-used"
   ],
   "activationCommands": {
     "atom-workspace": [
