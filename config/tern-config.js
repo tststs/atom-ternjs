@@ -6,7 +6,7 @@ export const defaultProjectConfig = {
   libs: [],
   loadEagerly: [],
   dontLoad: [
-    'node_module/**'
+    'node_modules/**'
   ],
   plugins: {
 
@@ -20,7 +20,7 @@ export const defaultServerConfig = {
   libs: [],
   loadEagerly: [],
   dontLoad: [
-    'node_module/**'
+    'node_modules/**'
   ],
   plugins: {
 
