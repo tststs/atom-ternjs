@@ -35,7 +35,6 @@ Example `.tern-project` file (customize to your own needs):
     "path/to/your/js/**/*.js"
   ],
   "plugins": {
-    "modules": {},
     "es_modules": {},
     "node": {},
     "doc_comment": {
