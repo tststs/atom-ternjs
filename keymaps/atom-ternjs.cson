@@ -33,3 +33,30 @@
   'alt-o': 'atom-ternjs:documentation'
   'ctrl-shift-cmd-left': 'atom-ternjs:navigateBack'
   'ctrl-shift-cmd-right': 'atom-ternjs:navigateForward'
+
+'.platform-darwin atom-text-editor[data-grammar~=html]':
+  'ctrl-alt-shift-d': 'atom-ternjs:definition'
+  'ctrl-alt-c': 'atom-ternjs:rename'
+  'ctrl-shift-r': 'atom-ternjs:references'
+  'ctrl-alt-space': 'atom-ternjs:startCompletion'
+  'alt-o': 'atom-ternjs:documentation'
+  'ctrl-shift-cmd-left': 'atom-ternjs:navigateBack'
+  'ctrl-shift-cmd-right': 'atom-ternjs:navigateForward'
+
+'.platform-linux atom-text-editor[data-grammar~=html]':
+  'ctrl-alt-shift-d': 'atom-ternjs:definition'
+  'ctrl-alt-shift-c': 'atom-ternjs:rename'
+  'ctrl-alt-shift-e': 'atom-ternjs:references'
+  'ctrl-alt-space': 'atom-ternjs:startCompletion'
+  'alt-o': 'atom-ternjs:documentation'
+  'ctrl-shift-cmd-left': 'atom-ternjs:navigateBack'
+  'ctrl-shift-cmd-right': 'atom-ternjs:navigateForward'
+
+'.platform-win32 atom-text-editor[data-grammar~=html]':
+  'ctrl-alt-shift-d': 'atom-ternjs:definition'
+  'ctrl-alt-c': 'atom-ternjs:rename'
+  'ctrl-shift-e': 'atom-ternjs:references'
+  'ctrl-alt-space': 'atom-ternjs:startCompletion'
+  'alt-o': 'atom-ternjs:documentation'
+  'ctrl-shift-cmd-left': 'atom-ternjs:navigateBack'
+  'ctrl-shift-cmd-right': 'atom-ternjs:navigateForward'
