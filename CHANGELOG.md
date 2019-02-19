@@ -1,4 +1,4 @@
-## [0.18.4]
+## [0.18.5]
 - replace `process.kill` with `process.exit` in `lib/atom-ternjs-server-worker.js`. thx @qwelias
 - remove keybindings documentation. thx @haroun
 
