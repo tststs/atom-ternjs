@@ -1,3 +1,7 @@
+## [0.18.4]
+- replace `process.kill` with `process.exit` in `lib/atom-ternjs-server-worker.js`. thx @qwelias
+- remove keybindings documentation. thx @haroun
+
 ## [0.18.0]
 - destroy the tern server if there is no text-editor associated with it
 - a tern server now is forked for files not within a project. this is a WIP
