@@ -12,9 +12,6 @@ Configure your project
 * The config view appears.
 * Hit "Save & Restart Server" to create/update the .tern-project file
 
-Optional:
-* install the package https://atom.io/packages/hyperclick
-
 If configure project does not work
 * In your project root create a file named .tern-project. See docs @ http://ternjs.net/doc/manual.html#configuration.
 * Restart the server via *Packages -> Atom Ternjs -> Restart server*
