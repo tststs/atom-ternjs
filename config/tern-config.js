@@ -2,7 +2,7 @@
 
 export const defaultProjectConfig = {
 
-  ecmaVersion: 6,
+  ecmaVersion: 8,
   libs: [],
   loadEagerly: [],
   dontLoad: [
@@ -16,7 +16,7 @@ export const defaultProjectConfig = {
 
 export const defaultServerConfig = {
 
-  ecmaVersion: 6,
+  ecmaVersion: 8,
   libs: [],
   loadEagerly: [],
   dontLoad: [
@@ -30,7 +30,7 @@ export const defaultServerConfig = {
   ecmaScript: true
 };
 
-export const ecmaVersions = [5, 6, 7];
+export const ecmaVersions = [5, 6, 7, 8];
 
 export const availableLibs = [
 
