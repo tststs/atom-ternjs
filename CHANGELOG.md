@@ -1,3 +1,12 @@
+## [0.19.0]
+- do not add extra parenthesis by completing a function without params
+- querying the type now doesn't fail if the cursor is inside quotes
+- update tern to 0.23.0
+- invoking restart method in wrong scope. fixes #308
+- add ecmascript 8 to config
+- fix a bug where the current ecmascript version wasn't properly selected in the config view
+- add React to available libs
+
 ## [0.18.5]
 - replace `process.kill` with `process.exit` in `lib/atom-ternjs-server-worker.js`. thx @qwelias
 - remove keybindings documentation. thx @haroun
