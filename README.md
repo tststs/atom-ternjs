@@ -59,7 +59,7 @@ Example `.tern-project` file (customize to your own needs):
 * browser: completion for vanilla js (optional)
 * chai: completion for chai (optional)
 * jquery: completion for jQuery (optional)
-* React: completion for React (optional)
+* react: completion for React (optional)
 * underscore: completion for underscore (optional)
 
 ### Options
@@ -71,7 +71,7 @@ Example `.tern-project` file (customize to your own needs):
 * For a list of build in server plugins, visit: http://ternjs.net/doc/manual.html#plugins
 
 ### Example configurations
-* RequireJS: https://github.com/tststs/atom-ternjs-using-requirejs 
+* RequireJS: https://github.com/tststs/atom-ternjs-using-requirejs
 
 ### Keybindings
 List of [keybindings](#features).
