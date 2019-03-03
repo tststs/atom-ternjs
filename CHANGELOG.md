@@ -1,3 +1,6 @@
+## [0.19.1]
+- only query type for the last cursor. this may prevent crashes if the user moves multiply cursors with inline fn completion turned on. fixes #309
+
 ## [0.19.0]
 - do not add extra parenthesis by completing a function without params
 - querying the type now doesn't fail if the cursor is inside quotes
