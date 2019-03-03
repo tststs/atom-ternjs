@@ -1,7 +1,7 @@
 # atom-ternjs
 
 > JavaScript code intelligence for atom with [Tern](https://github.com/ternjs/tern).
-Adds support for ES5, ES6, ES7, Node.js, jQuery, Angular and more. Extendable via plugins.
+Adds support for ES5, ES6, ES7, ES8, Node.js and more. Extendable via plugins.
 Uses suggestion provider by [autocomplete-plus](https://github.com/atom/autocomplete-plus).
 
 ## Installation
@@ -23,7 +23,7 @@ Example `.tern-project` file (customize to your own needs):
 
 ```json
 {
-  "ecmaVersion": 6,
+  "ecmaVersion": 8,
   "libs": [
     "browser"
   ],
@@ -51,14 +51,16 @@ Example `.tern-project` file (customize to your own needs):
 
 ### EcmaVersion
 * 5: use ECMAScript5
-* 6: use ECMAScript6 (default)
+* 6: use ECMAScript6
 * 7: use ECMAScript7
+* 8: use ECMAScript8 (default)
 
 ### Libs
 * browser: completion for vanilla js (optional)
-* jquery: completion for jQuery (optional)
-* underscore: completion for underscore (optional)
 * chai: completion for chai (optional)
+* jquery: completion for jQuery (optional)
+* React: completion for React (optional)
+* underscore: completion for underscore (optional)
 
 ### Options
 * loadEagerly: provide the path to your projects js. For relative paths do not use `./` as a prefix. This sometimes leads to an unexpected behaviour.
@@ -81,7 +83,7 @@ $ npm install tern-node-express
 Add the plugin to your .tern-project file:
 ```json
 {
-  "ecmaVersion": 6,
+  "ecmaVersion": 8,
   "libs": [
     "browser"
   ],

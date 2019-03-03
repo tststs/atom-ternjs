@@ -16,6 +16,9 @@ export default {
     },
     chai: {
       doc: 'chai'
+    },
+    react: {
+      doc: 'React'
     }
   },
   loadEagerly: {

@@ -37,6 +37,7 @@ export const availableLibs = [
   'browser',
   'chai',
   'jquery',
+  'react',
   'underscore'
 ];
 
