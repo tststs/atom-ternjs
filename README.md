@@ -4,13 +4,13 @@
 Adds support for ES5, ES6, ES7, ES8, Node.js and more. Extendable via plugins.
 Uses suggestion provider by [autocomplete-plus](https://github.com/atom/autocomplete-plus).
 
-## Installation
+## Get started (configure your project)
 
 Configure your project
 * Open any JavaScript file from within your project
 * Navigate to Packages -> Atom Ternjs -> Configure project
-* The config view appears.
-* Hit "Save & Restart Server" to create/update the .tern-project file
+* The config view appears. Configure to your needs.
+* Hit "Save & Restart Server" to create/update the .tern-project file. The configuration is now active.
 
 If configure project does not work
 * In your project root create a file named .tern-project. See docs @ http://ternjs.net/doc/manual.html#configuration.
@@ -42,8 +42,6 @@ Example `.tern-project` file (customize to your own needs):
 }
 ```
 
-**In order to use third party plugins read the [Third party plugins](#third-party-plugins) section!**
-
 ### EcmaVersion
 * 5: use ECMAScript5
 * 6: use ECMAScript6
@@ -51,14 +49,14 @@ Example `.tern-project` file (customize to your own needs):
 * 8: use ECMAScript8 (default)
 
 ### Libs
-* browser: completion for vanilla js (optional)
+* browser: completion for browser features like document.querySelector (optional)
 * chai: completion for chai (optional)
 * jquery: completion for jQuery (optional)
 * react: completion for React (optional)
 * underscore: completion for underscore (optional)
 
 ### Options
-* loadEagerly: provide the path to your projects js. For relative paths do not use `./` as a prefix. This sometimes leads to an unexpected behaviour.
+* loadEagerly: provide the path to your projects JavaScript. For relative paths do not use `./` as a prefix. This sometimes leads to an unexpected behaviour.
 * **loadEagerly is expensive. Do not add paths like `node_modules`.**
 * dontLoad: can be used to prevent Tern from loading certain files. It also takes an array of file names or glob patterns.
 
