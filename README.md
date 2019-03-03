@@ -3,7 +3,7 @@
 > JavaScript code intelligence for atom with [Tern](https://github.com/ternjs/tern).
 Adds support for ES5, ES6, ES7, ES8, Node.js and more. Extendable via plugins.
 Uses suggestion provider by [autocomplete-plus](https://github.com/atom/autocomplete-plus).
-  
+
 ## Get started (configure your project)
 
 Configure your project
