@@ -47,8 +47,6 @@ Example `.tern-project` file (customize to your own needs):
 
 **In order to use third party plugins read the [Third party plugins](#third-party-plugins) section!**
 
-**In order to use third party plugins from within your project's ```node_modules``` read the [Third party plugins local](#third-party-plugins-local) section! This is also an alternative if [Third party plugins](#third-party-plugins) aren't working.**
-
 ### EcmaVersion
 * 5: use ECMAScript5
 * 6: use ECMAScript6
