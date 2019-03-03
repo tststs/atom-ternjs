@@ -70,6 +70,9 @@ Example `.tern-project` file (customize to your own needs):
 ### Plugins
 * For a list of build in server plugins, visit: http://ternjs.net/doc/manual.html#plugins
 
+### Example configurations
+* RequireJS: https://github.com/tststs/atom-ternjs-using-requirejs 
+
 ### Keybindings
 List of [keybindings](#features).
 To use your own keybindings goto `atom-ternjs` package settings and disable keybindings.
@@ -99,34 +102,6 @@ Add the plugin to your .tern-project file:
 Third party plugins are still an issue and sometimes do not work as expected, especially if the plugin requires a tern version that does not match the tern version that is used by atom-ternjs.
 
 Restart the server: *Packages -> Atom Ternjs -> Restart server*
-
-## Third party plugins local
-
-Example for node-express.
-Open node_modules/tern-node-express/tern-express.js
-
-Replace:
-
-```js
-(function(mod) {
-  if (typeof exports == "object" && typeof module == "object") // CommonJS
-    return mod(require("tern/lib/infer"), require("tern/lib/tern"));
-  if (typeof define == "function" && define.amd) // AMD
-    return define([ "tern/lib/infer", "tern/lib/tern" ], mod);
-  mod(tern, tern);
-}...
-```
-
-With
-
-```js
-(function(mod) {
-  return mod(process.__infer, process.__tern);
-}...
-
-```
-
-Restart Atom.
 
 ## .tern-project created/modified
 * After the file was created or has been modified, restart the server via *Packages -> Atom Ternjs -> Restart server*
