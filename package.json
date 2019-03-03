@@ -26,7 +26,7 @@
     "minimatch": "^3.0.4",
     "node-uuid": "1.4.7",
     "resolve-from": "^2.0.0",
-    "tern": "^0.21.0",
+    "tern": "^0.23.0",
     "underscore-plus": "^1.6.6",
     "uuid": "^3.0.0"
   },
