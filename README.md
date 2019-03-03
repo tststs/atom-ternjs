@@ -6,13 +6,12 @@ Uses suggestion provider by [autocomplete-plus](https://github.com/atom/autocomp
 
 ## Get started (configure your project)
 
-Configure your project
 * Open any JavaScript file from within your project
 * Navigate to Packages -> Atom Ternjs -> Configure project
 * The config view appears. Configure to your needs.
 * Hit "Save & Restart Server" to create/update the .tern-project file. The configuration is now active.
 
-If configure project does not work
+## Get started (in case you can't use configure your project)
 * In your project root create a file named .tern-project. See docs @ http://ternjs.net/doc/manual.html#configuration.
 * Restart the server via *Packages -> Atom Ternjs -> Restart server*
 
