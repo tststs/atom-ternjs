@@ -20,21 +20,29 @@
     "babel"
   ],
   "rules": {
-    "indent": [1, 2, {"SwitchCase": 1 }],
-    "eol-last": [2],
-    "no-unused-vars": [2, {"vars": "all", "args": "none"}],
-    "brace-style": [2, "1tbs", { "allowSingleLine": true }],
+    "arrow-spacing": [2, {"before": true, "after": true}],
+    "brace-style": [2, "1tbs", {"allowSingleLine": true}],
+    "comma-dangle": [2, "only-multiline"],
+    "comma-spacing": [2, {"before": false, "after": true}],
     "curly": [2],
+    "eol-last": [2],
+    "func-call-spacing": [2, "never"],
+    "indent": [2, 2, {"SwitchCase": 1}],
     "keyword-spacing": [2],
-    "comma-spacing": [2, { "before": false, "after": true }],
-    "space-unary-ops": [2, {"words": true, "nonwords": false}],
-    "space-infix-ops": [2],
-    "space-before-blocks": [2, { "functions": "always", "keywords": "always", "classes": "always" }],
-    "quotes": [ 2, "single" ],
     "linebreak-style": [2, "unix"],
+    "no-console": [2, {"allow": ["warn", "error", "assert", "info"]}],
+    "no-param-reassign": [2],
+    "no-unused-vars": [2, {"vars": "all", "args": "none"}],
+    "padding-line-between-statements": [2, { blankLine: "always", prev: "*", next: "return" }],
+    "quotes": [2, "single"],
     "semi": [2, "always"],
-    "arrow-spacing": [2, { "before": true, "after": true }],
-    "no-console": [2, { "allow": ["warn", "error", "dir"] }]
+    "space-before-blocks": [2, {
+      "functions": "always",
+      "keywords": "always",
+      "classes": "always"
+    }],
+    "space-infix-ops": [2],
+    "space-unary-ops": [2, {"words": true, "nonwords": false}],
   },
   "extends": "eslint:recommended"
 }
