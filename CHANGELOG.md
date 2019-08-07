@@ -1,3 +1,7 @@
+## [0.20.0]
+- update tern to 0.24.1
+- update npm package dependencies to fix vulnerabilities
+
 ## [0.19.1]
 - only query type for the last cursor. this may prevent crashes if the user moves multiply cursors with inline fn completion turned on. fixes #309
 
